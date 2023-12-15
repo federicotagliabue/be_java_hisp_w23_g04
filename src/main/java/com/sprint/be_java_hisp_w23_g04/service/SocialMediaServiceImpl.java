@@ -18,13 +18,13 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         this.socialMediaRepository = socialMediaRepository;
     }
 
-    private boolean isSeller(User user){
-        return !user.getPosts().isEmpty();
-    }
-
     @Override
     public List<UserDTO> getAllUsers() {
        List<User> users = socialMediaRepository.findAllUsers();
        return users.stream().map(UserMapper::mapUser).toList();
+    }
+
+    private boolean isSeller(User user){
+        return !user.getPosts().isEmpty();
     }
 }

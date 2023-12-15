@@ -1,13 +1,16 @@
 package com.sprint.be_java_hisp_w23_g04.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
+@Data
+@AllArgsConstructor
 public class FollowersCountDTO {
-
-    @JsonAlias("user_id")
+    @JsonProperty("user_id")
     private Integer userId;
-    @JsonAlias("user_name")
+    @JsonProperty("user_name")
     private String userName;
-    @JsonAlias("followers_count")
+    @JsonProperty("followers_count")
     private Integer followersCount;
 }

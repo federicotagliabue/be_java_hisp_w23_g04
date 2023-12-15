@@ -10,7 +10,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
-    private Integer userId;
+    private Integer id;
     private String name;
     private List<Post> posts;
     private List<User> followed;

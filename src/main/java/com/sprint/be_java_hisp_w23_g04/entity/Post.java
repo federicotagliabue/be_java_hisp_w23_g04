@@ -10,7 +10,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
-    //private User user;
     private int id;
     private LocalDate date;
     private Product product;

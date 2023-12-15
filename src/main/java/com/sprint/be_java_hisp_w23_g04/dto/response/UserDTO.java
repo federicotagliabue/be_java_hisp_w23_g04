@@ -1,18 +1,18 @@
 package com.sprint.be_java_hisp_w23_g04.dto.response;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.util.List;
 
-@NoArgsConstructor
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserDTO {
-    @JsonAlias("user_id")
-    private int userId;
-    @JsonAlias("user_name")
-    private String userName;
+    @JsonProperty("user_id")
+    private int id;
+    @JsonProperty("user_name")
+    private String name;
     private List<PostDTO> posts;
     private List<UserFollowDTO> followed;
     private List<UserFollowDTO> followers;
