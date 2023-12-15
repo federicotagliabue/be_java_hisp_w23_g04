@@ -1,19 +1,23 @@
 package com.sprint.be_java_hisp_w23_g04.dto.response;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 
 import java.time.LocalDate;
 
 @NoArgsConstructor
-@Setter
-@Getter
+@Data
+@AllArgsConstructor
 public class PostDTO {
-    private Integer user_id;
-    private Integer post_id;
+    private int user_id;
+    private int post_id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate date;
     private ProductDTO product;
-    private Integer category;
-    private Double price;
+    private int category;
+    private double price;
 }
