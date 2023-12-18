@@ -7,8 +7,10 @@ import java.util.List;
 public interface ISocialMediaService {
     List<UserDTO> getAllUsers();
 
-    FollowedListDTO getFollowedByUserId(Integer id);
-    FollowersListDTO getAllFollowersByUserId(int userId);
+    FollowedListDTO getFollowedByUserId(Integer id, String order);
+
+    FollowersListDTO getFollowersByUserId(int userId, String order);
+
     FollowersCountDTO followersCount(Integer userId);
 
     SimpleMessageDTO followSellerUser(Integer userId, Integer userIdToFollow);

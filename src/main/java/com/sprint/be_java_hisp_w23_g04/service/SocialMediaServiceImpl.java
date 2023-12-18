@@ -31,7 +31,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     }
 
     @Override
-    public FollowedListDTO getFollowedByUserId(Integer id) {
+    public FollowedListDTO getFollowedByUserId(Integer id, String order) {
         User user = socialMediaRepository.findUser(id);
 
         Verifications.verifyUserExist(user);
@@ -80,7 +80,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
 
     @Override
-    public FollowersListDTO getAllFollowersByUserId(int userId) {
+    public FollowersListDTO getFollowersByUserId(int userId, String order) {
         User user = this.socialMediaRepository.findUser(userId);
 
         Verifications.verifyUserExist(user);
