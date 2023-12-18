@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface ISocialMediaRepository {
     List<User> findAllUsers();
-
-    User findUserById(int id);
+    User findUser(Integer userId);
 }

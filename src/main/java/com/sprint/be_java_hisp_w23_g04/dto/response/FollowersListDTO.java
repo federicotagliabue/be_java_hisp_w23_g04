@@ -3,6 +3,7 @@ package com.sprint.be_java_hisp_w23_g04.dto.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -14,5 +15,6 @@ public class FollowersListDTO {
     @JsonProperty("userName")
     private String user_name;
     @JsonProperty("followers")
-    private List<UserDTO> followers;
+    private List<UserFollowDTO> followers;
+
 }
