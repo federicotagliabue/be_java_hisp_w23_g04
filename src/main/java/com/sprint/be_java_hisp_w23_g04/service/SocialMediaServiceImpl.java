@@ -1,6 +1,8 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
+import com.sprint.be_java_hisp_w23_g04.dto.response.FollowedListDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.UserFollowDTO;
 import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import org.springframework.stereotype.Service;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
@@ -14,17 +16,24 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
     private final ISocialMediaRepository socialMediaRepository;
 
-    public SocialMediaServiceImpl(SocialMediaRepositoryImpl socialMediaRepository){
+    public SocialMediaServiceImpl(SocialMediaRepositoryImpl socialMediaRepository) {
         this.socialMediaRepository = socialMediaRepository;
     }
 
     @Override
     public List<UserDTO> getAllUsers() {
-       List<User> users = socialMediaRepository.findAllUsers();
-       return users.stream().map(UserMapper::mapUser).toList();
+        List<User> users = socialMediaRepository.findAllUsers();
+        return users.stream().map(UserMapper::mapUser).toList();
     }
 
-    private boolean isSeller(User user){
+    @Override
+    public FollowedListDTO getFollowedByUserId(int id) {
+        User user = socialMediaRepository.findUserById(id);
+        List<UserFollowDTO> followed = user.getFollowed().stream().map(UserMapper::mapUserFollow).toList();
+        return new FollowedListDTO(user.getId(), user.getName(), followed);
+    }
+
+    private boolean isSeller(User user) {
         return !user.getPosts().isEmpty();
     }
 }

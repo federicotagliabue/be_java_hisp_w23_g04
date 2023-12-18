@@ -4,6 +4,7 @@ import com.sprint.be_java_hisp_w23_g04.dto.DBUserDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.PostDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.ProductDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.UserFollowDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.Product;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
@@ -36,6 +37,10 @@ public class UserMapper {
     public static ProductDTO mapProduct(Product product) {
         return new ProductDTO(product.getId(), product.getName(), product.getType(),
                 product.getBrand(), product.getColor(), product.getNotes());
+    }
+
+    public static UserFollowDTO mapUserFollow(User user) {
+        return new UserFollowDTO(user.getId(), user.getName());
     }
 
     private static LocalDate convertDateFromString(String stringDate) {

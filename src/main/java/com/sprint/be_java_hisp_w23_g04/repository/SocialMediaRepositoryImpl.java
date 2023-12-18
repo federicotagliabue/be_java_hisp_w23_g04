@@ -22,7 +22,7 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
 
     private List<User> users = new ArrayList<>();
 
-    public SocialMediaRepositoryImpl(){
+    public SocialMediaRepositoryImpl() {
         this.users = loadDataBase();
     }
 
@@ -37,7 +37,8 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
 
-        TypeReference<List<DBUserDTO>> typeRef = new TypeReference<>() {};
+        TypeReference<List<DBUserDTO>> typeRef = new TypeReference<>() {
+        };
         List<DBUserDTO> usersDto = null;
         try {
             usersDto = mapper.readValue(file, typeRef);
@@ -48,8 +49,11 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
         return usersDto != null ? usersDto.stream().map(UserMapper::mapUser).collect(Collectors.toList()) : Collections.emptyList();
     }
 
-
-    public List<User> findAllUsers(){
+    public List<User> findAllUsers() {
         return this.users;
+    }
+
+    public User findUserById(int id) {
+        return this.users.stream().filter(u -> u.getId() == id).findFirst().orElse(null);
     }
 }
