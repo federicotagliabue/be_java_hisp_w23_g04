@@ -7,5 +7,4 @@ import java.util.List;
 public interface ISocialMediaRepository {
     List<User> findAllUsers();
     User findUser(Integer userId);
-    Integer followersCount(Integer userId);
 }

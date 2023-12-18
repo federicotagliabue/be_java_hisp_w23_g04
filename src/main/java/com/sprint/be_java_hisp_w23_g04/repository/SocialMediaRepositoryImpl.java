@@ -57,12 +57,4 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
                 .findFirst()
                 .orElse(null);
     }
-    @Override
-    public Integer followersCount(Integer userId) {
-        return users.stream()
-                .filter(u -> Objects.equals(u.getId(), userId))
-                .findFirst()
-                .map(u -> u.getFollowers().size())
-                .orElse(0);
-    }
 }

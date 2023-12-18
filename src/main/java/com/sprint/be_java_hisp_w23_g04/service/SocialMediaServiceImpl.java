@@ -30,16 +30,15 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     @Override
     public FollowersCountDTO followersCount(Integer userId) {
         User user = socialMediaRepository.findUser(userId);
+
         if (user == null) {
             throw new NotFoundException("Usuario no encontrado.");
         }
 
-        Integer followersCount = socialMediaRepository.followersCount(userId);
-
         return new FollowersCountDTO(
                 user.getId(),
                 user.getName(),
-                followersCount
+                user.getFollowers().size()
         );
     }
 
