@@ -8,13 +8,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ControllerException {
-    /*
-    @ExceptionHandler(LinkInvalidPasswordException.class)
-    public ResponseEntity<?> invalidPassword(LinkInvalidPasswordException e) {
-        ExceptionDto exceptionDto = new ExceptionDto(e.getMessage());
-        return new ResponseEntity<>(exceptionDto, HttpStatus.FORBIDDEN);
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> NotFoundException(NotFoundException e) {
+        SimpleMessageDTO exceptionDto = new SimpleMessageDTO(e.getMessage());
+        return new ResponseEntity<>(exceptionDto, HttpStatus.NOT_FOUND);
     }
-    */
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<?> badRequest(BadRequestException e){
