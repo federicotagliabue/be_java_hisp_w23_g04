@@ -13,6 +13,7 @@ import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.repository.ISocialMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.SocialMediaRepositoryImpl;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -85,9 +86,30 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
         Verifications.verifyUserExist(user);
 
-        List<UserFollowDTO> followers = user.getFollowers().stream()
-                .map(UserMapper::mapUserFollow).toList();
+        List<UserFollowDTO> followers = sortedFollow(user, order);
+
         return new FollowersListDTO(user.getId(), user.getName(), followers);
+    }
+
+    private List<UserFollowDTO> sortedFollow(User user, String order) {
+
+        if (order.equals("name_asc")) {
+            return user.getFollowers().stream()
+                    .map(UserMapper::mapUserFollow)
+                    .sorted(Comparator.comparing(UserFollowDTO::getUserName))
+                    .toList();
+        } else if (order.equals("name_desc")) {
+            return user.getFollowers().stream()
+                    .map(UserMapper::mapUserFollow)
+                    .sorted(Comparator.
+                            comparing(UserFollowDTO::getUserName)
+                            .reversed())
+                    .toList();
+        }
+
+        return user.getFollowers().stream()
+                .map(UserMapper::mapUserFollow)
+                .toList();
     }
 
 
