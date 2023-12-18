@@ -1,6 +1,5 @@
 package com.sprint.be_java_hisp_w23_g04.exception;
 
-import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
@@ -16,7 +15,7 @@ public class ControllerException {
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<?> badRequest(BadRequestException e){
+    public ResponseEntity<?> badRequest(BadRequestException e) {
         SimpleMessageDTO exceptionDto = new SimpleMessageDTO(e.getMessage());
         return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
     }
