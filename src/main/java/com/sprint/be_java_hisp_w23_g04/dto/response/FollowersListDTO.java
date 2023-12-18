@@ -14,5 +14,5 @@ public class FollowersListDTO {
     @JsonProperty("userName")
     private String user_name;
     @JsonProperty("followers")
-    private List<UserDTO> followers;
+    private List<UserFollowDTO> followers;
 }
