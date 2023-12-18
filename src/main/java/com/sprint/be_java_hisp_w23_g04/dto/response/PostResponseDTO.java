@@ -6,9 +6,9 @@ import lombok.*;
 
 
 import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
 public class PostResponseDTO extends PostDTO {
     @JsonProperty("post_id")
     private int postId;
@@ -18,3 +18,4 @@ public class PostResponseDTO extends PostDTO {
         this.postId = postId;
     }
 }
+

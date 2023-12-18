@@ -1,13 +1,17 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.FollowedListDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserFollowDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
+import com.sprint.be_java_hisp_w23_g04.entity.Product;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
+import com.sprint.be_java_hisp_w23_g04.utils.PostMapper;
 import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import org.springframework.stereotype.Service;
@@ -15,6 +19,7 @@ import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.repository.ISocialMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.SocialMediaRepositoryImpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -131,4 +136,24 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
         return new SimpleMessageDTO("El usuario " + unfollowedUser.getName() + " Id: " + unfollowedUser.getId() + " ya no es seguido por el usuario " + user.getName() + " Id: " + user.getId());
     }
+
+    @Override
+    public FilteredPosts getFilteredPosts(int userId) {
+        User user = socialMediaRepository.findUser(userId);
+        LocalDate filterDate = LocalDate.now().minusWeeks(2);
+        List<PostResponseDTO> filteredPosts = new ArrayList<>();
+
+        for(User seller : user.getFollowed()){
+            for(Post post : seller.getPosts()){
+                if(post.getDate().isAfter(filterDate)){
+                    PostResponseDTO postDTO = PostMapper.PostRequestDTOMapper(userId,post);
+                    filteredPosts.add(postDTO);
+                }
+            }
+        }
+
+        return new FilteredPosts(userId, filteredPosts);
+    }
+
+
 }
