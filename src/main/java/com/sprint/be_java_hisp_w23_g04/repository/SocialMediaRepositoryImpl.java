@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @Repository
 public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
-
     private List<User> users = new ArrayList<>();
 
     public SocialMediaRepositoryImpl(){
@@ -48,14 +47,13 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
 
         return usersDto != null ? usersDto.stream().map(UserMapper::mapUser).collect(Collectors.toList()) : Collections.emptyList();
     }
+    public List<User> findAllUsers() {
+        return this.users;
+    }
     @Override
     public User findUser(Integer userId) {
         return users.stream().filter(u -> Objects.equals(u.getId(), userId))
                 .findFirst()
                 .orElse(null);
-    }
-
-    public List<User> findAllUsers(){
-        return this.users;
     }
 }

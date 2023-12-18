@@ -11,7 +11,6 @@ import com.sprint.be_java_hisp_w23_g04.service.SocialMediaServiceImpl;
 
 @RestController
 public class SocialMeliController {
-
     private final ISocialMediaService socialMediaService;
 
     public SocialMeliController(SocialMediaServiceImpl socialMediaService){
@@ -21,6 +20,11 @@ public class SocialMeliController {
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers(){
         return new ResponseEntity<>(socialMediaService.getAllUsers(), HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{userId}/followers/count")
+    public ResponseEntity<?> getFollowers(@PathVariable int userId){
+        return new ResponseEntity<>(socialMediaService.followersCount(userId), HttpStatus.OK);
     }
 
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
