@@ -13,7 +13,7 @@ public class UserDTO {
     private int id;
     @JsonProperty("user_name")
     private String name;
-    private List<PostDTO> posts;
+    private List<PostResponseDTO> posts;
     private List<UserFollowDTO> followed;
     private List<UserFollowDTO> followers;
 

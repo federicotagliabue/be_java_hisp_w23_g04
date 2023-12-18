@@ -1,7 +1,8 @@
 package com.sprint.be_java_hisp_w23_g04.utils;
 
 import com.sprint.be_java_hisp_w23_g04.dto.DBUserDTO;
-import com.sprint.be_java_hisp_w23_g04.dto.response.PostDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.PostResponseDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.ProductDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserFollowDTO;
@@ -17,16 +18,16 @@ import java.util.List;
 public class UserMapper {
 
     public static User mapUser(DBUserDTO userDto) {
-        List<PostDTO> postsDto = userDto.getPosts();
+        List<PostResponseDTO> postsDto = userDto.getPosts();
 
         List<Post> posts = postsDto.stream().map(p -> new Post(p.getPostId(), p.getDate(), mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).toList();
         return new User(userDto.getUser_id(), userDto.getName(), posts, new ArrayList<>(), new ArrayList<>());
     }
 
     public static UserDTO mapUser(User user) {
-        List<PostDTO> postDTOS = user.getPosts().stream().map(p -> new PostDTO(user.getId(), p.getId(), p.getDate(),
-                mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).toList();
-        return new UserDTO(user.getId(), user.getName(), postDTOS, new ArrayList<>(), new ArrayList<>());
+        List<PostResponseDTO> postResponseDTOS = user.getPosts().stream()
+                .map(p -> new PostResponseDTO(user.getId(), p.getId(), p.getDate(), mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).toList();
+        return new UserDTO(user.getId(), user.getName(), postResponseDTOS, new ArrayList<>(), new ArrayList<>());
     }
 
     public static Product mapProduct(ProductDTO productDTO) {
@@ -37,6 +38,11 @@ public class UserMapper {
     public static ProductDTO mapProduct(Product product) {
         return new ProductDTO(product.getId(), product.getName(), product.getType(),
                 product.getBrand(), product.getColor(), product.getNotes());
+    }
+
+    public static Post mapPost(PostDTO post) {
+        return new Post(post.getDate(), mapProduct(post.getProduct()), post.getCategory(), post.getPrice()
+        );
     }
 
     public static UserFollowDTO mapUserFollow(User user) {
