@@ -46,7 +46,7 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
 
         return usersDto != null ? usersDto.stream().map(UserMapper::mapUser).collect(Collectors.toList()) : Collections.emptyList();
     }
-    
+
     @Override
     public List<User> findAllUsers() {
         return this.users;
@@ -64,7 +64,7 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
         users.set(users.indexOf(user), user);
     }
 
-    public void unfollowUser(int userId, int unfollowedUserId){
+    public void unfollowUser(int userId, int unfollowedUserId) {
         List<User> newFollowed = findUser(userId).getFollowed().stream().filter(user -> user.getId() != unfollowedUserId).toList();
         List<User> newFollowers = findUser(unfollowedUserId).getFollowers().stream().filter(user -> user.getId() != userId).toList();
 

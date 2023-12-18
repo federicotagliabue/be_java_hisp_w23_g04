@@ -15,6 +15,4 @@ public class UserDTO {
     private List<PostResponseDTO> posts;
     private List<UserFollowDTO> followed;
     private List<UserFollowDTO> followers;
-
-
 }

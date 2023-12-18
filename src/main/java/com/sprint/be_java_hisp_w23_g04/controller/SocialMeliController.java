@@ -20,11 +20,9 @@ public class SocialMeliController {
         return new ResponseEntity<>(socialMediaService.getAllUsers(), HttpStatus.OK);
     }
 
-    @GetMapping("/users/{userId}/followers/list")
-    public ResponseEntity<?> getAllFollowersByUserId(@PathVariable int userId,
-                                                     @RequestParam(defaultValue = "name_asc") String order) {
-        System.out.println(order);
-        return new ResponseEntity<>(this.socialMediaService.getFollowersByUserId(userId, order), HttpStatus.OK);
+    @PostMapping("/users/{userId}/follow/{userIdToFollow}")
+    public ResponseEntity<?> followSellerUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow) {
+        return new ResponseEntity<>(socialMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}/followers/count")
@@ -32,9 +30,10 @@ public class SocialMeliController {
         return new ResponseEntity<>(socialMediaService.followersCount(userId), HttpStatus.OK);
     }
 
-    @PostMapping("/users/{userId}/follow/{userIdToFollow}")
-    public ResponseEntity<?> followSellerUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow) {
-        return new ResponseEntity<>(socialMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
+    @GetMapping("/users/{userId}/followers/list")
+    public ResponseEntity<?> getAllFollowersByUserId(@PathVariable int userId,
+                                                     @RequestParam(defaultValue = "name_asc") String order) {
+        return new ResponseEntity<>(this.socialMediaService.getFollowersByUserId(userId, order), HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}/followed/list")
