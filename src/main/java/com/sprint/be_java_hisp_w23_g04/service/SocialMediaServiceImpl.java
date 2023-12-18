@@ -37,8 +37,29 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
         Verifications.verifyUserExist(user);
 
-        List<UserFollowDTO> followed = user.getFollowed().stream().map(UserMapper::mapUserFollow).toList();
+        List<UserFollowDTO> followed = sortedFollow(user, order);
         return new FollowedListDTO(user.getId(), user.getName(), followed);
+    }
+
+    private List<UserFollowDTO> sortedFollow(User user, String order) {
+
+        if (order.equals("name_asc")) {
+            return user.getFollowers().stream()
+                    .map(UserMapper::mapUserFollow)
+                    .sorted(Comparator.comparing(UserFollowDTO::getUserName))
+                    .toList();
+        } else if (order.equals("name_desc")) {
+            return user.getFollowers().stream()
+                    .map(UserMapper::mapUserFollow)
+                    .sorted(Comparator.
+                            comparing(UserFollowDTO::getUserName)
+                            .reversed())
+                    .toList();
+        }
+
+        return user.getFollowers().stream()
+                .map(UserMapper::mapUserFollow)
+                .toList();
     }
 
     public FollowersCountDTO followersCount(Integer userId) {
@@ -79,7 +100,6 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         return user.getFollowed().contains(seller);
     }
 
-
     @Override
     public FollowersListDTO getFollowersByUserId(int userId, String order) {
         User user = this.socialMediaRepository.findUser(userId);
@@ -90,28 +110,6 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
         return new FollowersListDTO(user.getId(), user.getName(), followers);
     }
-
-    private List<UserFollowDTO> sortedFollow(User user, String order) {
-
-        if (order.equals("name_asc")) {
-            return user.getFollowers().stream()
-                    .map(UserMapper::mapUserFollow)
-                    .sorted(Comparator.comparing(UserFollowDTO::getUserName))
-                    .toList();
-        } else if (order.equals("name_desc")) {
-            return user.getFollowers().stream()
-                    .map(UserMapper::mapUserFollow)
-                    .sorted(Comparator.
-                            comparing(UserFollowDTO::getUserName)
-                            .reversed())
-                    .toList();
-        }
-
-        return user.getFollowers().stream()
-                .map(UserMapper::mapUserFollow)
-                .toList();
-    }
-
 
     private boolean isSeller(User user) {
         return !user.getPosts().isEmpty();
