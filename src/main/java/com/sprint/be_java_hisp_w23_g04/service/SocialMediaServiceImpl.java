@@ -131,7 +131,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         user.setPosts(posts);
 
         socialMediaRepository.savePost(user);
-        return new SimpleMessageDTO("El post con id: " + user.getId() + " se guardó exitosamente");
+        return new SimpleMessageDTO("El post para el user: " + user.getId() + " se guardó exitosamente");
     }
 
     @Override
