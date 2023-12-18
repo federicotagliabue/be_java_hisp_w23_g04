@@ -1,7 +1,8 @@
 package com.sprint.be_java_hisp_w23_g04.utils;
 
 import com.sprint.be_java_hisp_w23_g04.dto.DBUserDTO;
-import com.sprint.be_java_hisp_w23_g04.dto.response.PostDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.PostResponseDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.ProductDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserFollowDTO;
@@ -9,24 +10,43 @@ import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.Product;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class UserMapper {
 
     public static User mapUser(DBUserDTO userDto) {
-        List<PostDTO> postsDto = userDto.getPosts();
+        List<PostResponseDTO> postsDto = userDto.getPosts();
+        List<User> followed;
+        List<User> followers;
 
-        List<Post> posts = postsDto.stream().map(p -> new Post(p.getPostId(), p.getDate(), mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).toList();
-        return new User(userDto.getUser_id(), userDto.getName(), posts, new ArrayList<>(), new ArrayList<>());
+        if(userDto.getFollowed() == null){
+            followed = new ArrayList<>();
+        }
+        else{
+            followed = userDto.getFollowed().stream().map(p -> new User(p.getId(), p.getName())).collect(Collectors.toList());
+        }
+
+        if(userDto.getFollowers() == null){
+            followers = new ArrayList<>();
+        }
+        else{
+            followers = userDto.getFollowers().stream().map(p -> new User(p.getId(), p.getName())).collect(Collectors.toList());
+        }
+
+        List<Post> posts = postsDto.stream().map(p -> new Post(p.getPostId(), p.getDate(), mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).collect(Collectors.toList());
+        return new User(userDto.getUser_id(), userDto.getName(), posts, followed, followers);
     }
 
     public static UserDTO mapUser(User user) {
-        List<PostDTO> postDTOS = user.getPosts().stream().map(p -> new PostDTO(user.getId(), p.getId(), p.getDate(),
-                mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).toList();
-        return new UserDTO(user.getId(), user.getName(), postDTOS, new ArrayList<>(), new ArrayList<>());
+        List<PostResponseDTO> postResponseDTOS = user.getPosts().stream()
+                .map(p -> new PostResponseDTO(user.getId(), p.getId(), p.getDate(), mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).toList();
+        List<UserFollowDTO> followedDTOS = user.getFollowed().stream().map(
+                p -> new UserFollowDTO(p.getId(),p.getName())).toList();
+        List<UserFollowDTO> followersDTOS = user.getFollowers().stream().map(
+                p -> new UserFollowDTO(p.getId(),p.getName())).toList();
+        return new UserDTO(user.getId(), user.getName(), postResponseDTOS, followedDTOS, followersDTOS);
     }
 
     public static Product mapProduct(ProductDTO productDTO) {
@@ -39,12 +59,13 @@ public class UserMapper {
                 product.getBrand(), product.getColor(), product.getNotes());
     }
 
+    public static Post mapPost(PostDTO post) {
+        return new Post(post.getDate(), mapProduct(post.getProduct()), post.getCategory(), post.getPrice()
+        );
+    }
+
     public static UserFollowDTO mapUserFollow(User user) {
         return new UserFollowDTO(user.getId(), user.getName());
     }
 
-    private static LocalDate convertDateFromString(String stringDate) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        return LocalDate.parse(stringDate, formatter);
-    }
 }

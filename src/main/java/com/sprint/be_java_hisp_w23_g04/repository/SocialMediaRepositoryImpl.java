@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.sprint.be_java_hisp_w23_g04.dto.DBUserDTO;
+import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import org.springframework.stereotype.Repository;
@@ -12,10 +13,7 @@ import org.springframework.util.ResourceUtils;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Repository
@@ -49,13 +47,34 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
         return usersDto != null ? usersDto.stream().map(UserMapper::mapUser).collect(Collectors.toList()) : Collections.emptyList();
     }
     
+    @Override
     public List<User> findAllUsers() {
         return this.users;
     }
+
     @Override
     public User findUser(Integer userId) {
-        return users.stream().filter(u -> Objects.equals(u.getId(), userId))
+        return this.users.stream().filter(u -> Objects.equals(u.getId(), userId))
                 .findFirst()
                 .orElse(null);
+    }
+
+    @Override
+    public void savePost(User user) {
+        users.set(users.indexOf(user), user);
+    }
+
+    public void unfollowUser(int userId, int unfollowedUserId){
+        List<User> newFollowed = findUser(userId).getFollowed().stream().filter(user -> user.getId() != unfollowedUserId).toList();
+        List<User> newFollowers = findUser(unfollowedUserId).getFollowers().stream().filter(user -> user.getId() != userId).toList();
+
+        User user = findUser(userId);
+        User unfollowedUser = findUser(unfollowedUserId);
+
+        unfollowedUser.setFollowers(newFollowers);
+        user.setFollowed(newFollowed);
+
+        users.set(users.indexOf(findUser(userId)), user);
+        users.set(users.indexOf(findUser(unfollowedUserId)), unfollowedUser);
     }
 }

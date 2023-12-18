@@ -5,6 +5,12 @@ import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 
 public class Verifications {
 
+    public static void verifyUserExist(User user, int id) {
+        if (user == null) {
+            throw new NotFoundException("No se encontró usuario con el id " + id);
+        }
+    }
+
     public static void verifyUserExist(User user) {
         if (user == null) {
             throw new NotFoundException("No se encontró usuario con el id proporcionado.");
