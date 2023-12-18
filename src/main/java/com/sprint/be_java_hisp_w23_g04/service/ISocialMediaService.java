@@ -9,8 +9,10 @@ public interface ISocialMediaService {
     List<UserDTO> getAllUsers();
     void savePost(PostDTO post);
 
-    FollowedListDTO getFollowedByUserId(Integer id);
-    FollowersListDTO getAllFollowersByUserId(int userId);
+    FollowedListDTO getFollowedByUserId(Integer id, String order);
+
+    FollowersListDTO getFollowersByUserId(int userId, String order);
+
     FollowersCountDTO followersCount(Integer userId);
     SimpleMessageDTO followSellerUser(Integer userId, Integer userIdToFollow);
     SimpleMessageDTO unfollowUser(int userId, int unfollowId);

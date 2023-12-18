@@ -15,6 +15,7 @@ import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.repository.ISocialMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.SocialMediaRepositoryImpl;
 
+import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -35,13 +36,35 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         return users.stream().map(UserMapper::mapUser).toList();
     }
 
-    public FollowedListDTO getFollowedByUserId(Integer id) {
+    @Override
+    public FollowedListDTO getFollowedByUserId(Integer id, String order) {
         User user = socialMediaRepository.findUser(id);
 
         Verifications.verifyUserExist(user);
 
-        List<UserFollowDTO> followed = user.getFollowed().stream().map(UserMapper::mapUserFollow).toList();
+        List<UserFollowDTO> followed = sortedFollow(user, order);
         return new FollowedListDTO(user.getId(), user.getName(), followed);
+    }
+
+    private List<UserFollowDTO> sortedFollow(User user, String order) {
+
+        if (order.equals("name_asc")) {
+            return user.getFollowers().stream()
+                    .map(UserMapper::mapUserFollow)
+                    .sorted(Comparator.comparing(UserFollowDTO::getUserName))
+                    .toList();
+        } else if (order.equals("name_desc")) {
+            return user.getFollowers().stream()
+                    .map(UserMapper::mapUserFollow)
+                    .sorted(Comparator.
+                            comparing(UserFollowDTO::getUserName)
+                            .reversed())
+                    .toList();
+        }
+
+        return user.getFollowers().stream()
+                .map(UserMapper::mapUserFollow)
+                .toList();
     }
 
     public FollowersCountDTO followersCount(Integer userId) {
@@ -82,15 +105,14 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         return user.getFollowed().contains(seller);
     }
 
-
     @Override
-    public FollowersListDTO getAllFollowersByUserId(int userId) {
+    public FollowersListDTO getFollowersByUserId(int userId, String order) {
         User user = this.socialMediaRepository.findUser(userId);
 
         Verifications.verifyUserExist(user);
 
-        List<UserFollowDTO> followers = user.getFollowers().stream()
-                .map(UserMapper::mapUserFollow).toList();
+        List<UserFollowDTO> followers = sortedFollow(user, order);
+
         return new FollowersListDTO(user.getId(), user.getName(), followers);
     }
 
