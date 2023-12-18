@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.sprint.be_java_hisp_w23_g04.service.ISocialMediaService;
 import com.sprint.be_java_hisp_w23_g04.service.SocialMediaServiceImpl;
@@ -24,5 +25,10 @@ public class SocialMeliController {
     @GetMapping("/users/{userId}/followers/count")
     public ResponseEntity<?> getFollowers(@PathVariable int userId){
         return new ResponseEntity<>(socialMediaService.followersCount(userId), HttpStatus.OK);
+    }
+
+    @PostMapping("/users/{userId}/follow/{userIdToFollow}")
+    public ResponseEntity<?> followSellerUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
+        return new ResponseEntity<>(socialMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
     }
 }

@@ -47,7 +47,6 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
 
         return usersDto != null ? usersDto.stream().map(UserMapper::mapUser).collect(Collectors.toList()) : Collections.emptyList();
     }
-
     public List<User> findAllUsers() {
         return this.users;
     }
