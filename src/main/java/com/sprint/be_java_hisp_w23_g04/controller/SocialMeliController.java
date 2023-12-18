@@ -31,4 +31,6 @@ public class SocialMeliController {
     public ResponseEntity<?> followSellerUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<>(socialMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
     }
+
+    //comentario
 }
