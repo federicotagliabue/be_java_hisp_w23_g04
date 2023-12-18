@@ -18,11 +18,9 @@ import java.util.stream.Collectors;
 
 @Repository
 public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
-
     private List<User> users = new ArrayList<>();
-    private Map<Integer, List<Post>> userPosts = new HashMap<>();
 
-    public SocialMediaRepositoryImpl(){
+    public SocialMediaRepositoryImpl() {
         this.users = loadDataBase();
     }
 
@@ -37,7 +35,8 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
 
-        TypeReference<List<DBUserDTO>> typeRef = new TypeReference<>() {};
+        TypeReference<List<DBUserDTO>> typeRef = new TypeReference<>() {
+        };
         List<DBUserDTO> usersDto = null;
         try {
             usersDto = mapper.readValue(file, typeRef);
@@ -47,20 +46,21 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
 
         return usersDto != null ? usersDto.stream().map(UserMapper::mapUser).collect(Collectors.toList()) : Collections.emptyList();
     }
-
-
-    public List<User> findAllUsers(){
+    
+    @Override
+    public List<User> findAllUsers() {
         return this.users;
     }
 
     @Override
-    public void saveUser(int userId, Post post) {
-        if (userPosts.containsKey(userId)) {
-            userPosts.get(userId).add(post);
-        } else {
-            List<Post> list = new ArrayList<>();
-            list.add(post);
-            userPosts.put(userId, list);
-        }
+    public User findUser(Integer userId) {
+        return this.users.stream().filter(u -> Objects.equals(u.getId(), userId))
+                .findFirst()
+                .orElse(null);
+    }
+
+    @Override
+    public void savePost(User user) {
+        users.set(users.indexOf(user), user);
     }
 }

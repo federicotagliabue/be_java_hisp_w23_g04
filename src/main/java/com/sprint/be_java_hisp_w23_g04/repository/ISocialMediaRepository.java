@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface ISocialMediaRepository {
     List<User> findAllUsers();
-    void saveUser(int userId, Post post);
+    User findUser(Integer userId);
+    void savePost(User user);
 }
