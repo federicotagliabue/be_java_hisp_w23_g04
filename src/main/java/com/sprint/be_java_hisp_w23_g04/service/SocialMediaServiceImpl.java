@@ -6,8 +6,6 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserFollowDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
-import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
-import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,6 @@ import com.sprint.be_java_hisp_w23_g04.repository.SocialMediaRepositoryImpl;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExist;
 
@@ -119,7 +116,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         user.setPosts(posts);
 
         socialMediaRepository.savePost(user);
-        return new SimpleMessageDTO("El post con id: " + user.getId() + " se guardó exitosamente");
+        return new SimpleMessageDTO("El post para el user: " + user.getId() + " se guardó exitosamente");
     }
 
     @Override
