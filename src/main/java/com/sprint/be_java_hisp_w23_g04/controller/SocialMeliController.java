@@ -19,7 +19,7 @@ public class SocialMeliController {
 
     @GetMapping("/users")
     public ResponseEntity<?> getAllUsers() {
-        return new ResponseEntity<>(this.socialMediaService.getAllUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(socialMediaService.getAllUsers(), HttpStatus.OK);
     }
 
     @GetMapping("/users/{userId}/followers/list")
@@ -35,5 +35,10 @@ public class SocialMeliController {
     @PostMapping("/users/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<?> followSellerUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow){
         return new ResponseEntity<>(socialMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{userId}/followed/list")
+    public ResponseEntity<?> getFollowedByUserId(@PathVariable Integer userId) {
+        return new ResponseEntity<>(socialMediaService.getFollowedByUserId(userId), HttpStatus.OK);
     }
 }

@@ -1,5 +1,8 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
+import com.sprint.be_java_hisp_w23_g04.dto.response.FollowedListDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.UserFollowDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
@@ -28,6 +31,15 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     }
 
     @Override
+    public FollowedListDTO getFollowedByUserId(Integer id) {
+        User user = socialMediaRepository.findUser(id);
+
+        Verifications.verifyUserExist(user);
+
+        List<UserFollowDTO> followed = user.getFollowed().stream().map(UserMapper::mapUserFollow).toList();
+        return new FollowedListDTO(user.getId(), user.getName(), followed);
+    }
+
     public FollowersCountDTO followersCount(Integer userId) {
         User user = socialMediaRepository.findUser(userId);
 
@@ -74,8 +86,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         Verifications.verifyUserExist(user);
 
         List<UserFollowDTO> followers = user.getFollowers().stream()
-                .map(u -> new UserFollowDTO(u.getId(), u.getName()))
-                .toList();
+                .map(UserMapper::mapUserFollow).toList();
         return new FollowersListDTO(user.getId(), user.getName(), followers);
     }
 
