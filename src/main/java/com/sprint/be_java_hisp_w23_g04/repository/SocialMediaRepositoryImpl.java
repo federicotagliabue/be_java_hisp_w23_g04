@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
@@ -47,7 +48,12 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
 
         return usersDto != null ? usersDto.stream().map(UserMapper::mapUser).collect(Collectors.toList()) : Collections.emptyList();
     }
-
+    @Override
+    public User findUser(Integer userId) {
+        return users.stream().filter(u -> Objects.equals(u.getId(), userId))
+                .findFirst()
+                .orElse(null);
+    }
 
     public List<User> findAllUsers(){
         return this.users;
