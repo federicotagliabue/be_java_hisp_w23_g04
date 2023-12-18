@@ -120,7 +120,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     }
 
     @Override
-    public void savePost(PostDTO post) {
+    public SimpleMessageDTO savePost(PostDTO post) {
         List<Post> posts = new ArrayList<>();
         User user = socialMediaRepository.findUser(post.getUserId());
 
@@ -131,6 +131,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         user.setPosts(posts);
 
         socialMediaRepository.savePost(user);
+        return new SimpleMessageDTO("El post con id: " + user.getId() + " se guardó exitosamente");
     }
 
     @Override

@@ -44,8 +44,7 @@ public class SocialMeliController {
 
     @PostMapping("/products/post")
     public ResponseEntity<?> savePost(@RequestBody PostDTO post){
-        socialMediaService.savePost(post);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(socialMediaService.savePost(post), HttpStatus.OK);
     }
 
     @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")

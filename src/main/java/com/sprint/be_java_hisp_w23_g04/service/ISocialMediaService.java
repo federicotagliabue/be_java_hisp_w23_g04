@@ -8,7 +8,7 @@ import java.util.List;
 public interface ISocialMediaService {
     List<UserDTO> getAllUsers();
 
-    void savePost(PostDTO post);
+    SimpleMessageDTO savePost(PostDTO post);
 
     FollowedListDTO getFollowedByUserId(Integer id, String order);
 
