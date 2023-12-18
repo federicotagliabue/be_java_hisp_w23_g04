@@ -12,5 +12,5 @@ public class PostFollowersDTO {
     @JsonProperty("user_id")
     private Integer userId;
     @JsonProperty("posts")
-    private List<PostDTO> posts;
+    private List<PostResponseDTO> posts;
 }

@@ -15,4 +15,11 @@ public class Post {
     private Product product;
     private int category;
     private double price;
+
+    public Post (LocalDate date, Product product, int category, double price) {
+        this.date = date;
+        this.product = product;
+        this.category = category;
+        this.price = price;
+    }
 }
