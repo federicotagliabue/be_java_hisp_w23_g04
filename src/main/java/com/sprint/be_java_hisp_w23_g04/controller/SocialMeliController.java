@@ -3,11 +3,7 @@ package com.sprint.be_java_hisp_w23_g04.controller;
 import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.sprint.be_java_hisp_w23_g04.service.ISocialMediaService;
 import com.sprint.be_java_hisp_w23_g04.service.SocialMediaServiceImpl;
 
