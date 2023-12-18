@@ -49,4 +49,9 @@ public class SocialMeliController {
         socialMediaService.savePost(post);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/users/{userId}/unfollow/{userIdToUnfollow}")
+    public ResponseEntity<?> unfollowUser(@PathVariable int userId, @PathVariable int userIdToUnfollow){
+        return new ResponseEntity<>(socialMediaService.unfollowUser(userId, userIdToUnfollow), HttpStatus.ACCEPTED);
+    }
 }

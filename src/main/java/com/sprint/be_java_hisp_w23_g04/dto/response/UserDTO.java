@@ -11,7 +11,6 @@ import java.util.List;
 public class UserDTO {
     @JsonProperty("user_id")
     private int id;
-    @JsonProperty("user_name")
     private String name;
     private List<PostResponseDTO> posts;
     private List<UserFollowDTO> followed;

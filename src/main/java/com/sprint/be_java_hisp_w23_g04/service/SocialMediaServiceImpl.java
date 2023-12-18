@@ -18,6 +18,7 @@ import com.sprint.be_java_hisp_w23_g04.repository.SocialMediaRepositoryImpl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class SocialMediaServiceImpl implements ISocialMediaService {
@@ -109,5 +110,25 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
     private boolean isSeller(User user) {
         return !user.getPosts().isEmpty();
+    }
+
+    @Override
+    public SimpleMessageDTO unfollowUser(int userId, int unfollowId) {
+        User user = socialMediaRepository.findUser(userId);
+        Verifications.verifyUserExist(user, userId);
+        User unfollowedUser = socialMediaRepository.findUser(unfollowId) ;
+        Verifications.verifyUserExist(unfollowedUser, unfollowId);
+
+        if(user.getFollowed().stream().filter(followed -> Objects.equals(followed.getId(), unfollowedUser.getId())).findAny().orElse(null) == null){
+            throw new NotFoundException("El usuario que estás intentando dejar de seguir no se encuentra en tu lista de seguidos");
+        };
+
+        if(unfollowedUser.getFollowers().stream().filter(follower -> Objects.equals(follower.getId(), user.getId())).findAny().orElse(null) == null){
+            throw new NotFoundException("No te encuentras en la lista de seguidos del usuario al que estás intentando dejar de seguir. Por favor, comprueba la consistencia de tus datos");
+        };
+
+        socialMediaRepository.unfollowUser(userId, unfollowId);
+
+        return new SimpleMessageDTO("El usuario " + unfollowedUser.getName() + " Id: " + unfollowedUser.getId() + " ya no es seguido por el usuario " + user.getName() + " Id: " + user.getId());
     }
 }

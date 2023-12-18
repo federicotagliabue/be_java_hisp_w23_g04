@@ -15,4 +15,9 @@ public class User {
     private List<Post> posts;
     private List<User> followed;
     private List<User> followers;
+
+    public User(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

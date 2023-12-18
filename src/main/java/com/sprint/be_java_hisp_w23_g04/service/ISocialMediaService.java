@@ -12,6 +12,6 @@ public interface ISocialMediaService {
     FollowedListDTO getFollowedByUserId(Integer id);
     FollowersListDTO getAllFollowersByUserId(int userId);
     FollowersCountDTO followersCount(Integer userId);
-
     SimpleMessageDTO followSellerUser(Integer userId, Integer userIdToFollow);
+    SimpleMessageDTO unfollowUser(int userId, int unfollowId);
 }

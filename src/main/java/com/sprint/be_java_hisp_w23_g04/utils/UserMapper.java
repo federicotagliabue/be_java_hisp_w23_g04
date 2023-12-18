@@ -19,15 +19,35 @@ public class UserMapper {
 
     public static User mapUser(DBUserDTO userDto) {
         List<PostResponseDTO> postsDto = userDto.getPosts();
+        List<User> followed;
+        List<User> followers;
+
+        if(userDto.getFollowed() == null){
+            followed = new ArrayList<>();
+        }
+        else{
+            followed = userDto.getFollowed().stream().map(p -> new User(p.getId(), p.getName())).toList();
+        }
+
+        if(userDto.getFollowers() == null){
+            followers = new ArrayList<>();
+        }
+        else{
+            followers = userDto.getFollowers().stream().map(p -> new User(p.getId(), p.getName())).toList();
+        }
 
         List<Post> posts = postsDto.stream().map(p -> new Post(p.getPostId(), p.getDate(), mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).toList();
-        return new User(userDto.getUser_id(), userDto.getName(), posts, new ArrayList<>(), new ArrayList<>());
+        return new User(userDto.getUser_id(), userDto.getName(), posts, followed, followers);
     }
 
     public static UserDTO mapUser(User user) {
         List<PostResponseDTO> postResponseDTOS = user.getPosts().stream()
                 .map(p -> new PostResponseDTO(user.getId(), p.getId(), p.getDate(), mapProduct(p.getProduct()), p.getCategory(), p.getPrice())).toList();
-        return new UserDTO(user.getId(), user.getName(), postResponseDTOS, new ArrayList<>(), new ArrayList<>());
+        List<UserFollowDTO> followedDTOS = user.getFollowed().stream().map(
+                p -> new UserFollowDTO(p.getId(),p.getName())).toList();
+        List<UserFollowDTO> followersDTOS = user.getFollowers().stream().map(
+                p -> new UserFollowDTO(p.getId(),p.getName())).toList();
+        return new UserDTO(user.getId(), user.getName(), postResponseDTOS, followedDTOS, followersDTOS);
     }
 
     public static Product mapProduct(ProductDTO productDTO) {
