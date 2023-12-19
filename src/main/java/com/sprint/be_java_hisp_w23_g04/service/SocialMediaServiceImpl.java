@@ -18,6 +18,7 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExist;
 
@@ -137,7 +138,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     }
 
     @Override
-    public FilteredPosts getFilteredPosts(int userId) {
+    public FilteredPosts getFilteredPosts(int userId, String order) {
         User user = socialMediaRepository.findUser(userId);
         LocalDate filterDate = LocalDate.now().minusWeeks(2);
         List<PostResponseDTO> filteredPosts = new ArrayList<>();
@@ -151,8 +152,24 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
             }
         }
 
+        switch (order){
+            case "date_asc" -> filteredPosts = orderAsc(filteredPosts);
+            case "date_desc" -> filteredPosts = orderDesc(filteredPosts);
+        }
+
         return new FilteredPosts(userId, filteredPosts);
     }
 
+    private List<PostResponseDTO> orderAsc(List<PostResponseDTO> list){
+       return list.stream()
+                .sorted(Comparator.comparing(PostDTO::getDate))
+                .collect(Collectors.toList());
+    }
+
+    private List<PostResponseDTO> orderDesc(List<PostResponseDTO> list){
+        return list.stream()
+                .sorted((p1, p2) -> p2.getDate().compareTo(p1.getDate()))
+                .collect(Collectors.toList());
+    }
 
 }

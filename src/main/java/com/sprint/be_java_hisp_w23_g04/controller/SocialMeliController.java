@@ -53,7 +53,7 @@ public class SocialMeliController {
     }
 
     @GetMapping("/products/followed/{userId}/list")
-    public ResponseEntity<?> getFilteredPost(@PathVariable int userId){
-        return new ResponseEntity<>(socialMediaService.getFilteredPosts(userId), HttpStatus.OK);
+    public ResponseEntity<?> getFilteredPost(@PathVariable int userId,@RequestParam(defaultValue = "date_asc") String order){
+        return new ResponseEntity<>(socialMediaService.getFilteredPosts(userId,order), HttpStatus.OK);
     }
 }
