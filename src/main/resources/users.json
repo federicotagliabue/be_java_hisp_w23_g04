@@ -1,7 +1,7 @@
 [
     {
         "user_id": 1,
-        "name": "Juan Vendedor1",
+        "name": "Juan Perez",
         "posts": [
             {
                 "post_id":1,
@@ -20,28 +20,89 @@
         ],
         "followed": [
             {
-                "user_id": 2,
-                "name": "Sofia Usuario1"
+                "user_id": 4,
+                "name": "Sofia Gomez"
+            },
+            {
+                "user_id": 6,
+                "name": "Diego Lopez"
+            }
+        ],
+        "followers": [
+            {
+                "user_id": 4,
+                "name": "Sofia Gomez"
+            }
+        ]
+    },
+    {
+        "user_id": 2,
+        "name": "Maria Gonzalez",
+        "posts": [
+        ],
+        "followed": [
+            {
+                "user_id": 3,
+                "name": "Pablo Gonzalez"
             }
         ],
         "followers": []
     },
     {
-        "user_id": 2,
-        "name": "Sofia Usuario1",
+        "user_id": 3,
+        "name": "Pablo Gonzalez",
+        "posts": [
+            {
+                "post_id":1,
+                "date": "19-12-2023",
+                "product": {
+                    "product_id": 2,
+                    "product_name": "Teclado",
+                    "type": "Gamer",
+                    "brand": "Redragon",
+                    "color": "Black",
+                    "notes": ""
+                },
+                "category": 58,
+                "price": 800.0
+            }
+        ],
+        "followed": [
+            {
+                "user_id": 4,
+                "name": "Sofia Gomez"
+            }
+        ],
+        "followers": []
+    },
+    {
+        "user_id": 4,
+        "name": "Sofia Gomez",
         "posts": [],
         "followed": [],
         "followers": [
             {
                 "user_id": 1,
-                "name": "Juan Vendedor1"
+                "name": "Juan Perez"
             }
         ]
 
     },
     {
-        "user_id": 3,
+        "user_id": 5,
         "name": "Sofia Usuario2",
         "posts": []
+    },
+    {
+        "user_id": 6,
+        "name": "Diego Lopez",
+        "posts": [],
+        "followed": [],
+        "followers": [
+            {
+                "user_id": 1,
+                "name": "Juan Perez"
+            }
+        ]
     }
 ]
