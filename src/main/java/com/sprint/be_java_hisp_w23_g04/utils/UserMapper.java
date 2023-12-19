@@ -57,9 +57,8 @@ public class UserMapper {
                 product.getBrand(), product.getColor(), product.getNotes());
     }
 
-    public static Post mapPost(PostDTO post) {
-        return new Post(post.getDate(), mapProduct(post.getProduct()), post.getCategory(), post.getPrice()
-        );
+    public static Post mapPost(PostDTO post, int productId) {
+        return new Post(productId, post.getDate(), mapProduct(post.getProduct()), post.getCategory(), post.getPrice());
     }
 
     public static UserFollowDTO mapUserFollow(User user) {
