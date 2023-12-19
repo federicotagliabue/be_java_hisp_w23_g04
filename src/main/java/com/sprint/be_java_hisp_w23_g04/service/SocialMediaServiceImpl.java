@@ -71,19 +71,19 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
         verifyUserExist(user);
 
-        List<UserFollowDTO> followed = sortedFollow(user, order);
+        List<UserFollowDTO> followed = sortedFollow(user.getFollowed(), order);
         return new FollowedListDTO(user.getId(), user.getName(), followed);
     }
 
-    private List<UserFollowDTO> sortedFollow(User user, String order) {
+    private List<UserFollowDTO> sortedFollow(List<User> follows, String order) {
 
         if (order.equals("name_asc")) {
-            return user.getFollowers().stream()
+            return follows.stream()
                     .map(UserMapper::mapUserFollow)
                     .sorted(Comparator.comparing(UserFollowDTO::getUserName))
                     .toList();
         } else if (order.equals("name_desc")) {
-            return user.getFollowers().stream()
+            return follows.stream()
                     .map(UserMapper::mapUserFollow)
                     .sorted(Comparator.
                             comparing(UserFollowDTO::getUserName)
@@ -91,7 +91,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
                     .toList();
         }
 
-        return user.getFollowers().stream()
+        return follows.stream()
                 .map(UserMapper::mapUserFollow)
                 .toList();
     }
@@ -103,7 +103,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
         verifyUserExist(user);
 
-        List<UserFollowDTO> followers = sortedFollow(user, order);
+        List<UserFollowDTO> followers = sortedFollow(user.getFollowers(), order);
 
         return new FollowersListDTO(user.getId(), user.getName(), followers);
     }
@@ -126,7 +126,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     @Override
     public SimpleMessageDTO unfollowUser(int userId, int unfollowId) {
         User user = socialMediaRepository.findUser(userId);
-        User unfollowedUser = socialMediaRepository.findUser(unfollowId) ;
+        User unfollowedUser = socialMediaRepository.findUser(unfollowId);
         Verifications.verifyUserExist(user, userId);
         Verifications.verifyUserExist(unfollowedUser, unfollowId);
         Verifications.verifyUserIsFollowed(user, unfollowedUser);
@@ -143,10 +143,10 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         LocalDate filterDate = LocalDate.now().minusWeeks(2);
         List<PostResponseDTO> filteredPosts = new ArrayList<>();
 
-        for(User seller : user.getFollowed()){
-            for(Post post : seller.getPosts()){
-                if(post.getDate().isAfter(filterDate)){
-                    PostResponseDTO postDTO = PostMapper.PostRequestDTOMapper(userId,post);
+        for (User seller : user.getFollowed()) {
+            for (Post post : seller.getPosts()) {
+                if (post.getDate().isAfter(filterDate)) {
+                    PostResponseDTO postDTO = PostMapper.PostRequestDTOMapper(userId, post);
                     filteredPosts.add(postDTO);
                 }
             }
