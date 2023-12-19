@@ -20,5 +20,5 @@ public interface ISocialMediaService {
 
     SimpleMessageDTO unfollowUser(int userId, int unfollowId);
 
-    FilteredPosts getFilteredPosts(int userId, String order);
+    FilteredPostsDTO getFilteredPosts(int userId, String order);
 }

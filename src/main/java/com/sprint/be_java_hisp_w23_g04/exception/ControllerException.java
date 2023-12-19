@@ -20,4 +20,9 @@ public class ControllerException {
         return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(NoContentException.class)
+    public ResponseEntity<?> emptyContent(NoContentException e) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 }
