@@ -70,8 +70,12 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         User user = socialMediaRepository.findUser(id);
 
         verifyUserExist(user);
+        List<User> followedByUser = user.getFollowed();
 
-        List<UserFollowDTO> followed = sortedFollow(user.getFollowed(), order);
+        Verifications.validateEmptyResponseList(followedByUser);
+
+        List<UserFollowDTO> followed = sortedFollow(followedByUser, order);
+
         return new FollowedListDTO(user.getId(), user.getName(), followed);
     }
 
@@ -103,7 +107,11 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
         verifyUserExist(user);
 
-        List<UserFollowDTO> followers = sortedFollow(user.getFollowers(), order);
+        List<User> userFollowers = user.getFollowers();
+
+        Verifications.validateEmptyResponseList(userFollowers);
+
+        List<UserFollowDTO> followers = sortedFollow(userFollowers, order);
 
         return new FollowersListDTO(user.getId(), user.getName(), followers);
     }
@@ -139,8 +147,12 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     }
 
     @Override
-    public FilteredPosts getFilteredPosts(int userId, String order) {
+    public FilteredPostsDTO getFilteredPosts(int userId, String order) {
         User user = socialMediaRepository.findUser(userId);
+
+        Verifications.verifyUserExist(user);
+        Verifications.verifyUserHasFollowedSellers(user);
+
         LocalDate filterDate = LocalDate.now().minusWeeks(2);
         List<PostResponseDTO> filteredPosts = new ArrayList<>();
 
@@ -153,12 +165,14 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
             }
         }
 
+        Verifications.validateEmptyResponseList(filteredPosts);
+
         switch (order){
             case "date_asc" -> filteredPosts = orderAsc(filteredPosts);
             case "date_desc" -> filteredPosts = orderDesc(filteredPosts);
         }
 
-        return new FilteredPosts(userId, filteredPosts);
+        return new FilteredPostsDTO(userId, filteredPosts);
     }
 
     private List<PostResponseDTO> orderAsc(List<PostResponseDTO> list){
