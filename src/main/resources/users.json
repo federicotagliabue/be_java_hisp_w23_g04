@@ -18,12 +18,7 @@
                 "price": 1000.0
             }
         ],
-        "followed": [
-            {
-                "user_id": 2,
-                "name": "Sofia Usuario1"
-            }
-        ],
+        "followed": [],
         "followers": []
     },
     {
@@ -31,13 +26,7 @@
         "name": "Sofia Usuario1",
         "posts": [],
         "followed": [],
-        "followers": [
-            {
-                "user_id": 1,
-                "name": "Juan Vendedor1"
-            }
-        ]
-
+        "followers": []
     },
     {
         "user_id": 3,
