@@ -114,8 +114,9 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         User user = socialMediaRepository.findUser(post.getUserId());
 
         verifyUserExist(user);
+        int postId = socialMediaRepository.getNextPostId(user);
 
-        posts.add(UserMapper.mapPost(post));
+        posts.add(UserMapper.mapPost(post, postId));
         posts.addAll(user.getPosts());
         user.setPosts(posts);
 

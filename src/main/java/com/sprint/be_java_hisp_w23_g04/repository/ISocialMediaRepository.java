@@ -9,6 +9,8 @@ public interface ISocialMediaRepository {
 
     User findUser(Integer userId);
 
+    int getNextPostId(User user);
+
     void savePost(User user);
 
     void unfollowUser(int userId, int unfollowedUserId);

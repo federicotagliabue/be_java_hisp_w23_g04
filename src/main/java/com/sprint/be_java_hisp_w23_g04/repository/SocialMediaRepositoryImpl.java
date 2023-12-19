@@ -59,6 +59,16 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
     }
 
     @Override
+    public int getNextPostId(User user) {
+        return this.users.stream()
+                .filter(u -> Objects.equals(user, u))
+                .findFirst()
+                .get()
+                .getPosts()
+                .size() + 1;
+    }
+
+    @Override
     public void savePost(User user) {
         users.set(users.indexOf(user), user);
     }
