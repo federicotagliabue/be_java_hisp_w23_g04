@@ -51,4 +51,9 @@ public class SocialMeliController {
     public ResponseEntity<?> unfollowUser(@PathVariable int userId, @PathVariable int userIdToUnfollow){
         return new ResponseEntity<>(socialMediaService.unfollowUser(userId, userIdToUnfollow), HttpStatus.ACCEPTED);
     }
+
+    @GetMapping("/products/followed/{userId}/list")
+    public ResponseEntity<?> getFilteredPost(@PathVariable int userId,@RequestParam(defaultValue = "date_asc") String order){
+        return new ResponseEntity<>(socialMediaService.getFilteredPosts(userId,order), HttpStatus.OK);
+    }
 }

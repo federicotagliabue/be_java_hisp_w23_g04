@@ -19,4 +19,6 @@ public interface ISocialMediaService {
     SimpleMessageDTO followSellerUser(Integer userId, Integer userIdToFollow);
 
     SimpleMessageDTO unfollowUser(int userId, int unfollowId);
+
+    FilteredPosts getFilteredPosts(int userId, String order);
 }
