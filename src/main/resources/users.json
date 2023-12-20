@@ -76,7 +76,7 @@
                 },
                 "category": 58,
                 "price": 900.0,
-                "user_id": 3,
+                "user_id": 2,
                 "post_id": 1
             }
         ],
@@ -111,7 +111,7 @@
         "followed": [],
         "followers": [
             {
-                "user_id": 3,
+                "user_id": 2,
                 "name": "Maria Gonzalez"
             },
             {
