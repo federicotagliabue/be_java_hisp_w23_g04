@@ -7,21 +7,21 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class ControllerException {
+public class ExceptionController {
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<?> NotFoundException(NotFoundException e) {
+    public ResponseEntity<SimpleMessageDTO> notFoundException(NotFoundException e) {
         SimpleMessageDTO exceptionDto = new SimpleMessageDTO(e.getMessage());
         return new ResponseEntity<>(exceptionDto, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<?> badRequest(BadRequestException e) {
+    public ResponseEntity<SimpleMessageDTO> badRequest(BadRequestException e) {
         SimpleMessageDTO exceptionDto = new SimpleMessageDTO(e.getMessage());
         return new ResponseEntity<>(exceptionDto, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(NoContentException.class)
-    public ResponseEntity<?> emptyContent(NoContentException e) {
+    public ResponseEntity<SimpleMessageDTO> emptyContent(NoContentException e) {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
