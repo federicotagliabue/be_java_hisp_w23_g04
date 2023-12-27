@@ -29,8 +29,11 @@ public class UserMeliController {
     }
 
     @PostMapping("/{userId}/follow/{userIdToFollow}")
-    public ResponseEntity<?> followSellerUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow) {
-        return new ResponseEntity<>(socialMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
+    public ResponseEntity<?> followSellerUser(@PathVariable Integer userId,
+                                              @PathVariable Integer userIdToFollow) {
+        return new ResponseEntity<>(
+                userMediaService.followSellerUser(userId, userIdToFollow),
+                HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/followers/count")

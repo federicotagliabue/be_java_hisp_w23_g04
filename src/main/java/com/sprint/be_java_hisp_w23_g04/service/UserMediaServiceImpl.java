@@ -34,6 +34,16 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
     @Override
     public SimpleMessageDTO followSellerUser(Integer userId, Integer userIdToFollow) {
+        User user = userMediaRepository.findUser(userId);
+        User seller = userMediaRepository.findUser(userIdToFollow);
+        Verifications.verifyUserExist(user, userId);
+        Verifications.verifyUserExist(seller, userIdToFollow);
+
+        Verifications.verifyUserIsSeller(seller);
+        Verifications.verifyUserFollowsSeller(user, seller);
+
+        seller.getFollowersId().add(userId);
+        user.getFollowedId().add(userIdToFollow);
         return new SimpleMessageDTO("El usuario con id:" + userId + " ahora sigue a vendedor con id:" + userIdToFollow);
     }
 
