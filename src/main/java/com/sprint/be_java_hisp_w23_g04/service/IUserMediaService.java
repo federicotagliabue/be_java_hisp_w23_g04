@@ -8,7 +8,7 @@ import java.util.List;
 public interface IUserMediaService {
     List<UserDTO> getAllUsers();
 
-    FollowedListDTO getFollowedByUserId(Integer id, String order);
+    BuyerDTO getFollowedByUserId(Integer id, String order);
 
     BuyerDTO getFollowersByUserId(Integer userId, String order);
 

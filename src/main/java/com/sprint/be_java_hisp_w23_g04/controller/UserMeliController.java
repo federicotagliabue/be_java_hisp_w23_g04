@@ -1,5 +1,7 @@
 package com.sprint.be_java_hisp_w23_g04.controller;
 
+import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
+import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,17 +38,36 @@ public class UserMeliController {
         return new ResponseEntity<>(socialMediaService.followersCount(userId), HttpStatus.OK);
     }
 
-    // US-0003 -> Should be return followers of user id
+    /**
+     * US-0003 Return all followers of a user.
+     * <p>
+     * With the order parameter we can sort them descendingly and ascendingly.
+     *
+     * @param userId The ID of the user whose followers are to be retried.
+     * @param order  The shorting criteria for the returned list. Defaults to 'name_asc'.
+     * @return A ResponseEntity containing the sorted list of followers
+     * @throws NotFoundException If the user with the given userId does not exist.
+     * @throws NoContentException If the user exists but no have followers.
+     */
     @GetMapping("/{userId}/followers/list")
     public ResponseEntity<?> getAllFollowersByUserId(@PathVariable Integer userId,
                                                      @RequestParam(defaultValue = "name_asc") String order) {
         return new ResponseEntity<>(userMediaService.getFollowersByUserId(userId, order), HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a list of sellers followed by a given user, sorted based on the specified order.
+     *
+     * @param userId The ID of the user whose followed sellers are to be retrieved.
+     * @param order  The sorting criteria for the returned list (e.g., 'name_asc'). Defaults to 'name_asc'.
+     * @return A ResponseEntity containing the sorted list of followed sellers or 204 No Content if none are followed.
+     * @throws NotFoundException  If the user with the given userId does not exist.
+     * @throws NoContentException If the user exists but follows no sellers.
+     */
     @GetMapping("/{userId}/followed/list")
     public ResponseEntity<?> getFollowedByUserId(@PathVariable Integer userId,
                                                  @RequestParam(defaultValue = "name_asc") String order) {
-        return new ResponseEntity<>(socialMediaService.getFollowedByUserId(userId, order), HttpStatus.OK);
+        return new ResponseEntity<>(userMediaService.getFollowedByUserId(userId, order), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
