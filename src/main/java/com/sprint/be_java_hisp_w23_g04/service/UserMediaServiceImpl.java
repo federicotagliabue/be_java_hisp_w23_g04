@@ -7,8 +7,6 @@ import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
 import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
-import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
-import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
 import org.springframework.stereotype.Service;
@@ -34,11 +32,11 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
     @Override
     public SimpleMessageDTO followSellerUser(Integer userId, Integer userIdToFollow) {
-        User user = userMediaRepository.findUser(userId);
-        User seller = userMediaRepository.findUser(userIdToFollow);
+        User user = userGateway.findUser(userId);
+        User seller = userGateway.findUser(userIdToFollow);
         Verifications.verifyUserExist(user, userId);
         Verifications.verifyUserExist(seller, userIdToFollow);
-
+        Verifications.verifyDistinctsUser(user, seller);
         Verifications.verifyUserIsSeller(seller);
         Verifications.verifyUserFollowsSeller(user, seller);
 
