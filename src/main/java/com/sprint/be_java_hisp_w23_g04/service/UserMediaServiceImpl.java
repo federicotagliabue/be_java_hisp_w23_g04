@@ -4,14 +4,11 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
 import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
-import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
-import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 
-import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExist;
+import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExistOld;
 
 @Service
 public class UserMediaServiceImpl implements IUserMediaService {

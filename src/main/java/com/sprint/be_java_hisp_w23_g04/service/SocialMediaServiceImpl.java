@@ -6,7 +6,6 @@ import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.repository.ISocialMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.SocialMediaRepositoryImpl;
-import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
 import com.sprint.be_java_hisp_w23_g04.utils.PostMapper;
 import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
@@ -18,7 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExist;
+import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExistOld;
 
 @Service
 public class SocialMediaServiceImpl implements ISocialMediaService {
@@ -39,8 +38,8 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     public SimpleMessageDTO followSellerUser(Integer userId, Integer userIdToFollow) {
         User user = socialMediaRepository.findUser(userId);
         User seller = socialMediaRepository.findUser(userIdToFollow);
-        Verifications.verifyUserExist(user, userId);
-        Verifications.verifyUserExist(seller, userIdToFollow);
+        Verifications.verifyUserExistOld(user, userId);
+        Verifications.verifyUserExistOld(seller, userIdToFollow);
 
         Verifications.verifyUserIsSeller(seller);
         Verifications.verifyUserFollowsSeller(user, seller);
@@ -54,7 +53,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     public FollowersCountDTO followersCount(Integer userId) {
         User user = socialMediaRepository.findUser(userId);
 
-        verifyUserExist(user);
+        Verifications.verifyUserExistOld(user);
 
         return new FollowersCountDTO(
                 user.getId(),
@@ -67,7 +66,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     public FollowedListDTO getFollowedByUserId(Integer id, String order) {
         User user = socialMediaRepository.findUser(id);
 
-        verifyUserExist(user);
+        Verifications.verifyUserExistOld(user);
         List<User> followedByUser = user.getFollowed();
 
         Verifications.validateEmptyResponseList(followedByUser);
@@ -102,7 +101,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     public FollowersListDTO getFollowersByUserId(int userId, String order) {
         User user = this.socialMediaRepository.findUser(userId);
 
-        verifyUserExist(user);
+        Verifications.verifyUserExistOld(user);
 
         List<User> userFollowers = user.getFollowers();
 
@@ -117,8 +116,8 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     public SimpleMessageDTO unfollowUser(int userId, int unfollowId) {
         User user = socialMediaRepository.findUser(userId);
         User unfollowedUser = socialMediaRepository.findUser(unfollowId);
-        Verifications.verifyUserExist(user, userId);
-        Verifications.verifyUserExist(unfollowedUser, unfollowId);
+        Verifications.verifyUserExistOld(user, userId);
+        Verifications.verifyUserExistOld(unfollowedUser, unfollowId);
         Verifications.verifyUserIsFollowed(user, unfollowedUser);
         Verifications.verifyUserIsFollower(unfollowedUser, user);
 
@@ -132,7 +131,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         List<Post> posts = new ArrayList<>();
         User user = socialMediaRepository.findUser(post.getUserId());
 
-        verifyUserExist(user);
+        Verifications.verifyUserExistOld(user);
         int postId = socialMediaRepository.getNextPostId(user);
 
         posts.add(UserMapper.mapPost(post, postId));
@@ -147,7 +146,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     public FilteredPostsDTO getFilteredPosts(int userId, String order) {
         User user = socialMediaRepository.findUser(userId);
 
-        Verifications.verifyUserExist(user);
+        Verifications.verifyUserExistOld(user);
         Verifications.verifyUserHasFollowedSellers(user);
 
         LocalDate filterDate = LocalDate.now().minusWeeks(2);

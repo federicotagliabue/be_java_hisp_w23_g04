@@ -11,17 +11,25 @@ import java.util.Optional;
 
 public class Verifications {
 
-    public static void verifyUserExist(User user, int id) {
+    public static void verifyUserExistOld(User user, int id) {
         if (user == null) {
             throw new NotFoundException("No se encontró usuario con el id " + id+".");
         }
     }
 
-    public static void verifyUserExist(User user) {
+    public static void verifyUserExistOld(User user) {
         if (user == null) {
             throw new NotFoundException("No se encontró usuario con el id proporcionado.");
         }
     }
+
+    public static void verifyUserExist(com.sprint.be_java_hisp_w23_g04.entityNew.User user) {
+        if (user == null) {
+            throw new NotFoundException("No se encontró usuario con el id proporcionado.");
+        }
+    }
+
+
 
     public static void verifyUserIsSeller(User seller){
         if (!isSeller(seller)) {
@@ -63,7 +71,6 @@ public class Verifications {
     private static User userHasFollowed(User unfollowedUser, User user){
         return unfollowedUser.getFollowers().stream().filter(follower -> Objects.equals(follower.getId(), user.getId())).findAny().orElse(null);
     }
-
 
     public static void verifyUserHasFollowedSellers(User user) {
         if(user.getFollowed().isEmpty()){
