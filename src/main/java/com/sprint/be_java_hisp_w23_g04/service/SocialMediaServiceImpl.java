@@ -1,23 +1,20 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
-import com.sprint.be_java_hisp_w23_g04.dto.response.FollowedListDTO;
-import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
-import com.sprint.be_java_hisp_w23_g04.dto.response.UserFollowDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
+import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.repository.ISocialMediaRepository;
+import com.sprint.be_java_hisp_w23_g04.repository.SocialMediaRepositoryImpl;
+import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
 import com.sprint.be_java_hisp_w23_g04.utils.PostMapper;
 import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import org.springframework.stereotype.Service;
-import com.sprint.be_java_hisp_w23_g04.entity.User;
-import com.sprint.be_java_hisp_w23_g04.repository.ISocialMediaRepository;
-import com.sprint.be_java_hisp_w23_g04.repository.SocialMediaRepositoryImpl;
 
-import javax.xml.validation.Validator;
 import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,8 +25,8 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
 
     private final ISocialMediaRepository socialMediaRepository;
 
-    public SocialMediaServiceImpl(SocialMediaRepositoryImpl socialMediaRepository) {
-        this.socialMediaRepository = socialMediaRepository;
+    public SocialMediaServiceImpl(SocialMediaRepositoryImpl socialMediaService) {
+        this.socialMediaRepository = socialMediaService;
     }
 
     @Override
@@ -101,7 +98,6 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
                 .toList();
     }
 
-
     @Override
     public FollowersListDTO getFollowersByUserId(int userId, String order) {
         User user = this.socialMediaRepository.findUser(userId);
@@ -115,6 +111,20 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         List<UserFollowDTO> followers = sortedFollow(userFollowers, order);
 
         return new FollowersListDTO(user.getId(), user.getName(), followers);
+    }
+
+    @Override
+    public SimpleMessageDTO unfollowUser(int userId, int unfollowId) {
+        User user = socialMediaRepository.findUser(userId);
+        User unfollowedUser = socialMediaRepository.findUser(unfollowId);
+        Verifications.verifyUserExist(user, userId);
+        Verifications.verifyUserExist(unfollowedUser, unfollowId);
+        Verifications.verifyUserIsFollowed(user, unfollowedUser);
+        Verifications.verifyUserIsFollower(unfollowedUser, user);
+
+        socialMediaRepository.unfollowUser(userId, unfollowId);
+
+        return new SimpleMessageDTO("El usuario " + unfollowedUser.getName() + " Id: " + unfollowedUser.getId() + " ya no es seguido por el usuario " + user.getName() + " Id: " + user.getId());
     }
 
     @Override
@@ -134,20 +144,6 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     }
 
     @Override
-    public SimpleMessageDTO unfollowUser(int userId, int unfollowId) {
-        User user = socialMediaRepository.findUser(userId);
-        User unfollowedUser = socialMediaRepository.findUser(unfollowId);
-        Verifications.verifyUserExist(user, userId);
-        Verifications.verifyUserExist(unfollowedUser, unfollowId);
-        Verifications.verifyUserIsFollowed(user, unfollowedUser);
-        Verifications.verifyUserIsFollower(unfollowedUser, user);
-
-        socialMediaRepository.unfollowUser(userId, unfollowId);
-
-        return new SimpleMessageDTO("El usuario " + unfollowedUser.getName() + " Id: " + unfollowedUser.getId() + " ya no es seguido por el usuario " + user.getName() + " Id: " + user.getId());
-    }
-
-    @Override
     public FilteredPostsDTO getFilteredPosts(int userId, String order) {
         User user = socialMediaRepository.findUser(userId);
 
@@ -157,14 +153,14 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         LocalDate filterDate = LocalDate.now().minusWeeks(2);
 
         List<PostResponseDTO> filteredPosts = user.getFollowed().stream()
-                                                  .flatMap(seller -> socialMediaRepository.findUser(seller.getId()).getPosts().stream()
-                                                  .filter(post -> post.getDate().isAfter(filterDate))
-                                                  .map(post -> PostMapper.PostRequestDTOMapper(seller.getId(), post)))
-                                                  .collect(Collectors.toList());
+                .flatMap(seller -> socialMediaRepository.findUser(seller.getId()).getPosts().stream()
+                        .filter(post -> post.getDate().isAfter(filterDate))
+                        .map(post -> PostMapper.PostRequestDTOMapper(seller.getId(), post)))
+                .collect(Collectors.toList());
 
         Verifications.validateEmptyResponseList(filteredPosts);
 
-        switch (order){
+        switch (order) {
             case "date_asc" -> filteredPosts = orderAsc(filteredPosts);
             case "date_desc" -> filteredPosts = orderDesc(filteredPosts);
         }
@@ -172,13 +168,13 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         return new FilteredPostsDTO(userId, filteredPosts);
     }
 
-    private List<PostResponseDTO> orderAsc(List<PostResponseDTO> list){
-       return list.stream()
+    private List<PostResponseDTO> orderAsc(List<PostResponseDTO> list) {
+        return list.stream()
                 .sorted(Comparator.comparing(PostDTO::getDate))
                 .collect(Collectors.toList());
     }
 
-    private List<PostResponseDTO> orderDesc(List<PostResponseDTO> list){
+    private List<PostResponseDTO> orderDesc(List<PostResponseDTO> list) {
         return list.stream()
                 .sorted((p1, p2) -> p2.getDate().compareTo(p1.getDate()))
                 .collect(Collectors.toList());

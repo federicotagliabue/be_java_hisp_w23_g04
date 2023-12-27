@@ -1,20 +1,14 @@
 package com.sprint.be_java_hisp_w23_g04.repository;
 
-import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.entityNew.User;
 
 import java.util.List;
 
-public interface ISocialMediaRepository {
+public interface IUserMediaRepository {
     List<User> findAllUsers();
 
     User findUser(Integer userId);
 
     void unfollowUser(int userId, int unfollowedUserId);
-
-
-    int getNextPostId(User user);
-
-    void savePost(User user);
-
-
+    List<User> getByIds(List<Integer> listIds);
 }
