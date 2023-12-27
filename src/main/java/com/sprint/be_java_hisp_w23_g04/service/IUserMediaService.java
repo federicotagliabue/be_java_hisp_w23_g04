@@ -6,7 +6,7 @@ import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
 import java.util.List;
 
 public interface IUserMediaService {
-    List<UserDTO> getAllUsers();
+    List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> getAllUsers();
 
     BuyerDTO getFollowedByUserId(Integer id, String order);
 

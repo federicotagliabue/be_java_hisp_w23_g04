@@ -17,6 +17,11 @@ public class UserGatewayImp implements IUserGateway {
     }
 
     @Override
+    public List<User> getAllUsers() {
+        return userMediaRepository.getAllUsers();
+    }
+
+    @Override
     public User findUser(Integer userId) {
         return userMediaRepository.findUser(userId);
     }

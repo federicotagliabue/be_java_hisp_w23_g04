@@ -7,15 +7,12 @@ import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
 import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
-import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
-import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -28,8 +25,9 @@ public class UserMediaServiceImpl implements IUserMediaService {
     }
 
     @Override
-    public List<UserDTO> getAllUsers() {
-        return null;
+    public List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> getAllUsers() {
+        List<User> users = userGateway.getAllUsers();
+        return users.stream().map(UserMapper::mapUser).toList();
     }
 
     @Override
@@ -68,11 +66,13 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
 
     /**
-     * US-0003 Generate a response object
+     * Retrieves and sorts a user's followed sellers based on the specified order.
      *
      * @param userId The ID of the user whose followers are to be retried.
      * @param order  The shorting criteria for the returned list.
-     * @return BuyerDTO With information
+     * @return BuyerDTO with user details and sorted list of followed UserDTOs
+     * @throws NotFoundException  If the user with the given userId doesn't exist.
+     * @throws NoContentException If the user exists but follows no sellers.
      */
     @Override
     public BuyerDTO getFollowersByUserId(Integer userId, String order) {
