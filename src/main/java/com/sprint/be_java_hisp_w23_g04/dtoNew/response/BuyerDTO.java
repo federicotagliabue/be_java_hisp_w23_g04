@@ -14,4 +14,9 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BuyerDTO extends UserDTO{
     private List<UserDTO> followed;
+
+    public BuyerDTO(Integer id, String name, List<UserDTO> followed) {
+        super(id, name);
+        this.followed = followed;
+    }
 }
