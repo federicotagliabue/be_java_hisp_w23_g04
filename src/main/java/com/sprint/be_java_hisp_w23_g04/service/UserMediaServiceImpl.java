@@ -3,24 +3,23 @@ package com.sprint.be_java_hisp_w23_g04.service;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
-import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
-import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
+import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
+import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
 public class UserMediaServiceImpl implements IUserMediaService {
 
-    private final IUserMediaRepository userMediaRepository;
+    private final IUserGateway userGateway;
 
-    public UserMediaServiceImpl(UserMediaRepositoryImpl userMediaRepository) {
-        this.userMediaRepository = userMediaRepository;
+    public UserMediaServiceImpl(UserGatewayImp userGateway) {
+        this.userGateway = userGateway;
     }
 
     @Override
@@ -42,13 +41,20 @@ public class UserMediaServiceImpl implements IUserMediaService {
         return new FollowedListDTO();
     }
 
+    /**
+     * US-0003 Generate a response object
+     *
+     * @param userId The ID of the user whose followers are to be retried.
+     * @param order  The shorting criteria for the returned list.
+     * @return BuyerDTO With information
+     */
     @Override
     public BuyerDTO getFollowersByUserId(Integer userId, String order) {
-        User user = this.userMediaRepository.findUser(userId);
+        User user = this.userGateway.findUser(userId);
 
         Verifications.verifyUserExist(user, userId);
 
-        List<User> userFollowers = userMediaRepository.getByIds(user.getFollowersId());
+        List<User> userFollowers = userGateway.getByIds(user.getFollowersId());
 
         Verifications.validateEmptyResponseList(userFollowers);
 
