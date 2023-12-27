@@ -20,7 +20,6 @@ public class PostMediaRepositoryImpl implements IPostMediaRepository {
 
     public PostMediaRepositoryImpl() {
         this.posts = loadDataBase();
-        System.out.println(posts);
     }
 
     private List<Post> loadDataBase() {
@@ -46,11 +45,31 @@ public class PostMediaRepositoryImpl implements IPostMediaRepository {
         return posts;
     }
 
+    /**
+     * Retrieves the next available id from the list of posts
+     *
+     * @return The next available id from the list of posts
+     */
+    @Override
+    public int getNextId() {
+        return posts.size() + 1;
+    }
+
     @Override
     public List<Post> getByIds(List<Integer> listIds) {
         return posts.stream().filter(
                         p -> listIds.contains(p.getId())).
                 collect(Collectors.toCollection(ArrayList::new));
 
+    }
+
+    /**
+     * Adds a new post to the list of posts
+     *
+     * @param post The post to be saved
+     */
+    @Override
+    public void save(Post post) {
+        posts.add(post);
     }
 }

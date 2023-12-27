@@ -17,7 +17,14 @@ public class Verifications {
         }
     }
 
+    //TODO: Eliminar
     public static void verifyUserExist(User user) {
+        if (user == null) {
+            throw new NotFoundException("No se encontró usuario con el id proporcionado.");
+        }
+    }
+
+    public static void verifyUserExist(com.sprint.be_java_hisp_w23_g04.entityNew.User user) {
         if (user == null) {
             throw new NotFoundException("No se encontró usuario con el id proporcionado.");
         }
