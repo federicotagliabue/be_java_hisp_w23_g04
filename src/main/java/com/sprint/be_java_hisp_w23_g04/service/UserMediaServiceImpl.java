@@ -3,6 +3,8 @@ package com.sprint.be_java_hisp_w23_g04.service;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
+import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
+import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
@@ -36,6 +38,22 @@ public class UserMediaServiceImpl implements IUserMediaService {
     public FollowersCountDTO followersCount(Integer userId) {
         return new FollowersCountDTO();
     }
+
+    /**
+     * Fetches and sorts a list of sellers that a specific user follows. This method performs
+     * the core logic for retrieving and ordering the data based on user preferences.
+     *
+     * @param userId The ID of the user whose followed sellers are to be retrieved. It's used to
+     *               identify the user in the database and fetch their followed sellers list.
+     * @param order  The sorting criteria for the returned list (e.g., 'name_asc'). Defaults to
+     *               'name_asc' if not specified.
+     * @return BuyerDTO containing the user's ID, name, and a sorted list of followed UserDTOs.
+     * Returns an empty list if the user follows no sellers.
+     * @throws NotFoundException  If no user with the given userId is found, indicating an attempt
+     *                            to retrieve data for a non-existent user.
+     * @throws NoContentException If the user exists but follows no sellers, indicating a valid user
+     *                            with an empty following list.
+     */
 
     @Override
     public BuyerDTO getFollowedByUserId(Integer userId, String order) {
