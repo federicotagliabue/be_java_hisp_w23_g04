@@ -3,14 +3,20 @@ package com.sprint.be_java_hisp_w23_g04.service;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
+<<<<<<< HEAD
 import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
 import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
+=======
+import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
+import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
+>>>>>>> ab241c945a9f05ae3f27e58cd1347a9778825b6a
 import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -41,6 +47,7 @@ public class UserMediaServiceImpl implements IUserMediaService {
         return new FollowedListDTO();
     }
 
+<<<<<<< HEAD
     /**
      * US-0003 Generate a response object
      *
@@ -55,6 +62,15 @@ public class UserMediaServiceImpl implements IUserMediaService {
         Verifications.verifyUserExist(user, userId);
 
         List<User> userFollowers = userGateway.getByIds(user.getFollowersId());
+=======
+    @Override
+    public BuyerDTO getFollowersByUserId(Integer userId, String order) {
+        User user = this.userMediaRepository.findUser(userId);
+
+        Verifications.verifyUserExist(user, userId);
+
+        List<User> userFollowers = userMediaRepository.getByIds(user.getFollowersId());
+>>>>>>> ab241c945a9f05ae3f27e58cd1347a9778825b6a
 
         Verifications.validateEmptyResponseList(userFollowers);
 

@@ -38,6 +38,7 @@ public class UserMeliController {
         return new ResponseEntity<>(socialMediaService.followersCount(userId), HttpStatus.OK);
     }
 
+<<<<<<< HEAD
     /**
      * US-0003 Return all followers of a user.
      * <p>
@@ -49,6 +50,9 @@ public class UserMeliController {
      * @throws NotFoundException If the user with the given userId does not exist.
      * @throws NoContentException If the user exists but no have followers.
      */
+=======
+    // US-0003 -> Should be return followers of user id
+>>>>>>> ab241c945a9f05ae3f27e58cd1347a9778825b6a
     @GetMapping("/{userId}/followers/list")
     public ResponseEntity<?> getAllFollowersByUserId(@PathVariable Integer userId,
                                                      @RequestParam(defaultValue = "name_asc") String order) {
