@@ -38,9 +38,20 @@ public class UserMediaServiceImpl implements IUserMediaService {
     }
 
     @Override
-    public FollowedListDTO getFollowedByUserId(Integer id, String order) {
-        return new FollowedListDTO();
+    public BuyerDTO getFollowedByUserId(Integer userId, String order) {
+        User user = this.userMediaRepository.findUser(userId);
+
+        Verifications.verifyUserExist(user, userId);
+
+        List<User> userFollowers = userMediaRepository.getByIds(user.getFollowedId());
+
+        Verifications.validateEmptyResponseList(userFollowers);
+
+        List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> followed = sortedFollow(userFollowers, order);
+
+        return new BuyerDTO(user.getId(), user.getName(), followed);
     }
+
 
     @Override
     public BuyerDTO getFollowersByUserId(Integer userId, String order) {

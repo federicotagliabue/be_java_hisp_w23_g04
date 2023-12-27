@@ -1,5 +1,7 @@
 package com.sprint.be_java_hisp_w23_g04.controller;
 
+import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
+import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,10 +45,19 @@ public class UserMeliController {
         return new ResponseEntity<>(userMediaService.getFollowersByUserId(userId, order), HttpStatus.OK);
     }
 
+    /**
+     * Retrieves a list of sellers followed by a given user, sorted based on the specified order.
+     *
+     * @param userId The ID of the user whose followed sellers are to be retrieved.
+     * @param order  The sorting criteria for the returned list (e.g., 'name_asc'). Defaults to 'name_asc'.
+     * @return A ResponseEntity containing the sorted list of followed sellers or 204 No Content if none are followed.
+     * @throws NotFoundException  If the user with the given userId does not exist.
+     * @throws NoContentException If the user exists but follows no sellers.
+     */
     @GetMapping("/{userId}/followed/list")
     public ResponseEntity<?> getFollowedByUserId(@PathVariable Integer userId,
                                                  @RequestParam(defaultValue = "name_asc") String order) {
-        return new ResponseEntity<>(socialMediaService.getFollowedByUserId(userId, order), HttpStatus.OK);
+        return new ResponseEntity<>(userMediaService.getFollowedByUserId(userId, order), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
