@@ -5,6 +5,8 @@ import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
+import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
+import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
 import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
@@ -19,10 +21,10 @@ import java.util.stream.Collectors;
 @Service
 public class UserMediaServiceImpl implements IUserMediaService {
 
-    private final IUserMediaRepository userMediaRepository;
+    private final IUserGateway userGateway;
 
-    public UserMediaServiceImpl(UserMediaRepositoryImpl userMediaRepository) {
-        this.userMediaRepository = userMediaRepository;
+    public UserMediaServiceImpl(UserGatewayImp userGateway) {
+        this.userGateway = userGateway;
     }
 
     @Override
@@ -40,28 +42,22 @@ public class UserMediaServiceImpl implements IUserMediaService {
     }
 
     /**
-     * Fetches and sorts a list of sellers that a specific user follows. This method performs
-     * the core logic for retrieving and ordering the data based on user preferences.
+     * Retrieves and sorts a user's followed sellers based on the specified order.
      *
-     * @param userId The ID of the user whose followed sellers are to be retrieved. It's used to
-     *               identify the user in the database and fetch their followed sellers list.
-     * @param order  The sorting criteria for the returned list (e.g., 'name_asc'). Defaults to
-     *               'name_asc' if not specified.
-     * @return BuyerDTO containing the user's ID, name, and a sorted list of followed UserDTOs.
-     * Returns an empty list if the user follows no sellers.
-     * @throws NotFoundException  If no user with the given userId is found, indicating an attempt
-     *                            to retrieve data for a non-existent user.
-     * @throws NoContentException If the user exists but follows no sellers, indicating a valid user
-     *                            with an empty following list.
+     * @param userId ID of the user to retrieve followed sellers for.
+     * @param order  Sorting order for the list, defaulting to 'name_asc'.
+     * @return BuyerDTO with user details and sorted list of followed UserDTOs, or 204 No Content if none are followed.
+     * @throws NotFoundException  If the user with the given userId doesn't exist.
+     * @throws NoContentException If the user exists but follows no sellers.
      */
 
     @Override
     public BuyerDTO getFollowedByUserId(Integer userId, String order) {
-        User user = this.userMediaRepository.findUser(userId);
+        User user = this.userGateway.findUser(userId);
 
         Verifications.verifyUserExist(user, userId);
 
-        List<User> userFollowers = userMediaRepository.getByIds(user.getFollowedId());
+        List<User> userFollowers = userGateway.getByIds(user.getFollowedId());
 
         Verifications.validateEmptyResponseList(userFollowers);
 
@@ -71,13 +67,20 @@ public class UserMediaServiceImpl implements IUserMediaService {
     }
 
 
+    /**
+     * US-0003 Generate a response object
+     *
+     * @param userId The ID of the user whose followers are to be retried.
+     * @param order  The shorting criteria for the returned list.
+     * @return BuyerDTO With information
+     */
     @Override
     public BuyerDTO getFollowersByUserId(Integer userId, String order) {
-        User user = this.userMediaRepository.findUser(userId);
+        User user = this.userGateway.findUser(userId);
 
         Verifications.verifyUserExist(user, userId);
 
-        List<User> userFollowers = userMediaRepository.getByIds(user.getFollowersId());
+        List<User> userFollowers = userGateway.getByIds(user.getFollowersId());
 
         Verifications.validateEmptyResponseList(userFollowers);
 

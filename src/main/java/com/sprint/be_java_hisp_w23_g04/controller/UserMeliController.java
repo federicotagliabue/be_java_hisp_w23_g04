@@ -38,7 +38,17 @@ public class UserMeliController {
         return new ResponseEntity<>(socialMediaService.followersCount(userId), HttpStatus.OK);
     }
 
-    // US-0003 -> Should be return followers of user id
+    /**
+     * US-0003 Return all followers of a user.
+     * <p>
+     * With the order parameter we can sort them descendingly and ascendingly.
+     *
+     * @param userId The ID of the user whose followers are to be retried.
+     * @param order  The shorting criteria for the returned list. Defaults to 'name_asc'.
+     * @return A ResponseEntity containing the sorted list of followers
+     * @throws NotFoundException If the user with the given userId does not exist.
+     * @throws NoContentException If the user exists but no have followers.
+     */
     @GetMapping("/{userId}/followers/list")
     public ResponseEntity<?> getAllFollowersByUserId(@PathVariable Integer userId,
                                                      @RequestParam(defaultValue = "name_asc") String order) {
