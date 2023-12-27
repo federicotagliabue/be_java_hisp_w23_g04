@@ -61,7 +61,15 @@ public class UserMediaRepositoryImpl implements IUserMediaRepository {
 
     @Override
     public void unfollowUser(int userId, int unfollowedUserId) {
+        findUser(userId)
+                .getFollowedId()
+                .removeIf(actualUserId ->
+                        actualUserId == unfollowedUserId);
 
+        findUser(unfollowedUserId)
+                .getFollowersId()
+                .removeIf(actualUserId ->
+                        actualUserId == userId);
     }
 
     @Override

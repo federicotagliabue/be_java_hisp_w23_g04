@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.*;
 public class UserMeliController {
 
     // Dejamos la injeccion del camino bueno. Cambiar esto a medida que se desarrolle el nuevo camino
-    private final ISocialMediaService userMediaService;
+    private final IUserMediaService userMediaService;
 
-    public UserMeliController(SocialMediaServiceImpl userMediaService) {
+    public UserMeliController(IUserMediaService userMediaService) {
         this.userMediaService = userMediaService;
     }
 

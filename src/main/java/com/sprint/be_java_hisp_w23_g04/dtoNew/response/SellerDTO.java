@@ -14,7 +14,13 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class SellerDTO extends BuyerDTO {
-    private List<UserDTO> followers;
+    private List<Integer> followers;
     @JsonProperty("followers_count")
     private Integer followersCount;
+
+    public SellerDTO(Integer id, String name, List<Integer> followed, List<Integer> followers, Integer followersCount) {
+        super(id, name, followed);
+        this.followers = followers;
+        this.followersCount = followersCount;
+    }
 }
