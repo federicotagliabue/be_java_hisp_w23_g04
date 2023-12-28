@@ -38,13 +38,13 @@
     "id": 6,
     "name": "Diego Lopez",
     "posts_id": [],
-    "followed_id": [1],
+    "followed_id": [7],
     "followers_id": []
   },
   {
     "id": 7,
     "name": "Penelope cruz",
-    "posts_id": [4],
+    "posts_id": [5],
     "followed_id": [],
     "followers_id": []
   },
