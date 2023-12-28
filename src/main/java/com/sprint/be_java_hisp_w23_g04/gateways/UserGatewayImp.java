@@ -10,10 +10,26 @@ import java.util.List;
 @Component
 public class UserGatewayImp implements IUserGateway {
 
-    private IUserMediaRepository userMediaRepository;
+    private final IUserMediaRepository userMediaRepository;
 
     public UserGatewayImp(UserMediaRepositoryImpl userMediaRepository) {
         this.userMediaRepository = userMediaRepository;
+    }
+
+    /**
+     * Retrieves a user based on their user ID.
+     * <p>
+     * This method is a straightforward lookup that delegates the task of finding a user to the userMediaRepository.
+     * It takes a user ID as an input and returns the corresponding User object. The method provides a direct way
+     * to access user details stored in the repository. If no user is found with the given ID, the behavior depends
+     * on the implementation of the userMediaRepository's findUser method, which might return null or throw an exception.
+     *
+     * @param userId The ID of the user to be retrieved.
+     * @return User The User object corresponding to the provided userId, or null if no user is found.
+     */
+    @Override
+    public List<User> getAllUsers() {
+        return userMediaRepository.getAllUsers();
     }
 
     @Override
@@ -29,10 +45,5 @@ public class UserGatewayImp implements IUserGateway {
     @Override
     public void unfollowUser(int userId, int unfollowId){
         userMediaRepository.unfollowUser(userId, unfollowId);
-    }
-
-    @Override
-    public List<User> findAll(){
-        return userMediaRepository.findAllUsers();
     }
 }

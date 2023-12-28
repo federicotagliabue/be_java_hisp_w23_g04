@@ -1,28 +1,38 @@
 package com.sprint.be_java_hisp_w23_g04.controller;
 
-import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.request.PostDTO;
 import com.sprint.be_java_hisp_w23_g04.service.ISocialMediaService;
 import com.sprint.be_java_hisp_w23_g04.service.SocialMediaServiceImpl;
+import com.sprint.be_java_hisp_w23_g04.service.IPostMediaService;
+import com.sprint.be_java_hisp_w23_g04.service.PostMediaServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.sprint.be_java_hisp_w23_g04.service.IProductMediaService;
-import com.sprint.be_java_hisp_w23_g04.service.ProductMediaServiceImpl;
+import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 
 @RestController
 @RequestMapping("/products")
 public class ProductsMeliController {
     // Dejamos la injeccion del camino bueno. Cambiar esto a medida que se desarrolle el nuevo camino
     private final ISocialMediaService productMediaService;
+    private final IPostMediaService postMediaService;
 
-    public ProductsMeliController(SocialMediaServiceImpl productMediaService) {
+    public ProductsMeliController(SocialMediaServiceImpl productMediaService,
+                                  PostMediaServiceImpl postMediaService) {
         this.productMediaService = productMediaService;
+        this.postMediaService = postMediaService;
     }
 
-
+    /**
+     * US-0005 Saves a new post
+     *
+     * @param post The post to be saved
+     * @return A ResponseEntity containing successfully saving message
+     * @throws NotFoundException If the user with de given userId does not exist
+     */
     @PostMapping("/post")
     public ResponseEntity<?> savePost(@RequestBody PostDTO post) {
-        return new ResponseEntity<>(productMediaService.savePost(post), HttpStatus.OK);
+        return new ResponseEntity<>(postMediaService.savePost(post), HttpStatus.OK);
     }
 
 

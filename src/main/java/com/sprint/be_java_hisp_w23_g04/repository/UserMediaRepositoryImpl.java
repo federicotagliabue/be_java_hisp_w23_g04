@@ -48,7 +48,7 @@ public class UserMediaRepositoryImpl implements IUserMediaRepository {
     }
 
     @Override
-    public List<User> findAllUsers() {
+    public List<User> getAllUsers() {
         return this.users;
     }
 

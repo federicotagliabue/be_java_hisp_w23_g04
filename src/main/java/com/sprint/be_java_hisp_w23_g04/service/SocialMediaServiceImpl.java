@@ -2,6 +2,7 @@ package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.SellerDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.repository.ISocialMediaRepository;
@@ -13,9 +14,7 @@ import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExist;
@@ -99,7 +98,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     }
 
     @Override
-    public FollowersListDTO getFollowersByUserId(int userId, String order) {
+    public FollowersListDTO getFollowersByUserId(Integer userId, String order) {
         User user = this.socialMediaRepository.findUser(userId);
 
         verifyUserExist(user);

@@ -5,7 +5,7 @@ import com.sprint.be_java_hisp_w23_g04.entityNew.User;
 import java.util.List;
 
 public interface IUserMediaRepository {
-    List<User> findAllUsers();
+    List<User> getAllUsers();
 
     User findUser(Integer userId);
 

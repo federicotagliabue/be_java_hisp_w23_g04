@@ -1,18 +1,19 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
-import com.sprint.be_java_hisp_w23_g04.dtoNew.response.*;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.SimpleMessageDTO;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.SellerDTO;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public interface IUserMediaService {
-    List<UserDTO> getAllUsers();
+    List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> getAllUsers();
 
-    UserDTO getFollowedByUserId(Integer id, String order);
+    BuyerDTO getFollowedByUserId(Integer id, String order);
 
-    UserDTO getFollowersByUserId(int userId, String order);
+    BuyerDTO getFollowersByUserId(Integer userId, String order);
 
-    Integer followersCount(Integer userId);
+    SellerDTO followersCount(Integer userId);
 
     SimpleMessageDTO followSellerUser(Integer userId, Integer userIdToFollow);
 
