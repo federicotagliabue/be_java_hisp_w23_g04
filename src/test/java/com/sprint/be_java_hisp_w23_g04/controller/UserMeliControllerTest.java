@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 
-import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.getBuyerDTO;
+import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.getBuyerAscendingDTO;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -30,12 +30,27 @@ class UserMeliControllerTest {
     @DisplayName("Verify that the alphabetical sort type exists")
     void test1() {
         // Arrange
-        BuyerDTO expectedBuyerDTO = getBuyerDTO();
+        BuyerDTO expectedBuyerDTO = getBuyerAscendingDTO();
         ResponseEntity<?> expectedResponse = new ResponseEntity<>(expectedBuyerDTO, HttpStatus.OK);
 
         // Act
         when(userService.getFollowersByUserId(any(), any())).thenReturn(expectedBuyerDTO);
         ResponseEntity<?> response = controller.getAllFollowersByUserId(1, "name_asc");
+
+        // Assert
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    @DisplayName("Verify the correct descending order by name")
+    void test2() {
+        // Arrange
+        BuyerDTO expectedBuyerDTO = getBuyerAscendingDTO();
+        ResponseEntity<?> expectedResponse = new ResponseEntity<>(expectedBuyerDTO, HttpStatus.OK);
+
+        // Act
+        when(userService.getFollowedByUserId(any(), any())).thenReturn(expectedBuyerDTO);
+        ResponseEntity<?> response = controller.getFollowedByUserId(1, "name_asc");
 
         // Assert
         assertEquals(expectedResponse, response);
