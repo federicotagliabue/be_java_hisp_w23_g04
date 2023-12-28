@@ -33,12 +33,29 @@ public class UserMediaServiceImplTest {
     UserMediaServiceImpl userService;
 
     @Test
-    @DisplayName("Verify that the alphabetical sort type exists in getFollowersByUserId")
+    @DisplayName("Verify that the alphabetical asc sort type exists in getFollowersByUserId")
     void test1() {
         // Arrange
         Integer userIdtoFind = 1;
         String orderCriteria = "name_asc";
         BuyerDTO expectedResponse = getBuyerAscendingDTO();
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(new User());
+        when(userGateway.getByIds(anyList())).thenReturn(getUsers());
+        BuyerDTO response = userService.getFollowersByUserId(userIdtoFind, orderCriteria);
+
+        // Assert
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    @DisplayName("Verify that the alphabetical dsc sort type exists in getFollowersByUserId")
+    void test7() {
+        // Arrange
+        Integer userIdtoFind = 1;
+        String orderCriteria = "name_dsc";
+        BuyerDTO expectedResponse = getBuyerDescendingDTO();
 
         // Act
         when(userGateway.findUser(any())).thenReturn(new User());
