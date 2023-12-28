@@ -71,7 +71,7 @@ public class UserMediaServiceImplTest {
         String orderCriteria = "name_asc";
 
         // Act
-        when(userGateway.findUser(any())).thenReturn(getUser());
+        when(userGateway.findUser(any())).thenReturn(new User());
         when(userGateway.getByIds(anyList())).thenReturn(List.of());
 
         // Assert
