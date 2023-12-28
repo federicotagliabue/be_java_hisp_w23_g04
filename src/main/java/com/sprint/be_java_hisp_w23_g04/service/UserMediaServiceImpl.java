@@ -107,22 +107,22 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
         Verifications.validateEmptyResponseList(userFollowers);
 
-        List<com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO> followed = sortedFollow(userFollowers, order);
+        List<UserDTO> followed = sortedFollow(userFollowers, order);
 
         return new BuyerDTO(user.getId(), user.getName(), followed);
     }
 
-    private List<com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO> sortedFollow(List<User> follows, String order) {
+    private List<UserDTO> sortedFollow(List<User> follows, String order) {
         if (order.equals("name_asc")) {
             return follows.stream()
                     .map(UserMapper::mapUser)
-                    .sorted(Comparator.comparing(com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO::getName))
+                    .sorted(Comparator.comparing(UserDTO::getName))
                     .toList();
         } else {
             return follows.stream()
                     .map(UserMapper::mapUser)
                     .sorted(Comparator.
-                            comparing(com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO::getName)
+                            comparing(UserDTO::getName)
                             .reversed())
                     .toList();
         }
