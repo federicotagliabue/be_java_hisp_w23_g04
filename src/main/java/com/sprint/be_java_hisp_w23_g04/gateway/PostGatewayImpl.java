@@ -1,4 +1,4 @@
-package com.sprint.be_java_hisp_w23_g04.gateways;
+package com.sprint.be_java_hisp_w23_g04.gateway;
 
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.repository.IPostMediaRepository;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-public class PostGatewayImp implements  IPostGateway{
+public class PostGatewayImpl implements  IPostGateway{
 
     private final IPostMediaRepository postMediaRepository;
 
-    public PostGatewayImp(PostMediaRepositoryImpl postMediaRepository) {
+    public PostGatewayImpl(PostMediaRepositoryImpl postMediaRepository) {
         this.postMediaRepository = postMediaRepository;
     }
 

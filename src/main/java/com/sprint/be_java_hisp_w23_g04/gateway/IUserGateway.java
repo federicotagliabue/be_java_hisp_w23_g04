@@ -1,4 +1,4 @@
-package com.sprint.be_java_hisp_w23_g04.gateways;
+package com.sprint.be_java_hisp_w23_g04.gateway;
 
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 

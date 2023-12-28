@@ -3,7 +3,7 @@ package com.sprint.be_java_hisp_w23_g04.service;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.entity.*;
 import com.sprint.be_java_hisp_w23_g04.exception.*;
-import com.sprint.be_java_hisp_w23_g04.gateways.*;
+import com.sprint.be_java_hisp_w23_g04.gateway.*;
 import com.sprint.be_java_hisp_w23_g04.utils.*;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +20,9 @@ public class ProductMediaServiceImpl implements IProductMediaService {
     private final IPostGateway postGateway;
     private final IProductGateway productGateway;
 
-    public ProductMediaServiceImpl(UserGatewayImp userGateway,
-                                   PostGatewayImp postGateway,
-                                   ProductGatewayImp productGateway) {
+    public ProductMediaServiceImpl(UserGatewayImpl userGateway,
+                                   PostGatewayImpl postGateway,
+                                   ProductGatewayImpl productGateway) {
         this.userGateway = userGateway;
         this.postGateway = postGateway;
         this.productGateway = productGateway;

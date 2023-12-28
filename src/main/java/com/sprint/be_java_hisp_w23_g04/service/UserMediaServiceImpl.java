@@ -6,8 +6,8 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.SellerDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
-import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
-import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
+import com.sprint.be_java_hisp_w23_g04.gateway.IUserGateway;
+import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
 import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,7 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
     private final IUserGateway userGateway;
 
-    public UserMediaServiceImpl(UserGatewayImp userGateway) {
+    public UserMediaServiceImpl(UserGatewayImpl userGateway) {
         this.userGateway = userGateway;
     }
 

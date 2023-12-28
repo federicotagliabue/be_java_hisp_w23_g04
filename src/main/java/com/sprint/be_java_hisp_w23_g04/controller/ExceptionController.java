@@ -1,5 +1,8 @@
-package com.sprint.be_java_hisp_w23_g04.exception;
+package com.sprint.be_java_hisp_w23_g04.controller;
 
+import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
+import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
+import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;

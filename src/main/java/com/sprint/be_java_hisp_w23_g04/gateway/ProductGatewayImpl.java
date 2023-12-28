@@ -1,4 +1,4 @@
-package com.sprint.be_java_hisp_w23_g04.gateways;
+package com.sprint.be_java_hisp_w23_g04.gateway;
 
 import com.sprint.be_java_hisp_w23_g04.entity.Product;
 import com.sprint.be_java_hisp_w23_g04.repository.IProductMediaRepository;
@@ -6,11 +6,11 @@ import com.sprint.be_java_hisp_w23_g04.repository.ProductMediaRepositoryImpl;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductGatewayImp implements  IProductGateway{
+public class ProductGatewayImpl implements  IProductGateway{
 
     IProductMediaRepository productRepository;
 
-    public ProductGatewayImp(ProductMediaRepositoryImpl productRepository){
+    public ProductGatewayImpl(ProductMediaRepositoryImpl productRepository){
         this.productRepository = productRepository;
     }
 

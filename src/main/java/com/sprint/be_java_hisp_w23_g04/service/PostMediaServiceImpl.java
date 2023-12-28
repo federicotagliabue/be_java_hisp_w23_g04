@@ -5,8 +5,8 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
-import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
-import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
+import com.sprint.be_java_hisp_w23_g04.gateway.IUserGateway;
+import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
 import com.sprint.be_java_hisp_w23_g04.repository.IPostMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.PostMediaRepositoryImpl;
 import com.sprint.be_java_hisp_w23_g04.utils.PostMapper;
@@ -23,7 +23,7 @@ public class PostMediaServiceImpl implements IPostMediaService {
     private final IUserGateway userGateway;
 
     public PostMediaServiceImpl(PostMediaRepositoryImpl postMediaRepository,
-                                UserGatewayImp userGateway) {
+                                UserGatewayImpl userGateway) {
         this.postMediaRepository = postMediaRepository;
         this.userGateway = userGateway;
     }

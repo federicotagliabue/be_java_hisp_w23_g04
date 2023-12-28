@@ -26,7 +26,7 @@ public class UserMediaRepositoryImpl implements IUserMediaRepository {
     private List<User> loadDataBase() {
         File file = null;
         try {
-            file = ResourceUtils.getFile("classpath:changeU.json");
+            file = ResourceUtils.getFile("classpath:users.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
