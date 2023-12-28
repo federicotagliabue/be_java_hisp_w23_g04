@@ -21,6 +21,12 @@ public class UserGatewayImp implements IUserGateway {
         return userMediaRepository.findUser(userId);
     }
 
+    /**
+     * Get users by list ids
+     *
+     * @param usersId list with users ids to get.
+     * @return the list of User
+     **/
     @Override
     public List<User> getByIds(List<Integer> usersId) {
         return userMediaRepository.getByIds(usersId);

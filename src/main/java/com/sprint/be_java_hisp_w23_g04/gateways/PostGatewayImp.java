@@ -16,6 +16,12 @@ public class PostGatewayImp implements  IPostGateway{
         this.postMediaRepository = postMediaRepository;
     }
 
+    /**
+    * Get posts by list ids
+    *
+    * @param postsIds list with posts ids to get.
+    * @return the list of Post
+    **/
     @Override
     public List<Post> getByIds(List<Integer> postsIds) {
         return this.postMediaRepository.getByIds(postsIds);

@@ -13,6 +13,13 @@ public class ProductGatewayImp implements  IProductGateway{
     public ProductGatewayImp(ProductMediaRepositoryImpl productRepository){
         this.productRepository = productRepository;
     }
+
+    /**
+     * Get posts by list ids
+     *
+     * @param id id of the product to get.
+     * @return the Product
+     **/
     @Override
     public Product getById(Integer id) {
         return this.productRepository.getById(id);
