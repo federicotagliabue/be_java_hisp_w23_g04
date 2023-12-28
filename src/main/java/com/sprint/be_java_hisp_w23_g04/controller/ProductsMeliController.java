@@ -5,6 +5,9 @@ import com.sprint.be_java_hisp_w23_g04.service.IProductMediaService;
 import com.sprint.be_java_hisp_w23_g04.service.ProductMediaServiceImpl;
 import com.sprint.be_java_hisp_w23_g04.service.IPostMediaService;
 import com.sprint.be_java_hisp_w23_g04.service.PostMediaServiceImpl;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,13 +33,14 @@ public class ProductsMeliController {
      * @throws NotFoundException If the user with de given userId does not exist
      */
     @PostMapping("/post")
-    public ResponseEntity<?> savePost(@RequestBody PostDTO post) {
+    public ResponseEntity<?> savePost(@Valid @RequestBody PostDTO post) {
         return new ResponseEntity<>(postMediaService.savePost(post), HttpStatus.OK);
     }
 
-
     @GetMapping("/followed/{userId}/list")
-    public ResponseEntity<?> getFilteredPost(@PathVariable Integer userId, @RequestParam(defaultValue = "date_asc") String order) {
+    public ResponseEntity<?> getFilteredPost(
+            @PathVariable @NotNull @Positive(message = "El id del usuario debe ser mayor a cero") Integer userId,
+            @RequestParam(defaultValue = "date_asc") String order) {
         return new ResponseEntity<>(productMediaService.getFilteredPosts(userId, order), HttpStatus.OK);
     }
 }
