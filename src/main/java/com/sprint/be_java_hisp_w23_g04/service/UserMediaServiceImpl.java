@@ -113,17 +113,17 @@ public class UserMediaServiceImpl implements IUserMediaService {
     }
 
     private List<UserDTO> sortedFollow(List<User> follows, String order) {
-        if (order.equals("name_asc")) {
-            return follows.stream()
-                    .map(UserMapper::mapUser)
-                    .sorted(Comparator.comparing(UserDTO::getName))
-                    .toList();
-        } else {
+        if (order.equals("name_dsc")) {
             return follows.stream()
                     .map(UserMapper::mapUser)
                     .sorted(Comparator.
                             comparing(UserDTO::getName)
                             .reversed())
+                    .toList();
+        } else {
+            return follows.stream()
+                    .map(UserMapper::mapUser)
+                    .sorted(Comparator.comparing(UserDTO::getName))
                     .toList();
         }
 

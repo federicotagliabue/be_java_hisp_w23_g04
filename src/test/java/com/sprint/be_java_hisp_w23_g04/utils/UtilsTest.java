@@ -4,7 +4,6 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class UtilsTest {
