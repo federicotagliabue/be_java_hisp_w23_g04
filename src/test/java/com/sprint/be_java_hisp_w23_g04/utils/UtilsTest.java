@@ -10,14 +10,26 @@ import java.util.List;
 public class UtilsTest {
 
     public static BuyerDTO getBuyerDTO() {
-        return new BuyerDTO(1, "Juan Perez", List.of(new UserDTO(6, "Diego Lopez"), new UserDTO(4, "Sofia Gomez")));
+        return new BuyerDTO(1, "Juan Perez", List.of(
+                new UserDTO(3, "Almendra Cari"),
+                new UserDTO(6, "Diego Lopez"),
+                new UserDTO(2, "Hugo Sorteajugo"),
+                new UserDTO(4, "Sofia Gomez"),
+                new UserDTO(5, "Token Fuerte"))
+        );
     }
 
     public static User getUser() {
-        return new User(1, "Juan Perez", List.of(1, 2, 7), List.of(), List.of(4, 6));
+        return new User(1, "Juan Perez", List.of(1, 2, 7), List.of(), List.of(4, 6, 3, 2, 5));
     }
 
     public static List<User> getUsers() {
-        return List.of(new User(4, "Sofia Gomez", List.of(), List.of(1, 3), List.of()), new User(6, "Diego Lopez", List.of(), List.of(7), List.of()));
+        return List.of(
+                new User(4, "Sofia Gomez", List.of(), List.of(), List.of()),
+                new User(6, "Diego Lopez", List.of(), List.of(), List.of()),
+                new User(3, "Almendra Cari", List.of(), List.of(), List.of()),
+                new User(2, "Hugo Sorteajugo", List.of(), List.of(), List.of()),
+                new User(5, "Token Fuerte", List.of(), List.of(), List.of())
+        );
     }
 }
