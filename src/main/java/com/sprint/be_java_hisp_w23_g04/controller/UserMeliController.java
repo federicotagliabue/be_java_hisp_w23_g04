@@ -28,9 +28,16 @@ public class UserMeliController {
         return new ResponseEntity<>(socialMediaService.getAllUsers(), HttpStatus.OK);
     }
 
+    /**
+     * User follows Seller, Seller adds new Follower and User add new Followed.
+     *
+     * @param userId The ID of the User who adds new Followed.
+     * @param userIdToFollow  The ID of the Seller who adds new Follower.
+     * @return A ResponseEntity containing the success message.
+     */
     @PostMapping("/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<?> followSellerUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow) {
-        return new ResponseEntity<>(socialMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
+        return new ResponseEntity<>(userMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
     }
 
     @GetMapping("/{userId}/followers/count")

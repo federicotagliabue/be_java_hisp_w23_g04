@@ -54,5 +54,13 @@
     "date": "18-12-2023",
     "category": 100,
     "price": 1000.0
+  },
+  {
+    "id": 8,
+    "user_id": 1,
+    "product_id": 1,
+    "date": "18-12-2023",
+    "category": 100,
+    "price": 1000.0
   }
 ]
