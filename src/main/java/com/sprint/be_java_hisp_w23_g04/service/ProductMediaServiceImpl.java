@@ -1,10 +1,10 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
-import com.sprint.be_java_hisp_w23_g04.dtoNew.response.*;
-import com.sprint.be_java_hisp_w23_g04.entityNew.*;
+import com.sprint.be_java_hisp_w23_g04.dto.response.*;
+import com.sprint.be_java_hisp_w23_g04.entity.*;
 import com.sprint.be_java_hisp_w23_g04.exception.*;
 import com.sprint.be_java_hisp_w23_g04.gateways.*;
-import com.sprint.be_java_hisp_w23_g04.utilsNew.*;
+import com.sprint.be_java_hisp_w23_g04.utils.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,11 +26,6 @@ public class ProductMediaServiceImpl implements IProductMediaService {
         this.userGateway = userGateway;
         this.postGateway = postGateway;
         this.productGateway = productGateway;
-    }
-
-    @Override
-    public SimpleMessageDTO savePost(PostDTO post) {
-        return null;
     }
 
     /**

@@ -1,15 +1,15 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
-import com.sprint.be_java_hisp_w23_g04.dtoNew.response.*;
-import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
-import com.sprint.be_java_hisp_w23_g04.dtoNew.response.SellerDTO;
-import com.sprint.be_java_hisp_w23_g04.entityNew.User;
+import com.sprint.be_java_hisp_w23_g04.dto.response.*;
+import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.SellerDTO;
+import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
 import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
-import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
-import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
+import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
+import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -26,7 +26,7 @@ public class UserMediaServiceImpl implements IUserMediaService {
     }
 
     @Override
-    public List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> getAllUsers() {
+    public List<com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO> getAllUsers() {
         List<User> users = userGateway.getAllUsers();
         return users.stream().map(UserMapper::mapUser).toList();
     }
@@ -82,7 +82,7 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
         Verifications.validateEmptyResponseList(userFollowers);
 
-        List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> followed = sortedFollow(userFollowers, order);
+        List<com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO> followed = sortedFollow(userFollowers, order);
 
         return new BuyerDTO(user.getId(), user.getName(), followed);
     }
@@ -107,22 +107,22 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
         Verifications.validateEmptyResponseList(userFollowers);
 
-        List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> followed = sortedFollow(userFollowers, order);
+        List<com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO> followed = sortedFollow(userFollowers, order);
 
         return new BuyerDTO(user.getId(), user.getName(), followed);
     }
 
-    private List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> sortedFollow(List<User> follows, String order) {
+    private List<com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO> sortedFollow(List<User> follows, String order) {
         if (order.equals("name_asc")) {
             return follows.stream()
                     .map(UserMapper::mapUser)
-                    .sorted(Comparator.comparing(com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO::getName))
+                    .sorted(Comparator.comparing(com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO::getName))
                     .toList();
         } else {
             return follows.stream()
                     .map(UserMapper::mapUser)
                     .sorted(Comparator.
-                            comparing(com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO::getName)
+                            comparing(com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO::getName)
                             .reversed())
                     .toList();
         }
@@ -136,8 +136,9 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
         verifyUserExist(user, userId);
         verifyUserExist(unfollowedUser, unfollowId);
-        verifyUserIsFollowed(user, unfollowedUser);
-        verifyUserIsFollower(unfollowedUser, user);
+        //todo utilizar new objects
+        //verifyUserIsFollowed(user, unfollowedUser);
+        //verifyUserIsFollower(unfollowedUser, user);
 
         //userGateway.unfollowUser(userId, unfollowId);
 

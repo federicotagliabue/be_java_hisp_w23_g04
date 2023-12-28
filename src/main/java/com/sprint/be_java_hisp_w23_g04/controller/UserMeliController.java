@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/users")
 public class UserMeliController {
-
-    // Dejamos la injeccion del camino bueno. Cambiar esto a medida que se desarrolle el nuevo camino
     private final IUserMediaService userMediaService;
 
     public UserMeliController(

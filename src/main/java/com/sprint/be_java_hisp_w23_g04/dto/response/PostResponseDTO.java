@@ -2,11 +2,11 @@ package com.sprint.be_java_hisp_w23_g04.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
-import lombok.*;
-
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)

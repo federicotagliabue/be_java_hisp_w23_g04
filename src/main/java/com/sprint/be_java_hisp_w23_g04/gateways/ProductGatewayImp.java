@@ -1,6 +1,6 @@
 package com.sprint.be_java_hisp_w23_g04.gateways;
 
-import com.sprint.be_java_hisp_w23_g04.entityNew.Product;
+import com.sprint.be_java_hisp_w23_g04.entity.Product;
 import com.sprint.be_java_hisp_w23_g04.repository.IProductMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.ProductMediaRepositoryImpl;
 import org.springframework.stereotype.Component;

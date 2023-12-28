@@ -1,6 +1,6 @@
 package com.sprint.be_java_hisp_w23_g04.gateways;
 
-import com.sprint.be_java_hisp_w23_g04.entityNew.Post;
+import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.repository.IPostMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.PostMediaRepositoryImpl;
 import org.springframework.stereotype.Component;

@@ -1,7 +1,7 @@
 package com.sprint.be_java_hisp_w23_g04.repository;
 
 
-import com.sprint.be_java_hisp_w23_g04.entityNew.Post;
+import com.sprint.be_java_hisp_w23_g04.entity.Post;
 
 import java.util.List;
 

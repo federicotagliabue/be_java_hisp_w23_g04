@@ -3,7 +3,7 @@ package com.sprint.be_java_hisp_w23_g04.repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.sprint.be_java_hisp_w23_g04.entityNew.Post;
+import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 

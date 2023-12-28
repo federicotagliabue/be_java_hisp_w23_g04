@@ -1,7 +1,7 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
-import com.sprint.be_java_hisp_w23_g04.dtoNew.request.PostDTO;
-import com.sprint.be_java_hisp_w23_g04.dtoNew.response.SimpleMessageDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 
 public interface IPostMediaService {

@@ -1,6 +1,6 @@
 package com.sprint.be_java_hisp_w23_g04.controller;
 
-import com.sprint.be_java_hisp_w23_g04.dtoNew.request.PostDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
 import com.sprint.be_java_hisp_w23_g04.service.IProductMediaService;
 import com.sprint.be_java_hisp_w23_g04.service.ProductMediaServiceImpl;
 import com.sprint.be_java_hisp_w23_g04.service.IPostMediaService;

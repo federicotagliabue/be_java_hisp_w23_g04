@@ -1,21 +1,21 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
-import com.sprint.be_java_hisp_w23_g04.dtoNew.request.PostDTO;
-import com.sprint.be_java_hisp_w23_g04.dtoNew.response.SimpleMessageDTO;
-import com.sprint.be_java_hisp_w23_g04.entityNew.Post;
-import com.sprint.be_java_hisp_w23_g04.entityNew.User;
+import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
+import com.sprint.be_java_hisp_w23_g04.entity.Post;
+import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
 import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
 import com.sprint.be_java_hisp_w23_g04.repository.IPostMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.PostMediaRepositoryImpl;
-import com.sprint.be_java_hisp_w23_g04.utilsNew.PostMapper;
+import com.sprint.be_java_hisp_w23_g04.utils.PostMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications.verifyUserExist;
+import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExist;
 
 @Service
 public class PostMediaServiceImpl implements IPostMediaService {
