@@ -1,8 +1,9 @@
 package com.sprint.be_java_hisp_w23_g04.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +14,10 @@ import java.util.List;
 public class User {
     private Integer id;
     private String name;
-    private List<Post> posts = new ArrayList<>();
-    private List<User> followed = new ArrayList<>();
-    private List<User> followers = new ArrayList<>();
-
-    public User(Integer id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+    @JsonProperty("posts_id")
+    private List<Integer> postsId = new ArrayList<>();
+    @JsonProperty("followed_id")
+    private List<Integer> followedId = new ArrayList<>();
+    @JsonProperty("followers_id")
+    private List<Integer> followersId = new ArrayList<>();
 }

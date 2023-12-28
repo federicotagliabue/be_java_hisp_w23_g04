@@ -79,7 +79,7 @@ Obtener el Número de Seguidores de un Vendedor
 
   ```json
   {
-      "user_id": 234,
+      "id": 234,
       "user_name": "vendedor1",
       "followers_count": 35
   }
@@ -110,19 +110,19 @@ Obtener un Listado de Todos los Usuarios que Siguen a un Determinado Vendedor (�
 
   ```json
   {
-    "user_id": 234,
+    "id": 234,
     "user_name": "vendedor1",
     "followers": [
         {
-            "user_id": 4698,
+            "id": 4698,
             "user_name": "usuario1"
         },
         {
-            "user_id": 1536,
+            "id": 1536,
             "user_name": "usuario2"
         },
         {
-            "user_id": 2236,
+            "id": 2236,
             "user_name": "usuario3"
         }
     ]
@@ -154,19 +154,19 @@ Obtener  un listado de todos los vendedores a los cuales sigue un determinado us
 
     ```json
   {
-    "user_id": 4698,
+    "id": 4698,
     "user_name": "usuario1",
     "followed": [
         {
-            "user_id": 234,
+            "id": 234,
             "user_name": "vendedor1"
         },
         {
-            "user_id": 6932,
+            "id": 6932,
             "user_name": "vendedor2"
         },
         {
-            "user_id": 6631,
+            "id": 6631,
             "user_name": "vendedor3"
         }
     ]
@@ -200,19 +200,19 @@ Dar de alta una nueva publicación
 
     ```json
   {
-    "user_id": 4698,
+    "id": 4698,
     "user_name": "usuario1",
     "followed": [
         {
-            "user_id": 234,
+            "id": 234,
             "user_name": "vendedor1"
         },
         {
-            "user_id": 6932,
+            "id": 6932,
             "user_name": "vendedor2"
         },
         {
-            "user_id": 6631,
+            "id": 6631,
             "user_name": "vendedor3"
         }
     ]
@@ -253,7 +253,7 @@ Obtener un listado de las publicaciones realizadas por los vendedores que un usu
 
   ```json
   {
-    "user_id": 4698,
+    "id": 4698,
     "posts": [ {
             “user_id”: 123, 
             "post_id": 32,
