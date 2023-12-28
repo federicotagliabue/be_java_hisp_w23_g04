@@ -17,4 +17,15 @@ public class SellerDTO extends BuyerDTO {
     private List<UserDTO> followers;
     @JsonProperty("followers_count")
     private Integer followersCount;
+
+    public SellerDTO(List<UserDTO> followed, List<UserDTO> followers, Integer followersCount) {
+        super(followed);
+        this.followers = followers;
+        this.followersCount = followersCount;
+    }
+
+    public SellerDTO(Integer id, String name, Integer followersCount) {
+        super(id, name);
+        this.followersCount = followersCount;
+    }
 }
