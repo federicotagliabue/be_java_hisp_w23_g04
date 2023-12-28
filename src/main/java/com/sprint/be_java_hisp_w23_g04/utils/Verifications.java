@@ -18,7 +18,7 @@ public class Verifications {
     }
 
     //TODO: Eliminar
-    public static void verifyUserExist(User user) {
+    /*public static void verifyUserExist(User user) {
         if (user == null) {
             throw new NotFoundException("No se encontró usuario con el id proporcionado.");
         }
@@ -28,7 +28,7 @@ public class Verifications {
         if (user == null) {
             throw new NotFoundException("No se encontró usuario con el id proporcionado.");
         }
-    }
+    }*/
 
     public static void verifyUserIsSeller(User seller){
         if (!isSeller(seller)) {

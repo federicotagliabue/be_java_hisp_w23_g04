@@ -12,21 +12,18 @@ import org.springframework.web.bind.annotation.*;
 public class UserMeliController {
 
     // Dejamos la injeccion del camino bueno. Cambiar esto a medida que se desarrolle el nuevo camino
-    private final ISocialMediaService socialMediaService;
     private final IUserMediaService userMediaService;
 
     public UserMeliController(
-            SocialMediaServiceImpl socialMediaService,
             UserMediaServiceImpl userMediaService
     ) {
-        this.socialMediaService = socialMediaService;
         this.userMediaService = userMediaService;
     }
 
 
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
-        return new ResponseEntity<>(socialMediaService.getAllUsers(), HttpStatus.OK);
+        return new ResponseEntity<>(userMediaService.getAllUsers(), HttpStatus.OK);
     }
 
     /**
@@ -80,6 +77,6 @@ public class UserMeliController {
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
     public ResponseEntity<?> unfollowUser(@PathVariable int userId, @PathVariable int userIdToUnfollow) {
-        return new ResponseEntity<>(socialMediaService.unfollowUser(userId, userIdToUnfollow), HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(userMediaService.unfollowUser(userId, userIdToUnfollow), HttpStatus.ACCEPTED);
     }
 }

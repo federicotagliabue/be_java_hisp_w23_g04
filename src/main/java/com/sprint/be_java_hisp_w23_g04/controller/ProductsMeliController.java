@@ -1,10 +1,7 @@
 package com.sprint.be_java_hisp_w23_g04.controller;
 
 import com.sprint.be_java_hisp_w23_g04.dtoNew.request.PostDTO;
-import com.sprint.be_java_hisp_w23_g04.service.ISocialMediaService;
-import com.sprint.be_java_hisp_w23_g04.service.SocialMediaServiceImpl;
-import com.sprint.be_java_hisp_w23_g04.service.IPostMediaService;
-import com.sprint.be_java_hisp_w23_g04.service.PostMediaServiceImpl;
+import com.sprint.be_java_hisp_w23_g04.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +11,10 @@ import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 @RequestMapping("/products")
 public class ProductsMeliController {
     // Dejamos la injeccion del camino bueno. Cambiar esto a medida que se desarrolle el nuevo camino
-    private final ISocialMediaService productMediaService;
+    private final IProductMediaService productMediaService;
     private final IPostMediaService postMediaService;
 
-    public ProductsMeliController(SocialMediaServiceImpl productMediaService,
+    public ProductsMeliController(ProductMediaServiceImpl productMediaService,
                                   PostMediaServiceImpl postMediaService) {
         this.productMediaService = productMediaService;
         this.postMediaService = postMediaService;

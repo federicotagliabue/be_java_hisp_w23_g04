@@ -8,7 +8,7 @@ import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
 import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
-import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
+import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
 import org.springframework.stereotype.Service;
 
