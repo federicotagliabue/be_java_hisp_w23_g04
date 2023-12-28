@@ -40,7 +40,7 @@ public class PostMediaServiceImpl implements IPostMediaService {
         List<Post> posts = new ArrayList<>();
         User user = userGateway.findUser(postDTO.getUserId());
 
-        verifyUserExist(user);
+        verifyUserExist(user, postDTO.getUserId());
         int postId = postMediaRepository.getNextId();
         postMediaRepository.save(PostMapper.map(postDTO, postId));
 
