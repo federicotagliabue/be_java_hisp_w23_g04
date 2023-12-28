@@ -19,6 +19,17 @@ public class UtilsTest {
         );
     }
 
+    public static BuyerDTO getBuyerDescendingDTO() {
+        return new BuyerDTO(1, "Juan Perez", List.of(
+                new UserDTO(5, "Token Fuerte"),
+                new UserDTO(4, "Sofia Gomez"),
+                new UserDTO(2, "Hugo Sorteajugo"),
+                new UserDTO(6, "Diego Lopez"),
+                new UserDTO(3, "Almendra Cari")
+        )
+        );
+    }
+
     public static User getUser() {
         return new User(1, "Juan Perez", List.of(1, 2, 7), List.of(), List.of(4, 6, 3, 2, 5));
     }

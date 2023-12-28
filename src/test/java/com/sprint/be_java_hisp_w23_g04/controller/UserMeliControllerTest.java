@@ -40,4 +40,19 @@ class UserMeliControllerTest {
         // Assert
         assertEquals(expectedResponse, response);
     }
+
+    @Test
+    @DisplayName("Verify the correct descending order by name")
+    void test2() {
+        // Arrange
+        BuyerDTO expectedBuyerDTO = getBuyerDTO();
+        ResponseEntity<?> expectedResponse = new ResponseEntity<>(expectedBuyerDTO, HttpStatus.OK);
+
+        // Act
+        when(userService.getFollowedByUserId(any(), any())).thenReturn(expectedBuyerDTO);
+        ResponseEntity<?> response = controller.getFollowedByUserId(1, "name_asc");
+
+        // Assert
+        assertEquals(expectedResponse, response);
+    }
 }

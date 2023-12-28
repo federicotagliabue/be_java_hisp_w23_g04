@@ -33,7 +33,7 @@ public class UserMediaServiceImplTest {
     UserMediaServiceImpl userService;
 
     @Test
-    @DisplayName("Verify that the alphabetical sort type exists")
+    @DisplayName("Verify that the alphabetical sort type exists in getFollowersByUserId")
     void test1() {
         // Arrange
         Integer userIdtoFind = 1;
@@ -50,7 +50,7 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Except because userId not exist")
+    @DisplayName("Except because userId not exist in getFollowersByUserId")
     void test2() {
         // Arrange
         Integer userIdtoFind = 99;
@@ -76,5 +76,51 @@ public class UserMediaServiceImplTest {
 
         // Assert
         assertThrows(NoContentException.class, () -> userService.getFollowersByUserId(userIdtoFind, orderCriteria));
+    }
+
+    @Test
+    @DisplayName("Verify the correct descending order by name in getFollowedByUserId")
+    void test4() {
+        // Arrange
+        Integer userIdToFind = 1;
+        String orderCriteria = "name_desc";
+        BuyerDTO expectedResponse = getBuyerDescendingDTO();
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(getUser());
+        when(userGateway.getByIds(anyList())).thenReturn(getUsers());
+        BuyerDTO response = userService.getFollowedByUserId(userIdToFind, orderCriteria);
+
+        // Assert
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    @DisplayName("Except because userId not exist in getFollowedByUserId")
+    void test5() {
+        // Arrange
+        Integer userIdToFind = 99;
+        String orderCriteria = "name_asc";
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(null);
+
+        // Assert
+        assertThrows(NotFoundException.class, () -> userService.getFollowedByUserId(userIdToFind, orderCriteria));
+    }
+
+    @Test
+    @DisplayName("Except because not user with followed")
+    void test6() {
+        // Arrange
+        Integer userIdToFind = 4;
+        String orderCriteria = "name_asc";
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(getUser());
+        when(userGateway.getByIds(anyList())).thenReturn(List.of());
+
+        // Assert
+        assertThrows(NoContentException.class, () -> userService.getFollowersByUserId(userIdToFind, orderCriteria));
     }
 }
