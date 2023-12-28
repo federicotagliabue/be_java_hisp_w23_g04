@@ -1,7 +1,8 @@
 package com.sprint.be_java_hisp_w23_g04.utilsNew;
 
-import com.sprint.be_java_hisp_w23_g04.dto.response.ProductDTO;
-import com.sprint.be_java_hisp_w23_g04.entity.Product;
+
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.ProductDTO;
+import com.sprint.be_java_hisp_w23_g04.entityNew.Product;
 
 public class ProductMapper {
 

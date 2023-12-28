@@ -15,7 +15,7 @@ import com.sprint.be_java_hisp_w23_g04.service.ProductMediaServiceImpl;
 public class ProductsMeliController {
     // Dejamos la injeccion del camino bueno. Cambiar esto a medida que se desarrolle el nuevo camino
     private final ISocialMediaService productMediaService;
-    private final IProductMediaService service;
+    private final IProductMediaService service; // este es el que debe quedar
 
     public ProductsMeliController(SocialMediaServiceImpl productMediaService,
                                  ProductMediaServiceImpl service) {
@@ -32,7 +32,6 @@ public class ProductsMeliController {
 
     @GetMapping("/followed/{userId}/list")
     public ResponseEntity<?> getFilteredPost(@PathVariable Integer userId, @RequestParam(defaultValue = "date_asc") String order) {
-        //return new ResponseEntity<>(productMediaService.getFilteredPosts(userId, order), HttpStatus.OK);
         return new ResponseEntity<>(service.getFilteredPosts(userId, order), HttpStatus.OK);
     }
 }

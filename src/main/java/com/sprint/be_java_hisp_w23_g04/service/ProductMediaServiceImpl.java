@@ -1,78 +1,74 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
-import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
-import com.sprint.be_java_hisp_w23_g04.dto.response.*;
-import com.sprint.be_java_hisp_w23_g04.entityNew.User;
-import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
-import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImpl;
-import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.*;
+import com.sprint.be_java_hisp_w23_g04.entityNew.*;
+import com.sprint.be_java_hisp_w23_g04.gateways.*;
+import com.sprint.be_java_hisp_w23_g04.utilsNew.*;
 import org.springframework.stereotype.Service;
-import com.sprint.be_java_hisp_w23_g04.repository.IProductMediaRepository;
-import com.sprint.be_java_hisp_w23_g04.repository.ProductMediaRepositoryImpl;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExistOld;
-
 @Service
 public class ProductMediaServiceImpl implements IProductMediaService {
 
-    private final IProductMediaRepository productMediaRepository;
     private final IUserGateway userGateway;
+    private final IPostGateway postGateway;
 
-    public ProductMediaServiceImpl(ProductMediaRepositoryImpl productMediaRepository,
-                                   UserGatewayImpl userGateway) {
-        this.productMediaRepository = productMediaRepository;
+    private final IProductGateway productGateway;
+
+    public ProductMediaServiceImpl(UserGatewayImp userGateway,
+                                   PostGatewayImp postGateway,
+                                   ProductGatewayImp productGateway) {
         this.userGateway = userGateway;
+        this.postGateway = postGateway;
+        this.productGateway = productGateway;
     }
 
     @Override
     public SimpleMessageDTO savePost(PostDTO post) {
-//        List<Post> posts = new ArrayList<>();
-//        User user = productMediaRepository.findUser(post.getUserId());
-//
-//        verifyUserExist(user);
-//        int postId = productMediaRepository.getNextPostId(user);
-//
-//        posts.add(UserMapper.mapPost(post, postId));
-//        posts.addAll(user.getPosts());
-//        user.setPosts(posts);
-//
-//        productMediaRepository.savePost(user);
-//        return new SimpleMessageDTO("El post para el user: " + user.getId() + " se guardó exitosamente");
-        return new SimpleMessageDTO("A quemarse las pestañas");
+        return null;
     }
 
     @Override
-    public FilteredPostsDTO getFilteredPosts(int userId, String order) {
-        User user = userGateway.getById(userId);
-        Verifications.verifyUserExist(user);
+    public PostListDTO getFilteredPosts(int userId, String order) {
+        User user = userGateway.findUser(userId);
+        Verifications.verifyUserExist(user,userId);
         Verifications.verifyUserHasFollowedSellers(user);
-//
-//        LocalDate filterDate = LocalDate.now().minusWeeks(2);
-//
-//        List<PostResponseDTO> filteredPosts = user.getFollowed().stream()
-//                .flatMap(seller -> productMediaRepository.findUser(seller.getId()).getPosts().stream()
-//                        .filter(post -> post.getDate().isAfter(filterDate))
-//                        .map(post -> PostMapper.PostRequestDTOMapper(seller.getId(), post)))
-//                .collect(Collectors.toList());
-//
-//        Verifications.validateEmptyResponseList(filteredPosts);
-//
-//        switch (order) {
-//            case "date_asc" -> filteredPosts = orderAsc(filteredPosts);
-//            case "date_desc" -> filteredPosts = orderDesc(filteredPosts);
-//        }
-//
-//        return new FilteredPostsDTO(userId, filteredPosts);
-        return new FilteredPostsDTO(1, List.of());
+        LocalDate filterDate = LocalDate.now().minusWeeks(2);
+
+        List<Integer>followedIds = user.getFollowedId();
+        List<User> sellers = userGateway.getByIds(followedIds);
+
+        List<PostResponseDTO> listToReturn = new ArrayList<>();
+
+        for(User seller: sellers) {
+            List<Post> sellerPosts = postGateway.getByIds(seller.getPostsId());
+
+            for (Post post: sellerPosts) {
+                if(!post.getDate().isBefore(filterDate)){
+                    Product product = productGateway.getById(post.getProductId());
+                    listToReturn.add(PostMapper.mapperToPostResponseDTO(seller,post,product));
+                }
+            }
+        }
+
+        Verifications.validateEmptyResponseList(listToReturn);
+
+        switch (order) {
+            case "date_asc" -> listToReturn = orderAsc(listToReturn);
+            case "date_desc" -> listToReturn = orderDesc(listToReturn);
+        }
+
+        return new PostListDTO(userId,listToReturn);
     }
 
     private List<PostResponseDTO> orderAsc(List<PostResponseDTO> list) {
         return list.stream()
-                .sorted(Comparator.comparing(PostDTO::getDate))
+                .sorted(Comparator.comparing(PostResponseDTO::getDate))
                 .collect(Collectors.toList());
     }
 

@@ -2,6 +2,11 @@ package com.sprint.be_java_hisp_w23_g04.gateways;
 
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
 
+import java.util.List;
+
 public interface IUserGateway {
-    User getById(Integer id);
+
+    User findUser(Integer userId);
+
+    List<User> getByIds(List<Integer> usersId);
 }

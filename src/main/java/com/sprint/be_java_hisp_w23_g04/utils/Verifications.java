@@ -72,7 +72,7 @@ public class Verifications {
         return unfollowedUser.getFollowers().stream().filter(follower -> Objects.equals(follower.getId(), user.getId())).findAny().orElse(null);
     }
 
-    public static void verifyUserHasFollowedSellers(User user) {
+    public static void verifyUserHasFollowedSellersOld(User user) {
         if(user.getFollowed().isEmpty()){
             throw new NotFoundException("El usuario indicado actualmente no sigue a ningún vendedor");
         }

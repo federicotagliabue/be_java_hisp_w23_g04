@@ -12,4 +12,6 @@ public interface IProductMediaRepository {
     void savePost(User user);
 
     List<Product> getByIds(List<Integer> listIds);
+
+    Product getById(Integer id);
 }

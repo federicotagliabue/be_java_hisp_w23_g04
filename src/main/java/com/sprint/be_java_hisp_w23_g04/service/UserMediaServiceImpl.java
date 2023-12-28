@@ -1,22 +1,31 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
+import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
+import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
+import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
+import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
 import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
 import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
+import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
+import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExistOld;
+import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExist;
 
 @Service
 public class UserMediaServiceImpl implements IUserMediaService {
 
-    private final IUserMediaRepository userMediaRepository;
+    private final IUserGateway userGateway;
 
-    public UserMediaServiceImpl(UserMediaRepositoryImpl userMediaRepository) {
-        this.userMediaRepository = userMediaRepository;
+    public UserMediaServiceImpl(UserGatewayImp userGateway) {
+        this.userGateway = userGateway;
     }
 
     @Override
@@ -33,18 +42,69 @@ public class UserMediaServiceImpl implements IUserMediaService {
         return new FollowersCountDTO();
     }
 
+    /**
+     * Retrieves and sorts a user's followed sellers based on the specified order.
+     *
+     * @param userId ID of the user to retrieve followed sellers for.
+     * @param order  Sorting order for the list, defaulting to 'name_asc'.
+     * @return BuyerDTO with user details and sorted list of followed UserDTOs, or 204 No Content if none are followed.
+     * @throws NotFoundException  If the user with the given userId doesn't exist.
+     * @throws NoContentException If the user exists but follows no sellers.
+     */
+
     @Override
-    public FollowedListDTO getFollowedByUserId(Integer id, String order) {
-        return new FollowedListDTO();
+    public BuyerDTO getFollowedByUserId(Integer userId, String order) {
+        User user = this.userGateway.findUser(userId);
+
+        Verifications.verifyUserExist(user, userId);
+
+        List<User> userFollowers = userGateway.getByIds(user.getFollowedId());
+
+        Verifications.validateEmptyResponseList(userFollowers);
+
+        List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> followed = sortedFollow(userFollowers, order);
+
+        return new BuyerDTO(user.getId(), user.getName(), followed);
     }
 
-    private List<UserFollowDTO> sortedFollow(List<User> follows, String order) {
-        return null;
+
+    /**
+     * US-0003 Generate a response object
+     *
+     * @param userId The ID of the user whose followers are to be retried.
+     * @param order  The shorting criteria for the returned list.
+     * @return BuyerDTO With information
+     */
+    @Override
+    public BuyerDTO getFollowersByUserId(Integer userId, String order) {
+        User user = this.userGateway.findUser(userId);
+
+        Verifications.verifyUserExist(user, userId);
+
+        List<User> userFollowers = userGateway.getByIds(user.getFollowersId());
+
+        Verifications.validateEmptyResponseList(userFollowers);
+
+        List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> followed = sortedFollow(userFollowers, order);
+
+        return new BuyerDTO(user.getId(), user.getName(), followed);
     }
 
-    @Override
-    public FollowersListDTO getFollowersByUserId(int userId, String order) {
-        return null;
+    private List<com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO> sortedFollow(List<User> follows, String order) {
+        if (order.equals("name_asc")) {
+            return follows.stream()
+                    .map(UserMapper::mapUser)
+                    .sorted(Comparator.comparing(com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO::getName))
+                    .toList();
+        } else {
+            return follows.stream()
+                    .map(UserMapper::mapUser)
+                    .sorted(Comparator.
+                            comparing(com.sprint.be_java_hisp_w23_g04.dtoNew.response.UserDTO::getName)
+                            .reversed())
+                    .toList();
+        }
+
     }
 
     @Override

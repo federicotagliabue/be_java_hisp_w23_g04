@@ -21,7 +21,6 @@ public class UserMediaRepositoryImpl implements IUserMediaRepository {
 
     public UserMediaRepositoryImpl() {
         this.users = loadDataBase();
-        System.out.println(users);
     }
 
     private List<User> loadDataBase() {

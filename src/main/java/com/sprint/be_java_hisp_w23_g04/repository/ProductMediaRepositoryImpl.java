@@ -20,7 +20,6 @@ public class ProductMediaRepositoryImpl implements IProductMediaRepository {
 
     public ProductMediaRepositoryImpl() {
         this.products = loadDataBase();
-        System.out.println(products);
     }
 
     private List<Product> loadDataBase() {
@@ -63,5 +62,11 @@ public class ProductMediaRepositoryImpl implements IProductMediaRepository {
                 collect(Collectors.toCollection(ArrayList::new));
 
     }
+
+    @Override
+    public Product getById(Integer id) {
+        return products.stream().filter(p -> id.equals(p.getId())).findFirst().orElse(null);
+    }
+
 
 }

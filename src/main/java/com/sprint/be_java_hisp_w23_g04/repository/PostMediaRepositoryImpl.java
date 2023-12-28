@@ -20,7 +20,6 @@ public class PostMediaRepositoryImpl implements IPostMediaRepository {
 
     public PostMediaRepositoryImpl() {
         this.posts = loadDataBase();
-        System.out.println(posts);
     }
 
     private List<Post> loadDataBase() {

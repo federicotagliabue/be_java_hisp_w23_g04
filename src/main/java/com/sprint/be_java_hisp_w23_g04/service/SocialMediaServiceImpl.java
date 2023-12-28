@@ -76,6 +76,11 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         return new FollowedListDTO(user.getId(), user.getName(), followed);
     }
 
+    @Override
+    public FollowersListDTO getFollowersByUserId(Integer userId, String order) {
+        return null;
+    }
+
     private List<UserFollowDTO> sortedFollow(List<User> follows, String order) {
 
         if (order.equals("name_asc")) {
@@ -97,7 +102,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
                 .toList();
     }
 
-    @Override
+    //@Override
     public FollowersListDTO getFollowersByUserId(int userId, String order) {
         User user = this.socialMediaRepository.findUser(userId);
 
@@ -147,7 +152,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
         User user = socialMediaRepository.findUser(userId);
 
         Verifications.verifyUserExistOld(user);
-        Verifications.verifyUserHasFollowedSellers(user);
+        Verifications.verifyUserHasFollowedSellersOld(user);
 
         LocalDate filterDate = LocalDate.now().minusWeeks(2);
 
