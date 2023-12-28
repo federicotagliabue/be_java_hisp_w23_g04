@@ -2,20 +2,18 @@ package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.SellerDTO;
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
 import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
-import com.sprint.be_java_hisp_w23_g04.repository.IUserMediaRepository;
-import com.sprint.be_java_hisp_w23_g04.repository.UserMediaRepositoryImpl;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -37,8 +35,20 @@ public class UserMediaServiceImpl implements IUserMediaService {
         return new SimpleMessageDTO("El usuario con id:" + userId + " ahora sigue a vendedor con id:" + userIdToFollow);
     }
 
-    public FollowersCountDTO followersCount(Integer userId) {
-        return new FollowersCountDTO();
+    /**
+     * Retrieves the count of followers for a specified user and encapsulates the result in a SellerDTO.
+     *
+     * @param userId The ID of the user whose follower count is to be retrieved.
+     * @return SellerDTO containing the user's ID, name, and number of followers.
+     * @throws NotFoundException If the user with the given userId does not exist.
+     */
+    @Override
+    public SellerDTO followersCount(Integer userId) {
+        User user = userGateway.findUser(userId);
+
+        Verifications.verifyUserExist(user, userId);
+
+        return new SellerDTO(user.getId(), user.getName(), user.getFollowersId().size());
     }
 
     /**
