@@ -2,6 +2,7 @@ package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
@@ -64,6 +65,17 @@ public class UserMediaServiceImplTest {
 
         // Assert
         assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    @DisplayName("Excep because criteria order not exists")
+    void test8() {
+        // Arrange
+        Integer userIdtoFind = 1;
+        String orderCriteria = "name_false";
+
+        // Assert
+        assertThrows(BadRequestException.class, () -> userService.getFollowersByUserId(userIdtoFind, orderCriteria));
     }
 
     @Test
