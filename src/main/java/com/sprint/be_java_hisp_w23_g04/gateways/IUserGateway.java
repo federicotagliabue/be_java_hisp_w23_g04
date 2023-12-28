@@ -9,4 +9,6 @@ public interface IUserGateway {
     User findUser(Integer userId);
 
     List<User> getByIds(List<Integer> usersId);
+
+    List<User> getAllUsers();
 }

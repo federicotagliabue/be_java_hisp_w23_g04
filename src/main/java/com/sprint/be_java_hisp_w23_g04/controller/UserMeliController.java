@@ -42,7 +42,7 @@ public class UserMeliController {
 
     @GetMapping("/{userId}/followers/count")
     public ResponseEntity<?> getFollowers(@PathVariable int userId) {
-        return new ResponseEntity<>(socialMediaService.followersCount(userId), HttpStatus.OK);
+        return new ResponseEntity<>(userMediaService.followersCount(userId), HttpStatus.OK);
     }
 
     /**

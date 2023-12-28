@@ -21,4 +21,8 @@ public class BuyerDTO extends UserDTO{
         super(id, name);
         this.followed = followed;
     }
+
+    public BuyerDTO(Integer id, String name) {
+        super(id, name);
+    }
 }

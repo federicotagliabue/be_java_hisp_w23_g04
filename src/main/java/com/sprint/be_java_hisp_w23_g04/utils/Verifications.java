@@ -23,14 +23,6 @@ public class Verifications {
         }
     }
 
-    public static void verifyUserExist(com.sprint.be_java_hisp_w23_g04.entityNew.User user) {
-        if (user == null) {
-            throw new NotFoundException("No se encontró usuario con el id proporcionado.");
-        }
-    }
-
-
-
     public static void verifyUserIsSeller(User seller){
         if (!isSeller(seller)) {
             throw new BadRequestException("El id de usuario vendedor proporcionado no es valido.");
