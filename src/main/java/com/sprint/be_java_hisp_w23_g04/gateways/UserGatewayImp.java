@@ -41,4 +41,9 @@ public class UserGatewayImp implements IUserGateway {
     public List<User> getByIds(List<Integer> usersId) {
         return userMediaRepository.getByIds(usersId);
     }
+
+    @Override
+    public void unfollowUser(int userId, int unfollowId){
+        userMediaRepository.unfollowUser(userId, unfollowId);
+    }
 }

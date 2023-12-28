@@ -1,6 +1,6 @@
 package com.sprint.be_java_hisp_w23_g04.utils;
 
-import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.entityNew.User;
 import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
@@ -18,7 +18,7 @@ public class Verifications {
     }
 
     //TODO: Eliminar
-    public static void verifyUserExist(User user) {
+    /*public static void verifyUserExist(User user) {
         if (user == null) {
             throw new NotFoundException("No se encontró usuario con el id proporcionado.");
         }
@@ -28,7 +28,7 @@ public class Verifications {
         if (user == null) {
             throw new NotFoundException("No se encontró usuario con el id proporcionado.");
         }
-    }
+    }*/
 
     public static void verifyUserIsSeller(User seller){
         if (!isSeller(seller)) {
@@ -36,7 +36,7 @@ public class Verifications {
         }
     }
     private static boolean isSeller(User user) {
-        return !user.getPosts().isEmpty();
+        return !user.getPostsId().isEmpty();
     }
 
     public static void verifyUserFollowsSeller(User user, User seller){
@@ -45,35 +45,42 @@ public class Verifications {
         }
     }
     private static boolean userAlreadyFollowsSeller(User user, User seller) {
-        Optional<User> userSeller =  user.getFollowed().stream()
-                .filter(u -> Objects.equals(u.getId(), seller.getId()))
-                .findFirst();
-
-        return userSeller.isPresent();
+        return user
+                .getFollowedId()
+                .stream()
+                .anyMatch(u ->
+                        Objects.equals(u, seller.getId()));
     }
 
     public static void verifyUserIsFollowed(User user, User unfollowedUser) {
-        if(userHasFollower(user, unfollowedUser) == null){
+        if(!userHasFollower(user, unfollowedUser)){
             throw new NotFoundException("El usuario que estás intentando dejar de seguir no se encuentra en tu lista de seguidos");
         }
     }
 
-    private static User userHasFollower(User user, User unfollowedUser){
-        return user.getFollowed().stream().filter(followed -> Objects.equals(followed.getId(), unfollowedUser.getId())).findAny().orElse(null);
+    private static boolean userHasFollower(User user, User unfollowedUser){
+        return user.getFollowedId()
+                .stream()
+                .anyMatch(followed ->
+                        Objects.equals(followed, unfollowedUser.getId()));
     }
 
     public static void verifyUserIsFollower(User unfollowedUser, User user) {
-        if( userHasFollowed(unfollowedUser, user) == null){
+        if( !userHasFollowed(unfollowedUser, user)){
             throw new NotFoundException("No te encuentras en la lista de seguidos del usuario al que estás intentando dejar de seguir. Por favor, comprueba la consistencia de tus datos");
         }
     }
-    private static User userHasFollowed(User unfollowedUser, User user){
-        return unfollowedUser.getFollowers().stream().filter(follower -> Objects.equals(follower.getId(), user.getId())).findAny().orElse(null);
+    private static boolean userHasFollowed(User unfollowedUser, User user){
+        return unfollowedUser.
+                getFollowersId()
+                .stream()
+                .anyMatch(follower ->
+                        Objects.equals(follower, user.getId()));
     }
 
 
     public static void verifyUserHasFollowedSellers(User user) {
-        if(user.getFollowed().isEmpty()){
+        if(user.getFollowedId().isEmpty()){
             throw new NotFoundException("El usuario indicado actualmente no sigue a ningún vendedor");
         }
     }

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.verifyUserExist;
+import static com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications.verifyUserExist;
 
 @Service
 public class PostMediaServiceImpl implements IPostMediaService {
@@ -40,7 +40,7 @@ public class PostMediaServiceImpl implements IPostMediaService {
         List<Post> posts = new ArrayList<>();
         User user = userGateway.findUser(postDTO.getUserId());
 
-        verifyUserExist(user);
+        verifyUserExist(user, postDTO.getUserId());
         int postId = postMediaRepository.getNextId();
         postMediaRepository.save(PostMapper.map(postDTO, postId));
 

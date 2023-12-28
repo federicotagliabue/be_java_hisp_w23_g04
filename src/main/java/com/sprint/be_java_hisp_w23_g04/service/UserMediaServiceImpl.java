@@ -1,6 +1,6 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
-import com.sprint.be_java_hisp_w23_g04.dto.response.*;
+import com.sprint.be_java_hisp_w23_g04.dtoNew.response.*;
 import com.sprint.be_java_hisp_w23_g04.dtoNew.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.dtoNew.response.SellerDTO;
 import com.sprint.be_java_hisp_w23_g04.entityNew.User;
@@ -8,13 +8,13 @@ import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateways.IUserGateway;
 import com.sprint.be_java_hisp_w23_g04.gateways.UserGatewayImp;
-import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
 import com.sprint.be_java_hisp_w23_g04.utilsNew.Verifications;
+import com.sprint.be_java_hisp_w23_g04.utilsNew.UserMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-
+import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.*;
 
 @Service
 public class UserMediaServiceImpl implements IUserMediaService {
@@ -131,6 +131,16 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
     @Override
     public SimpleMessageDTO unfollowUser(int userId, int unfollowId) {
-        return null;
+        User user = userGateway.findUser(userId);
+        User unfollowedUser = userGateway.findUser(unfollowId);
+
+        verifyUserExist(user, userId);
+        verifyUserExist(unfollowedUser, unfollowId);
+        verifyUserIsFollowed(user, unfollowedUser);
+        verifyUserIsFollower(unfollowedUser, user);
+
+        userGateway.unfollowUser(userId, unfollowId);
+
+        return new SimpleMessageDTO("El usuario " + unfollowedUser.getName() + " Id: " + unfollowedUser.getId() + " ya no es seguido por el usuario " + user.getName() + " Id: " + user.getId());
     }
 }
