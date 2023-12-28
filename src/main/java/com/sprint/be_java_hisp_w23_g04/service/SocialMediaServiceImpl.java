@@ -99,7 +99,7 @@ public class SocialMediaServiceImpl implements ISocialMediaService {
     }
 
     @Override
-    public FollowersListDTO getFollowersByUserId(int userId, String order) {
+    public FollowersListDTO getFollowersByUserId(Integer userId, String order) {
         User user = this.socialMediaRepository.findUser(userId);
 
         verifyUserExist(user);

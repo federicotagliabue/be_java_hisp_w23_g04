@@ -16,7 +16,15 @@
     "price": 1000.0
   },
   {
-    "id": 1,
+    "id": 3,
+    "user_id": 1,
+    "product_id": 1,
+    "date": "18-12-2023",
+    "category": 100,
+    "price": 1000.0
+  },
+  {
+    "id": 4,
     "user_id": 2,
     "product_id": 2,
     "date": "10-12-2023",
@@ -24,7 +32,7 @@
     "price": 900.0
   },
   {
-    "id": 3,
+    "id": 5,
     "user_id": 3,
     "product_id": 2,
     "date": "19-12-2020",
@@ -32,7 +40,7 @@
     "price": 800.0
   },
   {
-    "id": 4,
+    "id": 6,
     "user_id": 7,
     "product_id": 3,
     "date": "20-12-2020",
@@ -40,7 +48,7 @@
     "price": 800.0
   },
   {
-    "id": 5,
+    "id": 7,
     "user_id": 8,
     "product_id": 2,
     "date": "03-12-2020",

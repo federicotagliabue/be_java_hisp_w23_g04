@@ -15,7 +15,7 @@ public interface ISocialMediaService {
 
     FollowedListDTO getFollowedByUserId(Integer id, String order);
 
-    FollowersListDTO getFollowersByUserId(int userId, String order);
+    FollowersListDTO getFollowersByUserId(Integer userId, String order);
 
     FollowersCountDTO followersCount(Integer userId);
 
