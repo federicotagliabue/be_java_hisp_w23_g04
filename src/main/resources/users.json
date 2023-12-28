@@ -77,7 +77,7 @@
                 "category": 58,
                 "price": 900.0,
                 "user_id": 2,
-                "post_id": 1
+                "post_id": 4
             }
         ],
         "followed": [],
@@ -105,7 +105,7 @@
                 "category": 58,
                 "price": 800.0,
                 "user_id": 3,
-                "post_id": 1
+                "post_id": 5
             }
         ],
         "followed": [],
@@ -166,13 +166,13 @@
                     "brand": "Sony",
                     "color": "Silver",
                     "notes": "TV 65'",
-                    "product_id": 51,
+                    "product_id": 3,
                     "product_name": "Televisor a color LED Sony"
                 },
                 "category": 58,
                 "price": 800.0,
                 "user_id": 7,
-                "post_id": 1
+                "post_id": 6
             }
         ],
         "followed": [],
@@ -195,7 +195,7 @@
                 "category": 58,
                 "price": 800.0,
                 "user_id": 8,
-                "post_id": 1
+                "post_id": 7
             }
         ],
         "followed": [],
