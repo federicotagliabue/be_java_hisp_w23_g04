@@ -1,6 +1,7 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
+import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
@@ -17,8 +18,7 @@ import java.util.List;
 import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -41,7 +41,7 @@ public class UserMediaServiceImplTest {
         BuyerDTO expectedResponse = getBuyerDTO();
 
         // Act
-        when(userGateway.findUser(any())).thenReturn(getUser());
+        when(userGateway.findUser(any())).thenReturn(new User());
         when(userGateway.getByIds(anyList())).thenReturn(getUsers());
         BuyerDTO response = userService.getFollowersByUserId(userIdtoFind, orderCriteria);
 
