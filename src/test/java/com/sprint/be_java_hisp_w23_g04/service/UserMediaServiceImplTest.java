@@ -1,31 +1,25 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
+import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SellerDTO;
+import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
+import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
+import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
-import com.sprint.be_java_hisp_w23_g04.gateway.IUserGateway;
+import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-<<<<<<< Updated upstream
 import org.junit.jupiter.api.Test;
-=======
-import com.sprint.be_java_hisp_w23_g04.dto.response.SellerDTO;
-import org.junit.jupiter.api.BeforeEach;
->>>>>>> Stashed changes
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Collections;
+import java.util.List;
 
-<<<<<<< Updated upstream
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-=======
 import static org.assertj.core.api.Assertions.assertThat;
 import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.getOneUser;
 import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.getOneUserSeller;
@@ -33,19 +27,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-
 import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.*;
 import static org.mockito.ArgumentMatchers.*;
 
-import java.util.Collections;
-
-import static org.mockito.ArgumentMatchers.any;
->>>>>>> Stashed changes
-
 @ExtendWith(MockitoExtension.class)
-class UserMediaServiceImplTest {
+public class UserMediaServiceImplTest {
     @Mock
-    IUserGateway userGateway;
+    UserGatewayImpl userGateway;
+
+    @Mock
+    Verifications verifications;
 
     @InjectMocks
     UserMediaServiceImpl userService;
@@ -53,8 +44,6 @@ class UserMediaServiceImplTest {
     @BeforeEach
     void setUp(){
         MockitoAnnotations.openMocks(this);
-<<<<<<< Updated upstream
-=======
     }
 
     @Test
@@ -72,48 +61,39 @@ class UserMediaServiceImplTest {
 
         // Assert
         assertEquals(expectedResponse, response);
->>>>>>> Stashed changes
     }
 
     @Test
-    @DisplayName("followersCount() should return a SellerDTO")
-    void testFollowersCountOk() {
+    @DisplayName("Verify that the alphabetical dsc sort type exists in getFollowersByUserId")
+    void test7() {
         // Arrange
-        Integer userId = 1;
-        User mockUser = new User();
-        mockUser.setId(1);
-        mockUser.setName("test");
-        mockUser.setFollowersId(Collections.emptyList());
-
-        SellerDTO expected = new SellerDTO();
-        expected.setFollowersCount(0);
-        expected.setId(1);
-        expected.setName("test");
+        Integer userIdtoFind = 1;
+        String orderCriteria = "name_dsc";
+        BuyerDTO expectedResponse = getBuyerDescendingDTO();
 
         // Act
-        when(userGateway.findUser(any())).thenReturn(mockUser);
-
-        SellerDTO result = userService.followersCount(userId);
+        when(userGateway.findUser(any())).thenReturn(new User());
+        when(userGateway.getByIds(anyList())).thenReturn(getUsers());
+        BuyerDTO response = userService.getFollowersByUserId(userIdtoFind, orderCriteria);
 
         // Assert
-        assertEquals(expected, result);
+        assertEquals(expectedResponse, response);
     }
 
     @Test
-    @DisplayName("followersCount() should throw NotFoundException")
-    void testFollowersCountThrowsNotFoundException() {
+    @DisplayName("Except because userId not exist in getFollowersByUserId")
+    void test2() {
         // Arrange
-        Integer userId = 1;
+        Integer userIdtoFind = 99;
+        String orderCriteria = "name_asc";
 
         // Act
         when(userGateway.findUser(any())).thenReturn(null);
 
         // Assert
-        assertThrows(NotFoundException.class, () -> userService.followersCount(userId));
+        assertThrows(NotFoundException.class, () -> userService.getFollowersByUserId(userIdtoFind, orderCriteria));
     }
 
-<<<<<<< Updated upstream
-=======
     @Test
     @DisplayName("Except because not user with followers")
     void test3() {
@@ -199,7 +179,7 @@ class UserMediaServiceImplTest {
     }
 
     @Test
-    void unfollowUserTest() {
+    public void unfollowUserTest() {
         int userId = 4;
         int unfollowId = 1;
 
@@ -214,7 +194,7 @@ class UserMediaServiceImplTest {
     }
 
     @Test
-    void unfollowUserWithUserNotFoundTest() {
+    public void unfollowUserWithUserNotFoundTest() {
         int userId = 400;
         int unfollowId = 1;
 
@@ -225,7 +205,7 @@ class UserMediaServiceImplTest {
     }
 
     @Test
-    void unfollowUserBuyerDontFollowSellerTest() {
+    public void unfollowUserBuyerDontFollowSellerTest() {
         int userId = 6;
         int unfollowId = 1;
 
@@ -287,14 +267,10 @@ class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("followersCount() should return a SellerDTO")
+    @DisplayName("followersCount() should return a SellerDTO - US-0002")
     void testFollowersCountOk() {
         // Arrange
         Integer userId = 1;
-        User mockUser = new User();
-        mockUser.setId(1);
-        mockUser.setName("test");
-        mockUser.setFollowersId(Collections.emptyList());
 
         SellerDTO expected = new SellerDTO();
         expected.setFollowersCount(0);
@@ -302,7 +278,7 @@ class UserMediaServiceImplTest {
         expected.setName("test");
 
         // Act
-        when(userGateway.findUser(any())).thenReturn(mockUser);
+        when(userGateway.findUser(any())).thenReturn(new User());
 
         SellerDTO result = userService.followersCount(userId);
 
@@ -311,7 +287,7 @@ class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("followersCount() should throw NotFoundException")
+    @DisplayName("followersCount() should throw NotFoundException - US-0002")
     void testFollowersCountThrowsNotFoundException() {
         // Arrange
         Integer userId = 1;
@@ -322,5 +298,4 @@ class UserMediaServiceImplTest {
         // Assert
         assertThrows(NotFoundException.class, () -> userService.followersCount(userId));
     }
->>>>>>> Stashed changes
 }

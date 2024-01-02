@@ -7,17 +7,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.constraints.Positive;
+
 @RestController
 @RequestMapping("/users")
 public class UserMeliController {
     private final IUserMediaService userMediaService;
 
-    public UserMeliController(
-            UserMediaServiceImpl userMediaService
-    ) {
+    public UserMeliController(UserMediaServiceImpl userMediaService) {
         this.userMediaService = userMediaService;
     }
-
 
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
@@ -32,7 +31,9 @@ public class UserMeliController {
      * @return A ResponseEntity containing the success message.
      */
     @PostMapping("/{userId}/follow/{userIdToFollow}")
-    public ResponseEntity<?> followSellerUser(@PathVariable Integer userId, @PathVariable Integer userIdToFollow) {
+    public ResponseEntity<?> followSellerUser(
+            @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userId,
+            @PathVariable @Positive(message = "El id debe ser mayor a cero") Integer userIdToFollow) {
         return new ResponseEntity<>(userMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
     }
 
@@ -47,7 +48,8 @@ public class UserMeliController {
      * @throws NotFoundException If the user with the given userId does not exist.
      */
     @GetMapping("/{userId}/followers/count")
-    public ResponseEntity<?> getFollowers(@PathVariable int userId) {
+    public ResponseEntity<?> getFollowers(
+            @PathVariable @Positive(message = "El id del usuario debe ser mayor a cero") int userId) {
         return new ResponseEntity<>(userMediaService.followersCount(userId), HttpStatus.OK);
     }
 
@@ -59,12 +61,13 @@ public class UserMeliController {
      * @param userId The ID of the user whose followers are to be retried.
      * @param order  The shorting criteria for the returned list. Defaults to 'name_asc'.
      * @return A ResponseEntity containing the sorted list of followers
-     * @throws NotFoundException If the user with the given userId does not exist.
+     * @throws NotFoundException  If the user with the given userId does not exist.
      * @throws NoContentException If the user exists but no have followers.
      */
     @GetMapping("/{userId}/followers/list")
-    public ResponseEntity<?> getAllFollowersByUserId(@PathVariable Integer userId,
-                                                     @RequestParam(defaultValue = "name_asc") String order) {
+    public ResponseEntity<?> getAllFollowersByUserId(
+            @PathVariable @Positive(message = "El id del usuario debe ser mayor a cero") Integer userId,
+            @RequestParam(defaultValue = "name_asc") String order) {
         return new ResponseEntity<>(userMediaService.getFollowersByUserId(userId, order), HttpStatus.OK);
     }
 
@@ -78,13 +81,16 @@ public class UserMeliController {
      * @throws NoContentException If the user exists but follows no sellers.
      */
     @GetMapping("/{userId}/followed/list")
-    public ResponseEntity<?> getFollowedByUserId(@PathVariable Integer userId,
-                                                 @RequestParam(defaultValue = "name_asc") String order) {
+    public ResponseEntity<?> getFollowedByUserId(
+            @PathVariable @Positive(message = "El id del usuario debe ser mayor a cero") Integer userId,
+            @RequestParam(defaultValue = "name_asc") String order) {
         return new ResponseEntity<>(userMediaService.getFollowedByUserId(userId, order), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/unfollow/{userIdToUnfollow}")
-    public ResponseEntity<?> unfollowUser(@PathVariable int userId, @PathVariable int userIdToUnfollow) {
+    public ResponseEntity<?> unfollowUser(
+            @PathVariable @Positive(message = "El id del usuario debe ser mayor a cero") int userId,
+            @PathVariable @Positive(message = "El id del usuario debe ser mayor a cero") int userIdToUnfollow) {
         return new ResponseEntity<>(userMediaService.unfollowUser(userId, userIdToUnfollow), HttpStatus.ACCEPTED);
     }
 }
