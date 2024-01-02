@@ -63,6 +63,23 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
+    @DisplayName("Verify that the alphabetical dsc sort type exists in getFollowersByUserId")
+    void test7() {
+        // Arrange
+        Integer userIdtoFind = 1;
+        String orderCriteria = "name_dsc";
+        BuyerDTO expectedResponse = getBuyerDescendingDTO();
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(new User());
+        when(userGateway.getByIds(anyList())).thenReturn(getUsers());
+        BuyerDTO response = userService.getFollowersByUserId(userIdtoFind, orderCriteria);
+
+        // Assert
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
     @DisplayName("Except because userId not exist in getFollowersByUserId")
     void test2() {
         // Arrange
@@ -137,24 +154,6 @@ public class UserMediaServiceImplTest {
         assertThrows(NoContentException.class, () -> userService.getFollowersByUserId(userIdToFind, orderCriteria));
     }
 
-
-    @Test
-    @DisplayName("Verify that the alphabetical dsc sort type exists in getFollowersByUserId")
-    void test7() {
-        // Arrange
-        Integer userIdtoFind = 1;
-        String orderCriteria = "name_dsc";
-        BuyerDTO expectedResponse = getBuyerDescendingDTO();
-
-        // Act
-        when(userGateway.findUser(any())).thenReturn(new User());
-        when(userGateway.getByIds(anyList())).thenReturn(getUsers());
-        BuyerDTO response = userService.getFollowersByUserId(userIdtoFind, orderCriteria);
-
-        // Assert
-        assertEquals(expectedResponse, response);
-    }
-
     @Test
     @DisplayName("Except because criteria order not exists in getFollowersByUserId")
     void test8() {
@@ -177,14 +176,14 @@ public class UserMediaServiceImplTest {
         assertThrows(BadRequestException.class, () -> userService.getFollowedByUserId(userIdToFind, orderCriteria));
 
     }
-  
-    @Test 
-    public void unfollowUserTest(){
+
+    @Test
+    public void unfollowUserTest() {
         int userId = 4;
         int unfollowId = 1;
 
-        when(userGateway.findUser(userId)).thenReturn(new User(4,"Sofia Gomez", List.of(), List.of(1,3),List.of()));
-        when(userGateway.findUser(unfollowId)).thenReturn(new User(1, "Juan Perez", List.of(1,2,7), List.of(), List.of(4,6)));
+        when(userGateway.findUser(userId)).thenReturn(new User(4, "Sofia Gomez", List.of(), List.of(1, 3), List.of()));
+        when(userGateway.findUser(unfollowId)).thenReturn(new User(1, "Juan Perez", List.of(1, 2, 7), List.of(), List.of(4, 6)));
 
         SimpleMessageDTO expectedResponse = new SimpleMessageDTO("El usuario Juan Perez Id: 1 ya no es seguido por el usuario Sofia Gomez Id: 4");
 
@@ -194,30 +193,30 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    public void unfollowUserWithUserNotFoundTest(){
+    public void unfollowUserWithUserNotFoundTest() {
         int userId = 400;
         int unfollowId = 1;
 
         when(userGateway.findUser(userId)).thenReturn(null);
-        when(userGateway.findUser(unfollowId)).thenReturn(new User(1, "Juan Perez", List.of(1,2,7), List.of(), List.of(4,6)));
+        when(userGateway.findUser(unfollowId)).thenReturn(new User(1, "Juan Perez", List.of(1, 2, 7), List.of(), List.of(4, 6)));
 
-        assertThrows(NotFoundException.class, ()->userService.unfollowUser(userId, unfollowId), "No se encontró usuario con el id 400.");
+        assertThrows(NotFoundException.class, () -> userService.unfollowUser(userId, unfollowId), "No se encontró usuario con el id 400.");
     }
 
     @Test
-    public void unfollowUserBuyerDontFollowSellerTest(){
+    public void unfollowUserBuyerDontFollowSellerTest() {
         int userId = 6;
         int unfollowId = 1;
 
         when(userGateway.findUser(userId)).thenReturn(new User(6, "Diego Lopez", List.of(), List.of(7), List.of()));
-        when(userGateway.findUser(unfollowId)).thenReturn(new User(1, "Juan Perez", List.of(1,2,7), List.of(), List.of(4,6)));
+        when(userGateway.findUser(unfollowId)).thenReturn(new User(1, "Juan Perez", List.of(1, 2, 7), List.of(), List.of(4, 6)));
 
-        assertThrows(BadRequestException.class, ()->userService.unfollowUser(userId, unfollowId), "El usuario con id:6 no sigue al vendedor con id:1");
+        assertThrows(BadRequestException.class, () -> userService.unfollowUser(userId, unfollowId), "El usuario con id:6 no sigue al vendedor con id:1");
     }
 
     @Test
     @DisplayName("User Follows Seller User successfully.")
-    void followSellerUserWhenUserExistTestOK(){
+    void followSellerUserWhenUserExistTestOK() {
         //Arrange
         Integer userId = 3;
         Integer sellerId = 2;
@@ -234,7 +233,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("User Follows Seller User fails when User does not exist.")
-    void followSellerUserWhenUserDoesNotExistTestNotFound(){
+    void followSellerUserWhenUserDoesNotExistTestNotFound() {
         //Arrange
         Integer userId = 99;
         Integer sellerId = 2;
@@ -244,12 +243,14 @@ public class UserMediaServiceImplTest {
         when(userGateway.findUser(sellerId)).thenReturn(getOneUserSeller());
 
         //Assert
-        assertThrows(NotFoundException.class, () -> {userService.followSellerUser(userId, sellerId);});
+        assertThrows(NotFoundException.class, () -> {
+            userService.followSellerUser(userId, sellerId);
+        });
     }
 
     @Test
     @DisplayName("User Follows Seller User fails when Seller does not exist.")
-    void followSellerUserWhenSellerDoesNotExistTestNotFound(){
+    void followSellerUserWhenSellerDoesNotExistTestNotFound() {
         //Arrange
         Integer userId = 3;
         Integer sellerId = 99;
@@ -259,6 +260,8 @@ public class UserMediaServiceImplTest {
         when(userGateway.findUser(sellerId)).thenReturn(null);
 
         //Assert
-        assertThrows(NotFoundException.class, () -> {userService.followSellerUser(userId, sellerId);});
+        assertThrows(NotFoundException.class, () -> {
+            userService.followSellerUser(userId, sellerId);
+        });
     }
 }
