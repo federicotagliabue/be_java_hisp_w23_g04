@@ -70,6 +70,22 @@ class UserMeliControllerTest {
         // Assert
         assertEquals(expectedResponse, response);
     }
+
+
+    @Test
+    @DisplayName("check if sorting criteria exist in getFollowedByUserId")
+    void test4() {
+        // Arrange
+        BuyerDTO expectedBuyerDTO = getBuyerAscendingDTO();
+        ResponseEntity<?> expectedResponse = new ResponseEntity<>(expectedBuyerDTO, HttpStatus.OK);
+
+        // Act
+        when(userService.getFollowedByUserId(any(), any())).thenReturn(expectedBuyerDTO);
+        ResponseEntity<?> response = controller.getFollowedByUserId(1, "name_false");
+
+        // Assert
+        assertEquals(expectedResponse, response);
+    }
    
     @Test
     public void unfollowSuccessfulTest(){

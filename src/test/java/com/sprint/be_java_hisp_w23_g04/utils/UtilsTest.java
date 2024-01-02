@@ -31,6 +31,10 @@ public class UtilsTest {
         );
     }
 
+    public static User getUser() {
+        return new User(1, "Juan Perez", List.of(1, 2, 7), List.of(), List.of(4, 6, 3, 2, 5));
+    }
+
     public static List<User> getUsers() {
         return List.of(
                 new User(4, "Sofia Gomez", List.of(), List.of(), List.of()),

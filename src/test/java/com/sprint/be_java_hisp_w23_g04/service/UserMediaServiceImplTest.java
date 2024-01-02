@@ -63,34 +63,6 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Verify that the alphabetical dsc sort type exists in getFollowersByUserId")
-    void test7() {
-        // Arrange
-        Integer userIdtoFind = 1;
-        String orderCriteria = "name_dsc";
-        BuyerDTO expectedResponse = getBuyerDescendingDTO();
-
-        // Act
-        when(userGateway.findUser(any())).thenReturn(new User());
-        when(userGateway.getByIds(anyList())).thenReturn(getUsers());
-        BuyerDTO response = userService.getFollowersByUserId(userIdtoFind, orderCriteria);
-
-        // Assert
-        assertEquals(expectedResponse, response);
-    }
-
-    @Test
-    @DisplayName("Excep because criteria order not exists")
-    void test8() {
-        // Arrange
-        Integer userIdtoFind = 1;
-        String orderCriteria = "name_false";
-
-        // Assert
-        assertThrows(BadRequestException.class, () -> userService.getFollowersByUserId(userIdtoFind, orderCriteria));
-    }
-
-    @Test
     @DisplayName("Except because userId not exist in getFollowersByUserId")
     void test2() {
         // Arrange
@@ -163,6 +135,47 @@ public class UserMediaServiceImplTest {
 
         // Assert
         assertThrows(NoContentException.class, () -> userService.getFollowersByUserId(userIdToFind, orderCriteria));
+    }
+
+
+    @Test
+    @DisplayName("Verify that the alphabetical dsc sort type exists in getFollowersByUserId")
+    void test7() {
+        // Arrange
+        Integer userIdtoFind = 1;
+        String orderCriteria = "name_dsc";
+        BuyerDTO expectedResponse = getBuyerDescendingDTO();
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(new User());
+        when(userGateway.getByIds(anyList())).thenReturn(getUsers());
+        BuyerDTO response = userService.getFollowersByUserId(userIdtoFind, orderCriteria);
+
+        // Assert
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    @DisplayName("Except because criteria order not exists in getFollowersByUserId")
+    void test8() {
+        // Arrange
+        Integer userIdtoFind = 1;
+        String orderCriteria = "name_false";
+
+        // Assert
+        assertThrows(BadRequestException.class, () -> userService.getFollowersByUserId(userIdtoFind, orderCriteria));
+    }
+
+    @Test
+    @DisplayName("Except because criteria order not exists in getFollowedByUserId")
+    void test9() {
+        // Arrange
+        Integer userIdToFind = 1;
+        String orderCriteria = "name_false";
+
+        // Assert
+        assertThrows(BadRequestException.class, () -> userService.getFollowedByUserId(userIdToFind, orderCriteria));
+
     }
   
     @Test 
