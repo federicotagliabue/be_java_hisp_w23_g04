@@ -241,5 +241,4 @@ public class UserMeliControllerIntegrationTest {
                 .andDo(MockMvcResultHandlers.print()); // Show the request
     }
 
-
 }
