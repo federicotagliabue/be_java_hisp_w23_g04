@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UtilsTest {
 
-    public static BuyerDTO getBuyerDTO() {
+    public static BuyerDTO getBuyerAscendingDTO() {
         return new BuyerDTO(1, "Juan Perez", List.of(
                 new UserDTO(3, "Almendra Cari"),
                 new UserDTO(6, "Diego Lopez"),

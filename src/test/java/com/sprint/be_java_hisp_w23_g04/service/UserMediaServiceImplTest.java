@@ -2,6 +2,7 @@ package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
@@ -33,12 +34,12 @@ public class UserMediaServiceImplTest {
     UserMediaServiceImpl userService;
 
     @Test
-    @DisplayName("Verify that the alphabetical sort type exists in getFollowersByUserId")
+    @DisplayName("Verify that the alphabetical asc sort type exists in getFollowersByUserId")
     void test1() {
         // Arrange
         Integer userIdtoFind = 1;
         String orderCriteria = "name_asc";
-        BuyerDTO expectedResponse = getBuyerDTO();
+        BuyerDTO expectedResponse = getBuyerAscendingDTO();
 
         // Act
         when(userGateway.findUser(any())).thenReturn(new User());
@@ -47,6 +48,34 @@ public class UserMediaServiceImplTest {
 
         // Assert
         assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    @DisplayName("Verify that the alphabetical dsc sort type exists in getFollowersByUserId")
+    void test7() {
+        // Arrange
+        Integer userIdtoFind = 1;
+        String orderCriteria = "name_dsc";
+        BuyerDTO expectedResponse = getBuyerDescendingDTO();
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(new User());
+        when(userGateway.getByIds(anyList())).thenReturn(getUsers());
+        BuyerDTO response = userService.getFollowersByUserId(userIdtoFind, orderCriteria);
+
+        // Assert
+        assertEquals(expectedResponse, response);
+    }
+
+    @Test
+    @DisplayName("Excep because criteria order not exists")
+    void test8() {
+        // Arrange
+        Integer userIdtoFind = 1;
+        String orderCriteria = "name_false";
+
+        // Assert
+        assertThrows(BadRequestException.class, () -> userService.getFollowersByUserId(userIdtoFind, orderCriteria));
     }
 
     @Test
@@ -83,11 +112,11 @@ public class UserMediaServiceImplTest {
     void test4() {
         // Arrange
         Integer userIdToFind = 1;
-        String orderCriteria = "name_desc";
+        String orderCriteria = "name_dsc";
         BuyerDTO expectedResponse = getBuyerDescendingDTO();
 
         // Act
-        when(userGateway.findUser(any())).thenReturn(getUser());
+        when(userGateway.findUser(any())).thenReturn(new User());
         when(userGateway.getByIds(anyList())).thenReturn(getUsers());
         BuyerDTO response = userService.getFollowedByUserId(userIdToFind, orderCriteria);
 
@@ -117,7 +146,7 @@ public class UserMediaServiceImplTest {
         String orderCriteria = "name_asc";
 
         // Act
-        when(userGateway.findUser(any())).thenReturn(getUser());
+        when(userGateway.findUser(any())).thenReturn(new User());
         when(userGateway.getByIds(anyList())).thenReturn(List.of());
 
         // Assert

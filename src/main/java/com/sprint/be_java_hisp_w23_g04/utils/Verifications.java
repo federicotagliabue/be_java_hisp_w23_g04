@@ -43,7 +43,7 @@ public class Verifications {
     }
 
     public static void verifyUserHasFollowedSellers(com.sprint.be_java_hisp_w23_g04.entity.User user) {
-        if(user.getFollowedId().isEmpty()){
+        if (user.getFollowedId().isEmpty()) {
             throw new NotFoundException("El usuario indicado actualmente no sigue a ningún vendedor");
         }
     }
@@ -54,7 +54,7 @@ public class Verifications {
      * @param seller The User to validate.
      * @throws BadRequestException if the user is not a Seller.
      */
-    public static void verifyUserIsSeller(User seller){
+    public static void verifyUserIsSeller(User seller) {
         if (!isSeller(seller)) {
             throw new BadRequestException("El id de usuario vendedor proporcionado no es valido.");
         }
@@ -67,17 +67,18 @@ public class Verifications {
     /**
      * Validates if the given User follows Seller.
      *
-     * @param user The User to validate.
+     * @param user   The User to validate.
      * @param seller The Seller to validate.
      * @throws BadRequestException if the User already follows Seller.
      */
-    public static void verifyUserFollowsSeller(User user, User seller){
+    public static void verifyUserFollowsSeller(User user, User seller) {
         if (userAlreadyFollowsSeller(user, seller)) {
             throw new BadRequestException("El usuario con id:" + user.getId() + " ya sigue al vendedor con id:" + seller.getId());
         }
     }
+
     private static boolean userAlreadyFollowsSeller(User user, User seller) {
-        Optional<Integer> userSellerId =  user.getFollowedId().stream()
+        Optional<Integer> userSellerId = user.getFollowedId().stream()
                 .filter(id -> Objects.equals(id, seller.getId()))
                 .findFirst();
 
@@ -87,13 +88,19 @@ public class Verifications {
     /**
      * Validates if the given Users are not the same.
      *
-     * @param user The User to validate.
+     * @param user   The User to validate.
      * @param seller The Seller to validate.
      * @throws BadRequestException if the User and Seller are the same
      */
-    public static void verifyDistinctsUser(User user, User seller){
+    public static void verifyDistinctsUser(User user, User seller) {
         if (Objects.equals(user.getId(), seller.getId())) {
-            throw new BadRequestException("El usuario y vendedor con id:"+ seller.getId() +" no pueden ser el mismo.");
+            throw new BadRequestException("El usuario y vendedor con id:" + seller.getId() + " no pueden ser el mismo.");
+        }
+    }
+
+    public static void verifyOrderCriteriaExists(String order) {
+        if (!List.of("name_asc", "name_dsc").contains(order)) {
+            throw new BadRequestException("El criterio de ordenamiento no existe.");
         }
     }
 }
