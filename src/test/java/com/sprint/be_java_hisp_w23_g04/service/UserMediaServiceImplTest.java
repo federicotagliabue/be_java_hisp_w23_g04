@@ -1,6 +1,7 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
+import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
