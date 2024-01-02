@@ -23,6 +23,8 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 public class UserMeliControllerTest {
@@ -62,5 +64,18 @@ public class UserMeliControllerTest {
         when(userService.unfollowUser(anyInt(), anyInt()))
                 .thenThrow(new BadRequestException("El vendedor con id:" + userId + " no es seguido por el usuario con id:" + unfollowedId));
         assertThrows(BadRequestException.class ,()-> controller.unfollowUser(userId, unfollowedId));
+    }
+
+    @Test
+    void followSellerUser() {
+        // arrange
+        int userId = 1;
+        int sellerId = 2;
+
+        // act
+        controller.followSellerUser(userId, sellerId);
+
+        // assert
+        verify(userService, atLeastOnce()).followSellerUser(any(), any());
     }
 }
