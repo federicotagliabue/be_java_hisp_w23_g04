@@ -1,5 +1,6 @@
 package com.sprint.be_java_hisp_w23_g04.utils;
 
+import com.sprint.be_java_hisp_w23_g04.dto.request.PostDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.Product;
@@ -47,38 +48,43 @@ public class UtilsTest {
     }
 
     public static User getOneUser() {
-        List <Integer> followedIds = new ArrayList<>();
+        List<Integer> followedIds = new ArrayList<>();
         followedIds.add(7);
         return new User(6, "Diego Lopez", new ArrayList<>(), followedIds, new ArrayList<>());
     }
+
     public static User getOneUserSeller() {
-        List <Integer> followerIds = new ArrayList<>();
+        List<Integer> followerIds = new ArrayList<>();
         followerIds.add(2);
         followerIds.add(4);
-        List <Integer> postIds = new ArrayList<>();
+        List<Integer> postIds = new ArrayList<>();
         postIds.add(4);
         return new User(3, "Pablo Gonzalez", postIds, new ArrayList<>(), followerIds);
     }
 
-    public static PostListDTO generateExpectedResponse(int userId, String order){
+    public static PostListDTO generateExpectedResponse(int userId, String order) {
 
         ProductDTO productDTO = new ProductDTO(1, "Silla gamer Test", "Type Gamer Test", "Brand Test", "Color Test", "Special Edition Test");
 
-        PostResponseDTO post1 = new PostResponseDTO(3, 1, LocalDate.of(2023,12,26), productDTO, 10, 999.99);
+        PostResponseDTO post1 = new PostResponseDTO(3, 1, LocalDate.of(2023, 12, 26), productDTO, 10, 999.99);
 
-        PostResponseDTO post2 = new PostResponseDTO(3, 2, LocalDate.of(2023,12,27), productDTO, 10, 888.00);
+        PostResponseDTO post2 = new PostResponseDTO(3, 2, LocalDate.of(2023, 12, 27), productDTO, 10, 888.00);
 
-        PostResponseDTO post3 = new PostResponseDTO(2, 3, LocalDate.of(2023,12,28), productDTO, 10, 1000);
+        PostResponseDTO post3 = new PostResponseDTO(2, 3, LocalDate.of(2023, 12, 28), productDTO, 10, 1000);
 
         switch (order) {
-            case "date_asc" -> {return new PostListDTO(userId, List.of(post1,post2,post3));}
-            case "date_desc" -> {return new PostListDTO(userId, List.of(post3,post2,post1));}
+            case "date_asc" -> {
+                return new PostListDTO(userId, List.of(post1, post2, post3));
+            }
+            case "date_desc" -> {
+                return new PostListDTO(userId, List.of(post3, post2, post1));
+            }
         }
 
         return null;
     }
 
-    public static Product getProductTest(){
+    public static Product getProductTest() {
         return new Product(1,
                 "Silla gamer Test",
                 "Type Gamer Test",
@@ -87,7 +93,7 @@ public class UtilsTest {
                 "Special Edition Test");
     }
 
-    public static List<User> getSellers(){
+    public static List<User> getSellers() {
         User seller = new User();
         seller.setId(2);
         seller.setName("Seller Test 2");
@@ -96,14 +102,14 @@ public class UtilsTest {
         User seller2 = new User();
         seller2.setId(3);
         seller2.setName("Seller Test 3");
-        seller2.setPostsId(List.of(0,1,2));
+        seller2.setPostsId(List.of(0, 1, 2));
 
-        return List.of(seller,seller2);
+        return List.of(seller, seller2);
     }
 
     public static User getUserTest(int userId) {
         User userTest = new User();
-        userTest.setFollowedId(List.of(2,3));
+        userTest.setFollowedId(List.of(2, 3));
         userTest.setId(userId);
         return userTest;
     }
@@ -111,16 +117,16 @@ public class UtilsTest {
     public static List<Post> generatePostListBySeller(int sellerId) {
         switch (sellerId) {
             case 3 -> {
-                Post p0 = new Post(0, 3, 1, LocalDate.of(2020,6,18), 10, 999.99);
+                Post p0 = new Post(0, 3, 1, LocalDate.of(2020, 6, 18), 10, 999.99);
 
-                Post p1 = new Post(1, 3, 1, LocalDate.of(2023,12,26), 10, 999.99);
+                Post p1 = new Post(1, 3, 1, LocalDate.of(2023, 12, 26), 10, 999.99);
 
-                Post p2 = new Post(2, 3, 1, LocalDate.of(2023,12,27), 10, 888.00);
+                Post p2 = new Post(2, 3, 1, LocalDate.of(2023, 12, 27), 10, 888.00);
 
-                return List.of(p0,p1,p2);
+                return List.of(p0, p1, p2);
             }
             case 2 -> {
-                Post p3 = new Post(3, 2, 1, LocalDate.of(2023,12,28), 10, 1000.0);
+                Post p3 = new Post(3, 2, 1, LocalDate.of(2023, 12, 28), 10, 1000.0);
 
                 return List.of(p3);
             }
@@ -130,8 +136,12 @@ public class UtilsTest {
 
     public static List<Integer> getPostListBySeller(int sellerId) {
         switch (sellerId) {
-            case 2 -> { return List.of(3);}
-            case 3 -> { return List.of(0,1,2); }
+            case 2 -> {
+                return List.of(3);
+            }
+            case 3 -> {
+                return List.of(0, 1, 2);
+            }
         }
 
         return null;
@@ -140,6 +150,19 @@ public class UtilsTest {
     public static PostResponseDTO getExcludedPost() {
         ProductDTO productDTO = new ProductDTO(1, "Silla gamer Test", "Type Gamer Test", "Brand Test", "Color Test", "Special Edition Test");
 
-        return new PostResponseDTO(3, 0, LocalDate.of(2020,6,18), productDTO, 10, 999.99);
+        return new PostResponseDTO(3, 0, LocalDate.of(2020, 6, 18), productDTO, 10, 999.99);
+    }
+
+    public static PostDTO requestPostDto() {
+        ProductDTO productDTO = new ProductDTO(1, "Product", "Type", "Brand", "Color", "Notes");
+
+        PostDTO postDTO = new PostDTO();
+        postDTO.setUserId(1);
+        postDTO.setDate(LocalDate.now());
+        postDTO.setProduct(productDTO);
+        postDTO.setCategory(123);
+        postDTO.setPrice(99.99);
+
+        return postDTO;
     }
 }
