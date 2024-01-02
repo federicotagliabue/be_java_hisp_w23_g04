@@ -9,11 +9,13 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Data
+@Generated
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostDTO {

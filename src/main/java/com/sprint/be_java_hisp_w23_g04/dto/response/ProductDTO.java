@@ -8,9 +8,11 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 @Data
+@Generated
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO {
