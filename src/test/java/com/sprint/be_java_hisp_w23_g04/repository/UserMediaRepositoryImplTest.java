@@ -9,4 +9,5 @@ public class UserMediaRepositoryImplTest {
     @Autowired
     UserMediaRepositoryImpl userRepository;
 
+
 }

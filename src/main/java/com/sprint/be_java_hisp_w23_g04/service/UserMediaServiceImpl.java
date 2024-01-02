@@ -19,7 +19,7 @@ import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.*;
 @Service
 public class UserMediaServiceImpl implements IUserMediaService {
 
-    private final IUserGateway userGateway;
+    private IUserGateway userGateway;
 
     public UserMediaServiceImpl(UserGatewayImpl userGateway) {
         this.userGateway = userGateway;
