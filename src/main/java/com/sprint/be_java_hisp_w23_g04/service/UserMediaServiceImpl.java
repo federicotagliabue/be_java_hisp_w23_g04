@@ -4,6 +4,7 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.*;
 import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SellerDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateway.IUserGateway;
@@ -39,7 +40,7 @@ public class UserMediaServiceImpl implements IUserMediaService {
         Verifications.verifyUserExist(seller, userIdToFollow);
         Verifications.verifyDistinctsUser(user, seller);
         Verifications.verifyUserIsSeller(seller);
-        Verifications.verifyUserFollowsSeller(user, seller);
+        Verifications.verifyUserAlreadyFollowsSeller(user, seller);
 
         seller.getFollowersId().add(userId);
         user.getFollowedId().add(userIdToFollow);
@@ -131,6 +132,15 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
     }
 
+    /**
+     * Performs the action of unfollowing a seller from a buyer
+     *
+     * @param userId The ID of the user who is unfollowing (a buyer).
+     * @param unfollowId  The ID of the user who is being unfollowed (a seller).
+     * @return SimpleMessageDTO with a message confirming the action was performed
+     * @throws NotFoundException  If any of the users with the given userIds don't exist.
+     * @throws BadRequestException If the user exists but doesn't follow the specific seller on which the action is being performed.
+     */
     @Override
     public SimpleMessageDTO unfollowUser(int userId, int unfollowId) {
         User user = userGateway.findUser(userId);
@@ -138,11 +148,10 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
         verifyUserExist(user, userId);
         verifyUserExist(unfollowedUser, unfollowId);
-        //todo utilizar new objects
-        //verifyUserIsFollowed(user, unfollowedUser);
-        //verifyUserIsFollower(unfollowedUser, user);
+        verifySellerIsFollowedByUser(user, unfollowedUser);
+        verifyUserFollowsSeller(user, unfollowedUser);
 
-        //userGateway.unfollowUser(userId, unfollowId);
+        userGateway.unfollowUser(userId, unfollowId);
 
         return new SimpleMessageDTO("El usuario " + unfollowedUser.getName() + " Id: " + unfollowedUser.getId() + " ya no es seguido por el usuario " + user.getName() + " Id: " + user.getId());
     }

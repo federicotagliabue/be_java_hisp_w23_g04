@@ -65,13 +65,13 @@ public class Verifications {
     }
 
     /**
-     * Validates if the given User follows Seller.
+     * Validates if the given User already follows Seller.
      *
      * @param user   The User to validate.
      * @param seller The Seller to validate.
      * @throws BadRequestException if the User already follows Seller.
      */
-    public static void verifyUserFollowsSeller(User user, User seller) {
+    public static void verifyUserAlreadyFollowsSeller(User user, User seller){
         if (userAlreadyFollowsSeller(user, seller)) {
             throw new BadRequestException("El usuario con id:" + user.getId() + " ya sigue al vendedor con id:" + seller.getId());
         }
@@ -85,6 +85,47 @@ public class Verifications {
         return userSellerId.isPresent();
     }
 
+
+    /**
+     * Returns true if the seller has a given user as a follower
+     *
+     * @param user The User to validate.
+     * @param seller The Seller to validate.
+     */
+    private static boolean sellerIsAlreadyFollowedByUser(User user, User seller) {
+        Optional<Integer> sellerFollowerId = seller.getFollowersId().stream()
+                .filter(id -> Objects.equals(id, user.getId()))
+                .findFirst();
+
+        return sellerFollowerId.isPresent();
+    }
+
+    /**
+     * Verifies if the given Seller is followed by the given User.
+     *
+     * @param user The User to validate.
+     * @param seller The Seller to validate.
+     * @throws BadRequestException if the Seller is not followed by the User.
+     */
+    public static void verifySellerIsFollowedByUser(User user, User seller){
+        if (!sellerIsAlreadyFollowedByUser(user, seller)) {
+            throw new BadRequestException("El vendedor con id:" + user.getId() + " no es seguido por el usuario con id:" + seller.getId());
+        }
+    }
+
+    /**
+     * Verifies if the given User follows the given Seller.
+     *
+     * @param user The User to validate.
+     * @param seller The Seller to validate.
+     * @throws BadRequestException if the User does not follow the Seller.
+     */
+
+    public static void verifyUserFollowsSeller(User user, User seller){
+        if (!userAlreadyFollowsSeller(user, seller)) {
+            throw new BadRequestException("El usuario con id:" + user.getId() + " no sigue al vendedor con id:" + seller.getId());
+        }
+    }
     /**
      * Validates if the given Users are not the same.
      *
