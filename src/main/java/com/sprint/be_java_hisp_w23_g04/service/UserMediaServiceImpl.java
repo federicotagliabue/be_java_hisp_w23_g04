@@ -74,6 +74,7 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
     @Override
     public BuyerDTO getFollowedByUserId(Integer userId, String order) {
+        Verifications.verifyOrderCriteriaExists(order);
         User user = this.userGateway.findUser(userId);
 
         Verifications.verifyUserExist(user, userId);
