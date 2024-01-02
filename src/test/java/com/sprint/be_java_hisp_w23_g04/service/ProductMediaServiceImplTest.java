@@ -1,6 +1,5 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
-import com.sprint.be_java_hisp_w23_g04.UtilsTest;
 import com.sprint.be_java_hisp_w23_g04.dto.response.PostListDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.PostResponseDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
@@ -8,6 +7,7 @@ import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.gateway.PostGatewayImpl;
 import com.sprint.be_java_hisp_w23_g04.gateway.ProductGatewayImpl;
 import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
+import com.sprint.be_java_hisp_w23_g04.utils.UtilsTest;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
