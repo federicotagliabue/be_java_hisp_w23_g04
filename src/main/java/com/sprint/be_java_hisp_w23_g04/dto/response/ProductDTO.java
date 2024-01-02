@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Generated;
 import lombok.NoArgsConstructor;
 
 @Data
+@Generated
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductDTO {
