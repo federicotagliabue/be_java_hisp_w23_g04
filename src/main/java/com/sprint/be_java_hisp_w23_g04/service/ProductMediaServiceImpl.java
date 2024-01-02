@@ -37,9 +37,12 @@ public class ProductMediaServiceImpl implements IProductMediaService {
      * @throws NotFoundException if not exists user with the given userId
      * @throws NotFoundException if the user does not have any followed sellers.
      * @throws NoContentException if the list of filtered posts is empty.
+     * @throws BadRequestException if the order isn't date_desc or date_asc
      */
     @Override
     public PostListDTO getFilteredPosts(int userId, String order) {
+        Verifications.verifyOrderCriteriaExists(order);
+
         User user = userGateway.findUser(userId);
 
         Verifications.verifyUserExist(user,userId);

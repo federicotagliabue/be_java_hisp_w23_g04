@@ -140,7 +140,7 @@ public class Verifications {
     }
 
     public static void verifyOrderCriteriaExists(String order) {
-        if (!List.of("name_asc", "name_dsc").contains(order)) {
+        if (!List.of("name_asc", "name_dsc", "date_asc", "date_desc").contains(order)) {
             throw new BadRequestException("El criterio de ordenamiento no existe.");
         }
     }

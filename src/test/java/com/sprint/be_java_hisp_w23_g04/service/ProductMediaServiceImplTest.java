@@ -4,6 +4,7 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.PostListDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.PostResponseDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.gateway.PostGatewayImpl;
 import com.sprint.be_java_hisp_w23_g04.gateway.ProductGatewayImpl;
 import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
@@ -52,6 +53,16 @@ public class ProductMediaServiceImplTest {
     @AfterAll
     public static void close() {
         localDateNowMock.close();
+    }
+
+    @Test
+    @DisplayName("T-0005: Should return BadRequestException because the date sorting type not exists")
+    public void getFilteredPostsOrderByDateWithIncorrectSorting() {
+        int userId = 99;
+        String order = "test";
+
+        Assertions.assertThrows(BadRequestException.class,
+                () -> productService.getFilteredPosts(userId, order));
     }
 
     @Test
