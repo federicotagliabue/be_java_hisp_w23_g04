@@ -1,5 +1,6 @@
 package com.sprint.be_java_hisp_w23_g04;
 
+import com.sprint.be_java_hisp_w23_g04.dto.response.PostDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.PostListDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.PostResponseDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.ProductDTO;
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class UtilsTest {
 
-    public static PostListDTO generateExpectedResponseT0008(int userId,String order){
+    public static PostListDTO generateExpectedResponse(int userId, String order){
 
         ProductDTO productDTO = new ProductDTO(1, "Silla gamer Test", "Type Gamer Test", "Brand Test", "Color Test", "Special Edition Test");
 
@@ -48,7 +49,7 @@ public class UtilsTest {
         User seller2 = new User();
         seller2.setId(3);
         seller2.setName("Seller Test 3");
-        seller2.setPostsId(List.of(1,2));
+        seller2.setPostsId(List.of(0,1,2));
 
         return List.of(seller,seller2);
     }
@@ -63,11 +64,13 @@ public class UtilsTest {
     public static List<Post> generatePostListBySeller(int sellerId) {
         switch (sellerId) {
             case 3 -> {
+                Post p0 = new Post(0, 3, 1, LocalDate.of(2020,6,18), 10, 999.99);
+
                 Post p1 = new Post(1, 3, 1, LocalDate.of(2023,12,26), 10, 999.99);
 
                 Post p2 = new Post(2, 3, 1, LocalDate.of(2023,12,27), 10, 888.00);
 
-                return List.of(p1,p2);
+                return List.of(p0,p1,p2);
             }
             case 2 -> {
                 Post p3 = new Post(3, 2, 1, LocalDate.of(2023,12,28), 10, 1000.0);
@@ -81,9 +84,15 @@ public class UtilsTest {
     public static List<Integer> getPostListBySeller(int sellerId) {
         switch (sellerId) {
             case 2 -> { return List.of(3);}
-            case 3 -> { return List.of(1,2); }
+            case 3 -> { return List.of(0,1,2); }
         }
 
         return null;
+    }
+
+    public static PostResponseDTO getExcludedPost() {
+        ProductDTO productDTO = new ProductDTO(1, "Silla gamer Test", "Type Gamer Test", "Brand Test", "Color Test", "Special Edition Test");
+
+        return new PostResponseDTO(3, 0, LocalDate.of(2020,6,18), productDTO, 10, 999.99);
     }
 }
