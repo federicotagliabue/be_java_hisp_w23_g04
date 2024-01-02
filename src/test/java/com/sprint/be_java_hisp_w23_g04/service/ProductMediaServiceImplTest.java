@@ -4,6 +4,7 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.PostListDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.PostResponseDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.Post;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
+import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.gateway.PostGatewayImpl;
 import com.sprint.be_java_hisp_w23_g04.gateway.ProductGatewayImpl;
 import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
@@ -52,6 +53,64 @@ public class ProductMediaServiceImplTest {
     @AfterAll
     public static void close() {
         localDateNowMock.close();
+    }
+
+    @Test
+    @DisplayName(("T-0005: Should return a list of posts in asc order"))
+    public void getFilteredPostsByCorrectOrderAsc() {
+        int userId = 99;
+        String order = "date_asc";
+        User userTest = UtilsTest.getUserTest(99);
+        List<User> sellers = UtilsTest.getSellers();
+        List<Post> postsSellerId2 = UtilsTest.generatePostListBySeller(2);
+        List<Post> postsSellerId3 = UtilsTest.generatePostListBySeller(3);
+        PostListDTO expectedResponse = UtilsTest.generateExpectedResponse(userId,order);
+
+        when(userGateway.findUser(userId)).thenReturn(userTest);
+        when(userGateway.getByIds(any())).thenReturn(sellers);
+        when(postGateway.getByIds(UtilsTest.getPostListBySeller(2))).thenReturn(postsSellerId2);
+        when(postGateway.getByIds(UtilsTest.getPostListBySeller(3))).thenReturn(postsSellerId3);
+        when(productGateway.getById(1)).thenReturn(UtilsTest.getProductTest());
+
+        PostListDTO actualResponse = productService.getFilteredPosts(userId,order);
+
+        Assertions.assertEquals(expectedResponse.getPosts().get(0), actualResponse.getPosts().get(0));
+        Assertions.assertEquals(expectedResponse.getPosts().get(1), actualResponse.getPosts().get(1));
+        Assertions.assertEquals(expectedResponse.getPosts().get(2), actualResponse.getPosts().get(2));
+    }
+
+    @Test
+    @DisplayName(("T-0005: Should return a list of posts in desc order"))
+    public void getFilteredPostsByCorrectOrderDesc() {
+        int userId = 99;
+        String order = "date_desc";
+        User userTest = UtilsTest.getUserTest(99);
+        List<User> sellers = UtilsTest.getSellers();
+        List<Post> postsSellerId2 = UtilsTest.generatePostListBySeller(2);
+        List<Post> postsSellerId3 = UtilsTest.generatePostListBySeller(3);
+        PostListDTO expectedResponse = UtilsTest.generateExpectedResponse(userId,order);
+
+        when(userGateway.findUser(userId)).thenReturn(userTest);
+        when(userGateway.getByIds(any())).thenReturn(sellers);
+        when(postGateway.getByIds(UtilsTest.getPostListBySeller(2))).thenReturn(postsSellerId2);
+        when(postGateway.getByIds(UtilsTest.getPostListBySeller(3))).thenReturn(postsSellerId3);
+        when(productGateway.getById(1)).thenReturn(UtilsTest.getProductTest());
+
+        PostListDTO actualResponse = productService.getFilteredPosts(userId,order);
+
+        Assertions.assertEquals(expectedResponse.getPosts().get(0), actualResponse.getPosts().get(0));
+        Assertions.assertEquals(expectedResponse.getPosts().get(1), actualResponse.getPosts().get(1));
+        Assertions.assertEquals(expectedResponse.getPosts().get(2), actualResponse.getPosts().get(2));
+    }
+
+    @Test
+    @DisplayName("T-0005: Should return BadRequestException because the date sorting type not exists")
+    public void getFilteredPostsOrderByDateWithIncorrectSorting() {
+        int userId = 99;
+        String order = "test";
+
+        Assertions.assertThrows(BadRequestException.class,
+                () -> productService.getFilteredPosts(userId, order));
     }
 
     @Test
