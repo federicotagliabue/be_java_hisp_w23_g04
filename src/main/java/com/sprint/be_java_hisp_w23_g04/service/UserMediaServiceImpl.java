@@ -100,6 +100,8 @@ public class UserMediaServiceImpl implements IUserMediaService {
      */
     @Override
     public BuyerDTO getFollowersByUserId(Integer userId, String order) {
+        Verifications.verifyOrderCriteriaExists(order);
+
         User user = this.userGateway.findUser(userId);
 
         Verifications.verifyUserExist(user, userId);
@@ -108,23 +110,23 @@ public class UserMediaServiceImpl implements IUserMediaService {
 
         Verifications.validateEmptyResponseList(userFollowers);
 
-        List<com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO> followed = sortedFollow(userFollowers, order);
+        List<UserDTO> followed = sortedFollow(userFollowers, order);
 
         return new BuyerDTO(user.getId(), user.getName(), followed);
     }
 
-    private List<com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO> sortedFollow(List<User> follows, String order) {
-        if (order.equals("name_asc")) {
+    private List<UserDTO> sortedFollow(List<User> follows, String order) {
+        if (order.equals("name_dsc")) {
             return follows.stream()
                     .map(UserMapper::mapUser)
-                    .sorted(Comparator.comparing(com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO::getName))
+                    .sorted(Comparator.
+                            comparing(UserDTO::getName)
+                            .reversed())
                     .toList();
         } else {
             return follows.stream()
                     .map(UserMapper::mapUser)
-                    .sorted(Comparator.
-                            comparing(com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO::getName)
-                            .reversed())
+                    .sorted(Comparator.comparing(UserDTO::getName))
                     .toList();
         }
 
