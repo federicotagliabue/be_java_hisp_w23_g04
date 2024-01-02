@@ -1,7 +1,6 @@
 package com.sprint.be_java_hisp_w23_g04.controller;
 
-import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
-import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
+import com.sprint.be_java_hisp_w23_g04.exception.*;
 import com.sprint.be_java_hisp_w23_g04.service.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,6 +28,8 @@ public class UserMeliController {
      * @param userId The ID of the User who adds new Followed.
      * @param userIdToFollow  The ID of the Seller who adds new Follower.
      * @return A ResponseEntity containing the success message.
+     * @throws NotFoundException If the user with the given userId does not exist.
+     * @throws BadRequestException If the user and seller id are the same || If the seller Id is not Seller || If the user already follows the seller
      */
     @PostMapping("/{userId}/follow/{userIdToFollow}")
     public ResponseEntity<?> followSellerUser(
