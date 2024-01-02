@@ -37,6 +37,16 @@ public class UserMeliController {
         return new ResponseEntity<>(userMediaService.followSellerUser(userId, userIdToFollow), HttpStatus.OK);
     }
 
+    /**
+     * Retrieve the Count of Followers for a Specific User.
+     * <p>
+     * This endpoint provides the total number of followers for a user based on their unique userId.
+     * It serves as a means to quickly gauge the user's social influence by quantifying their follower base.
+     *
+     * @param userId The ID of the user whose followers count is being queried.
+     * @return A ResponseEntity containing the numerical count of followers for the user.
+     * @throws NotFoundException If the user with the given userId does not exist.
+     */
     @GetMapping("/{userId}/followers/count")
     public ResponseEntity<?> getFollowers(
             @PathVariable @Positive(message = "El id del usuario debe ser mayor a cero") int userId) {

@@ -1,6 +1,7 @@
 package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
+import com.sprint.be_java_hisp_w23_g04.dto.response.SellerDTO;
 import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
@@ -8,17 +9,17 @@ import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
-import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.getOneUser;
 import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.getOneUserSeller;
@@ -26,13 +27,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class UserMediaServiceImplTest {
@@ -44,6 +40,11 @@ public class UserMediaServiceImplTest {
 
     @InjectMocks
     UserMediaServiceImpl userService;
+
+    @BeforeEach
+    void setUp(){
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     @DisplayName("Verify that the alphabetical asc sort type exists in getFollowersByUserId")
@@ -263,5 +264,38 @@ public class UserMediaServiceImplTest {
         assertThrows(NotFoundException.class, () -> {
             userService.followSellerUser(userId, sellerId);
         });
+    }
+
+    @Test
+    @DisplayName("followersCount() should return a SellerDTO - US-0002")
+    void testFollowersCountOk() {
+        // Arrange
+        Integer userId = 1;
+
+        SellerDTO expected = new SellerDTO();
+        expected.setFollowersCount(0);
+        expected.setId(1);
+        expected.setName("test");
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(new User());
+
+        SellerDTO result = userService.followersCount(userId);
+
+        // Assert
+        assertEquals(expected, result);
+    }
+
+    @Test
+    @DisplayName("followersCount() should throw NotFoundException - US-0002")
+    void testFollowersCountThrowsNotFoundException() {
+        // Arrange
+        Integer userId = 1;
+
+        // Act
+        when(userGateway.findUser(any())).thenReturn(null);
+
+        // Assert
+        assertThrows(NotFoundException.class, () -> userService.followersCount(userId));
     }
 }
