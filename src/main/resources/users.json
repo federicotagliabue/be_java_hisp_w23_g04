@@ -43,10 +43,10 @@
   },
   {
     "id": 7,
-    "name": "Penelope cruz",
+    "name": "Penelope Cruz",
     "posts_id": [5],
     "followed_id": [],
-    "followers_id": []
+    "followers_id": [6]
   },
   {
     "id": 8,
