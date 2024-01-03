@@ -35,16 +35,8 @@ public class UserMediaServiceImplTest {
     @Mock
     UserGatewayImpl userGateway;
 
-    @Mock
-    Verifications verifications;
-
     @InjectMocks
     UserMediaServiceImpl userService;
-
-    @BeforeEach
-    void setUp(){
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     @DisplayName("Verify that the alphabetical asc sort type exists in getFollowersByUserId")
