@@ -46,16 +46,6 @@ public class ProductMediaRepositoryImpl implements IProductMediaRepository {
     }
 
     @Override
-    public int getNextPostId(User user) {
-        return 1;
-    }
-
-    @Override
-    public void savePost(User user) {
-
-    }
-
-    @Override
     public List<Product> getByIds(List<Integer> listIds) {
         return products.stream().filter(
                         p -> listIds.contains(p.getId())).
