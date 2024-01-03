@@ -86,9 +86,10 @@ class UserMeliControllerTest {
         // Assert
         assertEquals(expectedResponse, response);
     }
-   
+
     @Test
-    public void unfollowSuccessfulTest(){
+    @DisplayName("User Unfollows Seller User successfully.")
+    public void unfollowSuccessfulTest() {
         int userId = 4;
         int unfollowedId = 1;
 
@@ -97,19 +98,21 @@ class UserMeliControllerTest {
                 .thenReturn(expectedServiceResponse);
         ResponseEntity<?> actualResponse = controller.unfollowUser(userId, unfollowedId);
 
-        assertThat(new ResponseEntity<>(expectedServiceResponse,HttpStatus.ACCEPTED)).isEqualTo(actualResponse);
+        assertThat(new ResponseEntity<>(expectedServiceResponse, HttpStatus.ACCEPTED)).isEqualTo(actualResponse);
     }
 
     @Test
-    public void unfollowUserNotFoundTest(){
+    @DisplayName("User Unfollows Seller User And Fails. Seller Not Found.")
+    public void unfollowUserNotFoundTest() {
         int userId = 99;
         int unfollowedId = 2;
         when(userService.unfollowUser(anyInt(), anyInt()))
-                .thenThrow(new NotFoundException("No se encontró usuario c   on el id " + userId + "."));
-        assertThrows(NotFoundException.class ,()-> controller.unfollowUser(userId, unfollowedId));
+                .thenThrow(new NotFoundException("No se encontró usuario con el id " + userId + "."));
+        assertThrows(NotFoundException.class, () -> controller.unfollowUser(userId, unfollowedId));
     }
 
     @Test
+    @DisplayName("User Unfollows Seller User And Fails. Seller Not Followed.")
     public void unfollowUserNotFollowedTest(){
         int userId = 99;
         int unfollowedId = 2;
