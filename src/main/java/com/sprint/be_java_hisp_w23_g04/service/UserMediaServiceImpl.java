@@ -15,12 +15,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
+
 import static com.sprint.be_java_hisp_w23_g04.utils.Verifications.*;
 
 @Service
 public class UserMediaServiceImpl implements IUserMediaService {
 
-    private IUserGateway userGateway;
+    private final IUserGateway userGateway;
 
     public UserMediaServiceImpl(UserGatewayImpl userGateway) {
         this.userGateway = userGateway;
@@ -136,10 +137,10 @@ public class UserMediaServiceImpl implements IUserMediaService {
     /**
      * Performs the action of unfollowing a seller from a buyer
      *
-     * @param userId The ID of the user who is unfollowing (a buyer).
-     * @param unfollowId  The ID of the user who is being unfollowed (a seller).
+     * @param userId     The ID of the user who is unfollowing (a buyer).
+     * @param unfollowId The ID of the user who is being unfollowed (a seller).
      * @return SimpleMessageDTO with a message confirming the action was performed
-     * @throws NotFoundException  If any of the users with the given userIds don't exist.
+     * @throws NotFoundException   If any of the users with the given userIds don't exist.
      * @throws BadRequestException If the user exists but doesn't follow the specific seller on which the action is being performed.
      */
     @Override
