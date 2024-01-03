@@ -24,12 +24,6 @@ public class Verifications {
         }
     }
 
-    public static void verifyUserExist(User user) {
-        if (user == null) {
-            throw new NotFoundException("No se encontró usuario con el id proporcionado.");
-        }
-    }
-
     /**
      * Validates that a given list is not empty. Throws NoContentException if the list is empty.
      *

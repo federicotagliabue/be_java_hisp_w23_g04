@@ -18,6 +18,11 @@ public class UserMeliController {
         this.userMediaService = userMediaService;
     }
 
+    /**
+     * Get all users, returns all system users.
+     *
+     * @return A ResponseEntity containing list of users.
+     */
     @GetMapping
     public ResponseEntity<?> getAllUsers() {
         return new ResponseEntity<>(userMediaService.getAllUsers(), HttpStatus.OK);

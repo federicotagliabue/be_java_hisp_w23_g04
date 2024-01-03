@@ -9,10 +9,6 @@ import com.sprint.be_java_hisp_w23_g04.entity.User;
 
 public class PostMapper {
 
-    public static PostResponseDTO PostRequestDTOMapper() {
-        return new PostResponseDTO();
-    }
-
     /**
      * Maps a received PostDTO to a Post entity
      *
