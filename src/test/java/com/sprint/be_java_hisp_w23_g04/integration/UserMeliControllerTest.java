@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.hamcrest.Matchers.contains;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -37,7 +37,7 @@ public class UserMeliControllerTest {
     }
 
     @Test
-    @DisplayName("Get All Users successful")
+    @DisplayName("Get All Users: Successful")
     void getAllUsersOKTest() throws Exception {
         //Act y Assert
         MvcResult result = this.mockMvc.perform(MockMvcRequestBuilders.get("/users"))
@@ -53,14 +53,14 @@ public class UserMeliControllerTest {
     }
 
     @Test
-    @DisplayName("Follow User Seller Successful")
+    @DisplayName("Follow User Seller: Successful")
     void followSellerUserOKTest() throws Exception {
         //Act y Assert
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/users/{userId}/follow/{userIdToFollow}", 2, 1))
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/users/{userId}/follow/{userIdToFollow}", 6, 3))
                 .andDo(print())
                 .andExpect(content().contentType("application/json"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.description").value("El usuario con id:2 ahora sigue a vendedor con id:1"));
+                .andExpect(jsonPath("$.description").value("El usuario con id:6 ahora sigue a vendedor con id:3"));
     }
 
     @Test
@@ -129,7 +129,7 @@ public class UserMeliControllerTest {
     }
 
     @Test
-    @DisplayName("Follow User Seller Fails with Bad Request when ids are negative")
+    @DisplayName("Follow User Seller: Fails with Bad Request when ids are negative")
     void followSellerUserValidationExceptionTest() throws Exception {
         String expectedMsg= "Se encontraron los siguientes errores en las validaciones:";
         String expectedMsgError = "El id debe ser mayor a cero";
@@ -142,4 +142,201 @@ public class UserMeliControllerTest {
                 .andExpect(jsonPath("$.description").value(expectedMsg))
                 .andExpect(jsonPath("$.messages", contains(expectedMsgError)));
     }
+
+    @Test
+    @DisplayName("Get Followers Count: Successful")
+    void getFollowersOkTest() throws Exception {
+        int expectedFollowersCount = 2;
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/count", 1))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.followers_count").value(expectedFollowersCount));
+    }
+
+    @Test
+    @DisplayName("Get Followers Count: Fails with when")
+    void getFollowersExceptionTest() throws Exception {
+        int expectedFollowersCount = 2;
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/count", 1))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.followers_count").value(expectedFollowersCount));
+    }
+
+    @Test
+    @DisplayName("Get Followers Count: Fails with Not Found when user does not exist")
+    void getFollowersException1Test() throws Exception {
+        String expectedMsg= "No se encontró usuario con el id 99.";
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/count", 99))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.description").value(expectedMsg));
+    }
+
+    @Test
+    @DisplayName("Get Followers Count: Fails with Not Found when user does not exist")
+    void getFollowersException3Test() throws Exception {
+        String expectedMsg = "Se encontraron los siguientes errores en las validaciones:";
+        String expectedMsgError = "El id del usuario debe ser mayor a cero";
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/count", 0))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.description").value(expectedMsg))
+                .andExpect(jsonPath("$.messages", contains(expectedMsgError)));
+    }
+
+    @Test
+    @DisplayName("Get All Followers By User Id Order Asc: Successful")
+    void getAllFollowersByUserIdOrderAscOkTest() throws Exception {
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list?order={order}", 1, "name_asc"))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.followed").isArray())
+                .andExpect(jsonPath("$.followed", hasSize(2)))
+                .andExpect(jsonPath("$.followed[*].user_name", contains("Diego Lopez", "Sofia Gomez")));
+    }
+
+    @Test
+    @DisplayName("Get All Followers By User Id Order Dsc: Successful")
+    void getAllFollowersByUserIdOrderDscOkTest() throws Exception {
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list?order={order}", 1, "name_dsc"))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.followed").isArray())
+                .andExpect(jsonPath("$.followed", hasSize(2)))
+                .andExpect(jsonPath("$.followed[*].user_name", contains("Sofia Gomez", "Diego Lopez")));
+    }
+
+    @Test
+    @DisplayName("Get All Followers By User Id: Fails with Not Found when user does not exist")
+    void getAllFollowersByUserIdOrderDscExceptionTest() throws Exception {
+        String expectedMsg= "No se encontró usuario con el id 99.";
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list?order={order}", 99, "name_dsc"))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.description").value(expectedMsg));
+    }
+
+    @Test
+    @DisplayName("Get All Followers By User Id: Returns No Content when user does not have followers")
+    void getAllFollowersByUserIdOrderDscNoContentTest() throws Exception {
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followers/list?order={order}", 4, "name_dsc"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Get All Followed By User Id Order Asc: Successful")
+    void getAllFollowedByUserIdOrderAscOkTest() throws Exception {
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list?order={order}", 4, "name_asc"))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.followed").isArray())
+                .andExpect(jsonPath("$.followed", hasSize(2)))
+                .andExpect(jsonPath("$.followed[*].user_name", contains("Juan Perez", "Pablo Gonzalez")));
+    }
+
+    @Test
+    @DisplayName("Get All Followed By User Id Order Dsc: Successful")
+    void getAllFollowedByUserIdOrderDscOkTest() throws Exception {
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list?order={order}", 4, "name_dsc"))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.followed").isArray())
+                .andExpect(jsonPath("$.followed", hasSize(2)))
+                .andExpect(jsonPath("$.followed[*].user_name", contains("Pablo Gonzalez", "Juan Perez")));
+    }
+
+    @Test
+    @DisplayName("Get All Followed By User Id: Fails with Not Found when user does not exist")
+    void getAllFollowedByUserIdOrderDscExceptionTest() throws Exception {
+        String expectedMsg= "No se encontró usuario con el id 99.";
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list?order={order}", 99, "name_dsc"))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.description").value(expectedMsg));
+    }
+
+    @Test
+    @DisplayName("Get All Followed By User Id: Returns No Content when user does not have followed")
+    void getAllFollowedByUserIdOrderDscNoContentTest() throws Exception {
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/users/{userId}/followed/list?order={order}", 2, "name_dsc"))
+                .andDo(print())
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    @DisplayName("Unfollow User Seller: Successful")
+    void unfollowSellerUserOKTest() throws Exception {
+        String msg = "El usuario Penelope cruz Id: 7 ya no es seguido por el usuario Diego Lopez Id: 6";
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/users/{userId}/unfollow/{userIdToUnfollow}", 6, 7))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.description").value(msg));
+    }
+
+    @Test
+    @DisplayName("Unfollow User Seller: Fails with Not Found when User Id does not exist")
+    void unfollowSellerUserException1Test() throws Exception {
+        String expectedMsg= "No se encontró usuario con el id 99.";
+
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/users/{userId}/unfollow/{userIdToFollow}", 99, 1))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.description").value(expectedMsg));
+    }
+
+    @Test
+    @DisplayName("Unfollow User Seller: Fails with Not Found when Seller Id does not exist")
+    void unfollowSellerUserException2Test() throws Exception {
+        String expectedMsg= "No se encontró usuario con el id 99.";
+
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/users/{userId}/unfollow/{userIdToFollow}", 1, 99))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.description").value(expectedMsg));
+    }
+
+    @Test
+    @DisplayName("Unfollow User Seller: Fails with Not Found when Seller Id does not exist")
+    void unfollowSellerUserException3Test() throws Exception {
+        String expectedMsg= "El usuario con id:6 no sigue al vendedor con id:1";
+
+        //Act y Assert
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/users/{userId}/unfollow/{userIdToFollow}", 6, 1))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.description").value(expectedMsg));
+    }
+
+
 }
