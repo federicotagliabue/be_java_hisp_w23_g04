@@ -2,33 +2,28 @@ package com.sprint.be_java_hisp_w23_g04.service;
 
 import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SellerDTO;
-import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
-import com.sprint.be_java_hisp_w23_g04.utils.Verifications;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
 import com.sprint.be_java_hisp_w23_g04.exception.BadRequestException;
+import com.sprint.be_java_hisp_w23_g04.exception.NoContentException;
 import com.sprint.be_java_hisp_w23_g04.exception.NotFoundException;
 import com.sprint.be_java_hisp_w23_g04.gateway.UserGatewayImpl;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
+import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.getOneUser;
-import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.getOneUserSeller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
-
-import static com.sprint.be_java_hisp_w23_g04.utils.UtilsTest.*;
-import static org.mockito.ArgumentMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
 public class UserMediaServiceImplTest {
@@ -39,8 +34,8 @@ public class UserMediaServiceImplTest {
     UserMediaServiceImpl userService;
 
     @Test
-    @DisplayName("Verify that the alphabetical asc sort type exists in getFollowersByUserId")
-    void test1() {
+    @DisplayName("T-0004: Verify sort asc in getFollowersByUserId")
+    void getFollowersByUserIdOrderByNameAsc() {
         // Arrange
         Integer userIdtoFind = 1;
         String orderCriteria = "name_asc";
@@ -56,8 +51,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Verify that the alphabetical dsc sort type exists in getFollowersByUserId")
-    void test7() {
+    @DisplayName("T-0004 Verify sort desc in getFollowersByUserId")
+    void getFollowersByUserIdOrderByNameDesc() {
         // Arrange
         Integer userIdtoFind = 1;
         String orderCriteria = "name_dsc";
@@ -73,8 +68,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Except because userId not exist in getFollowersByUserId")
-    void test2() {
+    @DisplayName("T-0004: Except because userId not exist in getFollowersByUserId")
+    void getFollowersByUserIdUserNotExist() {
         // Arrange
         Integer userIdtoFind = 99;
         String orderCriteria = "name_asc";
@@ -87,8 +82,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Except because not user with followers")
-    void test3() {
+    @DisplayName("T-0004: Except because not user with followers in getFollowersByUserId")
+    void getFollowersByUserIdWithoutFollowers() {
         // Arrange
         Integer userIdtoFind = 4;
         String orderCriteria = "name_asc";
@@ -102,8 +97,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Verify the correct descending order by name in getFollowedByUserId")
-    void test4() {
+    @DisplayName("T-0004: Verify the correct descending order by name in getFollowedByUserId")
+    void getFollowedByUserIdOrderByNameDesc() {
         // Arrange
         Integer userIdToFind = 1;
         String orderCriteria = "name_dsc";
@@ -119,8 +114,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Except because userId not exist in getFollowedByUserId")
-    void test5() {
+    @DisplayName("T-0004: Except because userId not exist in getFollowedByUserId")
+    void getFollowedByUserIdNotExist() {
         // Arrange
         Integer userIdToFind = 99;
         String orderCriteria = "name_asc";
@@ -133,8 +128,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Except because not user with followed")
-    void test6() {
+    @DisplayName("T-0004: Except because not user with followed")
+    void getFollowedByUserIdNotFollowingAnyone() {
         // Arrange
         Integer userIdToFind = 4;
         String orderCriteria = "name_asc";
@@ -148,8 +143,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Except because criteria order not exists in getFollowersByUserId")
-    void test8() {
+    @DisplayName("T-0003: Except because criteria order not exists in getFollowersByUserId")
+    void getFollowersByUserIdCriteraNotExist() {
         // Arrange
         Integer userIdtoFind = 1;
         String orderCriteria = "name_false";
@@ -159,8 +154,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("Except because criteria order not exists in getFollowedByUserId")
-    void test9() {
+    @DisplayName("T-0003: Except because criteria order not exists in getFollowedByUserId")
+    void getFollowedByUserIdCriteraNotExist() {
         // Arrange
         Integer userIdToFind = 1;
         String orderCriteria = "name_false";
@@ -171,8 +166,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("User Unfollows Seller User successfully.")
-    public void unfollowUserTest() {
+    @DisplayName("T-0002: User Unfollows Seller User successfully.")
+    public void unfollowTestOk() {
         int userId = 4;
         int unfollowId = 1;
 
@@ -187,8 +182,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("User Unfollows Seller User fails when User does not exist.")
-    public void unfollowUserWithUserNotFoundTest() {
+    @DisplayName("T-0002: User Unfollows Seller User fails when User does not exist.")
+    public void unfollowUserNotExist() {
         int userId = 400;
         int unfollowId = 1;
 
@@ -199,8 +194,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("User Unfollows Seller User fails when Seller is not followed.")
-    public void unfollowUserBuyerDontFollowSellerTest() {
+    @DisplayName("T-0002: User Unfollows Seller User fails when Seller is not followed.")
+    public void unfollowUserBuyerDontFollowSeller() {
         int userId = 6;
         int unfollowId = 1;
 
@@ -211,8 +206,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("User Follows Seller User successfully.")
-    void followSellerUserWhenUserExistTestOK() {
+    @DisplayName("T-0002: User Follows Seller User successfully.")
+    void followSellerUserWhenUserExistOK() {
         //Arrange
         Integer userId = 3;
         Integer sellerId = 2;
@@ -228,7 +223,7 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("User Follows Seller User fails when User does not exist.")
+    @DisplayName("T-0002: User Follows Seller User fails when User does not exist.")
     void followSellerUserWhenUserDoesNotExistTestNotFound() {
         //Arrange
         Integer userId = 99;
@@ -245,7 +240,7 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("User Follows Seller User fails when Seller does not exist.")
+    @DisplayName("T-0002: User Follows Seller User fails when Seller does not exist.")
     void followSellerUserWhenSellerDoesNotExistTestNotFound() {
         //Arrange
         Integer userId = 3;
@@ -262,8 +257,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("followersCount() should return a SellerDTO - US-0002")
-    void testFollowersCountOk() {
+    @DisplayName("T-0007: followersCount() should return a SellerDTO - US-0002")
+    void followersCountOk() {
         // Arrange
         Integer userId = 1;
 
@@ -282,8 +277,8 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
-    @DisplayName("followersCount() should throw NotFoundException - US-0002")
-    void testFollowersCountThrowsNotFoundException() {
+    @DisplayName("T-0007: followersCount() should throw NotFoundException - US-0002")
+    void followersCountThrowsNotFoundException() {
         // Arrange
         Integer userId = 1;
 
