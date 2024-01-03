@@ -7,6 +7,7 @@ import com.sprint.be_java_hisp_w23_g04.dto.response.BuyerDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SellerDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.SimpleMessageDTO;
 import com.sprint.be_java_hisp_w23_g04.dto.response.UserDTO;
+import com.sprint.be_java_hisp_w23_g04.entity.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,34 @@ public class UserMeliControllerIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @Test
+    @DisplayName("Get all users")
+    void test22() throws Exception {
+        // Arrange
+        List<UserDTO> expectedResponse = List.of(
+                new UserDTO(1, "Juan Perez"),
+                new UserDTO(2, "Maria Gonzalez"),
+                new UserDTO(3, "Pablo Gonzalez"),
+                new UserDTO(4, "Sofia Gomez"),
+                new UserDTO(5, "Pedro Lopez"),
+                new UserDTO(6, "Diego Lopez"),
+                new UserDTO(7, "Penelope cruz"),
+                new UserDTO(8, "Pablo Gonzalez")
+        );
+
+        ObjectMapper writer = new ObjectMapper();
+        writer.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+
+        String payloadJson = writer.writeValueAsString(expectedResponse);
+
+        // Act
+        this.mockMvc.perform(get("/users"))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isOk())
+                .andExpect(content().json(payloadJson));
+    }
 
     @Test
     @DisplayName("Follow seller user")
