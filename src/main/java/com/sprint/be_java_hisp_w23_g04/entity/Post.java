@@ -1,8 +1,10 @@
 package com.sprint.be_java_hisp_w23_g04.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 import java.time.LocalDate;
 
@@ -10,9 +12,13 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Post {
-    private int id;
+    private Integer id;
+    @JsonProperty("user_id")
+    private Integer userId;
+    @JsonProperty("product_id")
+    private Integer productId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate date;
-    private Product product;
-    private int category;
-    private double price;
+    private Integer category;
+    private Double price;
 }

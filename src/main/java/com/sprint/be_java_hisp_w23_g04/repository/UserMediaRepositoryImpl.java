@@ -3,23 +3,23 @@ package com.sprint.be_java_hisp_w23_g04.repository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.sprint.be_java_hisp_w23_g04.dto.DBUserDTO;
 import com.sprint.be_java_hisp_w23_g04.entity.User;
-import com.sprint.be_java_hisp_w23_g04.utils.UserMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Repository
-public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
+public class UserMediaRepositoryImpl implements IUserMediaRepository {
     private List<User> users = new ArrayList<>();
 
-    public SocialMediaRepositoryImpl() {
+    public UserMediaRepositoryImpl() {
         this.users = loadDataBase();
     }
 
@@ -34,20 +34,20 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
 
-        TypeReference<List<DBUserDTO>> typeRef = new TypeReference<>() {
+        TypeReference<List<User>> typeRef = new TypeReference<>() {
         };
-        List<DBUserDTO> usersDto = null;
+        List<User> users = null;
         try {
-            usersDto = mapper.readValue(file, typeRef);
+            users = mapper.readValue(file, typeRef);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return usersDto != null ? usersDto.stream().map(UserMapper::mapUser).collect(Collectors.toList()) : Collections.emptyList();
+        return users;
     }
 
     @Override
-    public List<User> findAllUsers() {
+    public List<User> getAllUsers() {
         return this.users;
     }
 
@@ -59,22 +59,24 @@ public class SocialMediaRepositoryImpl implements ISocialMediaRepository {
     }
 
     @Override
-    public int getNextPostId(User user) {
-        return this.users.stream()
-                .filter(u -> Objects.equals(user, u))
-                .findFirst()
-                .get()
-                .getPosts()
-                .size() + 1;
+    public void unfollowUser(int userId, int unfollowedUserId) {
+        findUser(userId)
+                .getFollowedId()
+                .removeIf(actualUserId ->
+                        actualUserId == unfollowedUserId);
+
+        findUser(unfollowedUserId)
+                .getFollowersId()
+                .removeIf(actualUserId ->
+                        actualUserId == userId);
     }
 
     @Override
-    public void savePost(User user) {
-        users.set(users.indexOf(user), user);
+    public List<User> getByIds(List<Integer> listIds) {
+        return users.stream().filter(
+                        p -> listIds.contains(p.getId())).
+                collect(Collectors.toCollection(ArrayList::new));
+
     }
 
-    public void unfollowUser(int userId, int unfollowedUserId) {
-        findUser(userId).getFollowed().removeIf(user1 -> user1.getId()==unfollowedUserId);
-        findUser(unfollowedUserId).getFollowers().removeIf(user1 -> user1.getId()==userId);
-    }
 }
