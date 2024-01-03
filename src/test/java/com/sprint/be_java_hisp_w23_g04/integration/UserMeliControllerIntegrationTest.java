@@ -327,4 +327,76 @@ public class UserMeliControllerIntegrationTest {
                 .andExpect(jsonPath("$.messages").value("El id del usuario debe ser mayor a cero"));
     }
 
+    @Test
+    @DisplayName("Unfollow user")
+    void test18() throws Exception {
+        // Arrange
+        Integer userId = 4;
+        Integer userIdToUnfollow = 1;
+        SimpleMessageDTO expectedResponse = new SimpleMessageDTO("El usuario Juan Perez Id: 1 ya no es seguido por el usuario Sofia Gomez Id: 4");
+
+        ObjectMapper writer = new ObjectMapper();
+        writer.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+
+        String payloadJson = writer.writeValueAsString(expectedResponse);
+
+        // Act
+        this.mockMvc.perform(post("/users/{userId}/unfollow/{userIdToUnfollow}", userId, userIdToUnfollow))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isAccepted())
+                .andExpect(content().json(payloadJson));
+    }
+
+    @Test
+    @DisplayName("Unfollow user error because user is not follow")
+    void test19() throws Exception {
+        // Arrange
+        Integer userId = 1;
+        Integer userIdToUnfollow = 4;
+        SimpleMessageDTO expectedResponse = new SimpleMessageDTO("El vendedor con id:1 no es seguido por el usuario con id:4");
+
+        ObjectMapper writer = new ObjectMapper();
+        writer.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+
+        String payloadJson = writer.writeValueAsString(expectedResponse);
+
+        // Act
+        this.mockMvc.perform(post("/users/{userId}/unfollow/{userIdToUnfollow}", userId, userIdToUnfollow))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().json(payloadJson));
+    }
+
+    @Test
+    @DisplayName("Unfollow user error because user is ZERO")
+    void test20() throws Exception {
+        // Arrange
+        Integer userId = 0;
+        Integer userIdToUnfollow = 4;
+
+        // Act
+        this.mockMvc.perform(post("/users/{userId}/unfollow/{userIdToUnfollow}", userId, userIdToUnfollow))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.description").value("Se encontraron los siguientes errores en las validaciones:"))
+                .andExpect(jsonPath("$.messages").value("El id del usuario debe ser mayor a cero"));
+    }
+
+    @Test
+    @DisplayName("Unfollow user error because user is not exists")
+    void test21() throws Exception {
+        // Arrange
+        Integer userId = 99;
+        Integer userIdToUnfollow = 4;
+
+        // Act
+        this.mockMvc.perform(post("/users/{userId}/unfollow/{userIdToUnfollow}", userId, userIdToUnfollow))
+                .andDo(print())
+                .andExpect(content().contentType("application/json"))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.description").value("No se encontró usuario con el id 99."));
+    }
 }
