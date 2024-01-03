@@ -88,6 +88,7 @@ class UserMeliControllerTest {
     }
    
     @Test
+    @DisplayName("Unfollow User Successfully")
     public void unfollowSuccessfulTest(){
         int userId = 4;
         int unfollowedId = 1;
@@ -101,6 +102,7 @@ class UserMeliControllerTest {
     }
 
     @Test
+    @DisplayName("Try to unfollow an user that doesn't exist")
     public void unfollowUserNotFoundTest(){
         int userId = 99;
         int unfollowedId = 2;
@@ -110,6 +112,7 @@ class UserMeliControllerTest {
     }
 
     @Test
+    @DisplayName("Try to unfollow an user that is not being followed")
     public void unfollowUserNotFollowedTest(){
         int userId = 99;
         int unfollowedId = 2;

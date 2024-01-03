@@ -179,6 +179,7 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
+    @DisplayName("Try to unfollow an user successfully")
     public void unfollowUserTest() {
         int userId = 4;
         int unfollowId = 1;
@@ -194,6 +195,7 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
+    @DisplayName("Try to unfollow an user that doesn't exist")
     public void unfollowUserWithUserNotFoundTest() {
         int userId = 400;
         int unfollowId = 1;
@@ -205,6 +207,7 @@ public class UserMediaServiceImplTest {
     }
 
     @Test
+    @DisplayName("Unfollow a buyer that the user doesn't follow")
     public void unfollowUserBuyerDontFollowSellerTest() {
         int userId = 6;
         int unfollowId = 1;
