@@ -35,7 +35,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0004: Verify sort asc in getFollowersByUserId")
-    void getFollowersByUserIdSortAscending() {
+    void getFollowersByUserIdOrderByNameAsc() {
         // Arrange
         Integer userIdtoFind = 1;
         String orderCriteria = "name_asc";
@@ -52,7 +52,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0004 Verify sort desc in getFollowersByUserId")
-    void getFollowersByUserIdSortDescending() {
+    void getFollowersByUserIdOrderByNameDesc() {
         // Arrange
         Integer userIdtoFind = 1;
         String orderCriteria = "name_dsc";
@@ -83,7 +83,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0004: Except because not user with followers in getFollowersByUserId")
-    void getFollowersByUseIdListFollowersIsNoContent() {
+    void getFollowersByUserIdWithoutFollowers() {
         // Arrange
         Integer userIdtoFind = 4;
         String orderCriteria = "name_asc";
@@ -98,7 +98,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0004: Verify the correct descending order by name in getFollowedByUserId")
-    void getFollowedByUserIdSortDescending() {
+    void getFollowedByUserIdOrderByNameDesc() {
         // Arrange
         Integer userIdToFind = 1;
         String orderCriteria = "name_dsc";
@@ -115,7 +115,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0004: Except because userId not exist in getFollowedByUserId")
-    void getFollowedByUserIdUserNotExist() {
+    void getFollowedByUserIdNotExist() {
         // Arrange
         Integer userIdToFind = 99;
         String orderCriteria = "name_asc";
@@ -129,7 +129,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0004: Except because not user with followed")
-    void getFollowedByUseIdListFollowedIsNoContent() {
+    void getFollowedByUserIdNotFollowingAnyone() {
         // Arrange
         Integer userIdToFind = 4;
         String orderCriteria = "name_asc";
@@ -144,7 +144,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0003: Except because criteria order not exists in getFollowersByUserId")
-    void getFollowersByUserIdCriteriaOrderNoExist() {
+    void getFollowersByUserIdCriteraNotExist() {
         // Arrange
         Integer userIdtoFind = 1;
         String orderCriteria = "name_false";
@@ -155,7 +155,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0003: Except because criteria order not exists in getFollowedByUserId")
-    void getFollowedByUserIdCriteriaOrderNoExist() {
+    void getFollowedByUserIdCriteraNotExist() {
         // Arrange
         Integer userIdToFind = 1;
         String orderCriteria = "name_false";
@@ -167,7 +167,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0002: User Unfollows Seller User successfully.")
-    public void unfollowUserSuccessfully() {
+    public void unfollowTestOk() {
         int userId = 4;
         int unfollowId = 1;
 
@@ -183,7 +183,7 @@ public class UserMediaServiceImplTest {
 
     @Test
     @DisplayName("T-0002: User Unfollows Seller User fails when User does not exist.")
-    public void unfollowUserWithUserNotFound() {
+    public void unfollowUserNotExist() {
         int userId = 400;
         int unfollowId = 1;
 
